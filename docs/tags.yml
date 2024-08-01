@@ -1,0 +1,12 @@
+releases:
+  label: "Product releases"
+  permalink: "/product-releases"
+  description: "Content related to product releases."
+
+# A partial tag definition is also valid
+announcements:
+  label: "Announcements"
+
+# An empty tag definition is also valid
+# Other attributes will be inferred from the key
+emptyTag:
