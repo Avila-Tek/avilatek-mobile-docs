@@ -1,10 +1,16 @@
 ---
 sidebar_position: 1
+slug: /welcome
+keywords: [onboarding, welcome]
 ---
 
-# Tutorial Intro
+
+# Bienvenida al equipo
+
+<!-- TODO: Update this page -->
 
 Let's discover **Docusaurus in less than 5 minutes**.
+
 
 ## Getting Started
 

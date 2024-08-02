@@ -68,66 +68,63 @@ const config = {
           src: 'img/logo.svg',
         },
         items: [{
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: 'Tutorial',
-          },
-          {
-            to: '/blog',
-            label: 'Blog',
-            position: 'left'
-          },
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
-          },
+          // type: 'docSidebar',
+          // sidebarId: 'tutorialSidebar',
+          to: '/code-rules',
+          position: 'left',
+          label: 'Reglamento de Estilo de Código',
+        }
+          // {
+          //   href: 'https://github.com/facebook/docusaurus',
+          //   label: 'GitHub',
+          //   position: 'right',
+          // },
         ],
       },
       footer: {
         style: 'dark',
         links: [{
-            title: 'Docs',
-            items: [{
-              label: 'Tutorial',
-              to: '/docs/intro',
-            }, ],
+          title: 'Docs',
+          items: [{
+            label: 'Tutorial',
+            to: '/docs/intro',
+          },],
+        },
+        {
+          title: 'Community',
+          items: [{
+            label: 'LinkedIn',
+            href: 'https://www.linkedin.com/company/avilatek',
           },
           {
-            title: 'Community',
-            items: [{
-                label: 'LinkedIn',
-                href: 'https://www.linkedin.com/company/avilatek',
-              },
-              {
-                label: 'Instagram',
-                href: 'https://www.instagram.com/avilatek/',
-              },
-              {
-                label: 'TikTok',
-                href: 'https://www.tiktok.com/@avilatek',
-              },
-            ],
+            label: 'Instagram',
+            href: 'https://www.instagram.com/avilatek/',
           },
           {
-            title: 'More',
-            items: [{
-                label: 'Website',
-                to: 'https://avilatek.com',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/Avila-Tek',
-              },
-            ],
+            label: 'TikTok',
+            href: 'https://www.tiktok.com/@avilatek',
           },
+          ],
+        },
+        {
+          title: 'More',
+          items: [{
+            label: 'Website',
+            to: 'https://avilatek.com',
+          },
+          {
+            label: 'GitHub',
+            href: 'https://github.com/Avila-Tek',
+          },
+          ],
+        },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Avila Tek. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+        additionalLanguages: ['dart'],
       },
     }),
 };
