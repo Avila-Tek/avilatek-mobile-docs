@@ -1,10 +1,10 @@
-# 1.1. Data Sources
+# Data Sources
 
-### 1.1.1. Clases
+## Clases
 
-#### 1.1.1.1. Nombrado de clases
+### Nombrado de clases
 
-#### 1.1.1.1.A. Nombrado de interfaces
+#### Nombrado de interfaces
 
 Las interfaces de Data Source **deben** ser nombradas con el prefijo `I` (de interfaz) y **deben** utilizar alguno de los sufijos `Api`, `Service` o `DataSource`, según se considere apropiado para la clase.
 
@@ -17,7 +17,7 @@ abstract class IAnalyticsService {}
 
 ```
 
-#### 1.1.1.1.B. Nombrado de implementaciones de servicios GraphQL
+#### Nombrado de implementaciones de servicios GraphQL
 
 Las implementaciones de Data Source **deben** ser tener el mismo nombre base de la interfaz, el mismo sufijo y usar el prefijo `GraphQL`. 
 
@@ -29,7 +29,7 @@ class CoreApiGraphQL implements ICoreApi { }
 
 ```
 
-#### 1.1.1.1.C. Nombrado de implementaciones de servicios REST
+#### Nombrado de implementaciones de servicios REST
 
 Las implementaciones de Data Source **deben** ser tener el mismo nombre base de la interfaz, el mismo sufijo y usar el prefijo `Rest`. 
 
@@ -41,7 +41,7 @@ class CoreApiRest implements ICoreApi { }
 
 ```
 
-#### 1.1.1.1.D. Nombrado de implementaciones de otros servicios
+#### Nombrado de implementaciones de otros servicios
 
 Las implementaciones de Data Source de otros tipos de servicios distintos a APIs GraphQL o REST  **deben** tener la misma terminación de la interfaz que implementa
 
@@ -54,13 +54,13 @@ class SharedPreferencesDataSource implements IDeviceStorageDataSource { }
 
 ```
 
-### 1.1.2. Constructores
+## Constructores
 
-#### 1.1.2.1. Parámetro URL en constructores
+### Parámetro URL en constructores
 
 Los constructores de Data Sources de servicios que realicen llamadas a APIs mediante URL **deben** recibir un parámetro de tipo `String` que represente la URL de la API que se va a consumir.
 
-#### 1.1.2.1.A. Aserción de formato de URLs estándar
+#### Aserción de formato de URLs estándar
 
 Los constructores de Data Sources de servicios que acepten URLs de APIs deben asercir que las URLs  sean válidas según las especificaciones de la plataforma. Algunas aserciones comunes son:
 
@@ -83,7 +83,7 @@ class DataSource {
 }
 ```
 
-#### 1.1.2.1.B. Aserción de formato de URLs de GraphQL
+#### Aserción de formato de URLs de GraphQL
 
 Los constructores de Data Sources de servicios que utilicen URLs de GraphQL deben asercir, adicional a los requisitos de la sección anterior, que las URLs que reciben como parámetros incluyan la ruta `/graphql`.
 
@@ -102,7 +102,7 @@ class DataSource {
 }
 ```
 
-#### 1.1.2.2. Parámetro cliente HTTP en constructores
+### Parámetro cliente HTTP en constructores
 
 Los constructores de Data Sources de servicios que realicen llamadas a APIs HTTP como REST o GraphQL **deben** recibir un parámetro del tipo cliente que maneje la conexión con la API, usualmente un objeto de tipo `http.Client` de la librería [`http`](https://pub.dev/packages/http).
 
