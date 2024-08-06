@@ -20,7 +20,7 @@ class UserModel extends User { }
 class ProductModel extends Product { }
 ```
 
-#### 1.2.1.2.A. Inciso de nombres de clases
+#### 1.2.1.2.A. Inciso sobre nombrado de clases
 
 Los nombres de clases de modelos **pueden** incluir en su nombre el tipo de objeto que representan siguiendo la regla [1.2.1.2. sobre nombrado de clases](#1212-nombrado-de-clases). Por ejemplo, `Dto` para objetos de transferencia de datos, `Response` para objetos de respuesta, `Request` para objetos de solicitud, etc. Se recomienda mantener cohesivo el nombrado de clases de modelos dentro del mismo proyecto o paquete.
 
