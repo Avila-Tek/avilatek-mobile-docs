@@ -9,7 +9,11 @@ Esta guía describe cómo contribuir al **Reglamento de Estilo de Código del eq
 
 ### Estructura del Reglamento
 
-El REC está compuesto en un primer nivel por **Libros**. Cada libro está compuesto por uno o varios **Capítulos**. Cada capítulo está compuesto por una serie de **Secciones**. Las secciones se componente de **Artículos**  que describen las reglas que se aplican a cada elemento del código. Adicionalmente, algunos artículos pueden contener **Incisos** que son detalles o excepciones a las reglas descritas por el artículo que los incluye.
+- El RECOM está compuesto en un primer nivel por *libros*. Los **libros** son un conjunto de *capítulos* relacionados entre sí.
+- Los **capítulos** representan un tema o ámbito general y está compuesto por una serie de *secciones*. 
+- Las **secciones** son temas específicos del capítulo que las incluye y se componen de *artículos* 
+- Los **artículos** describen las reglas que se aplican a cada elemento del código. Algunos artículos pueden contener *incisos*.
+- Los **incisos** que son detalles o excepciones a las reglas descritas por el artículo que los incluye. Estos son opcionales.
 
 #### Ejemplo de estructura del Reglamento
 
@@ -134,7 +138,7 @@ El uso en artículos de los verbos *debe* y *puede*, así como su negación, deb
 > Las reglas **no deben** ser agregadas sin justificación y **deben** ser revisadas y aprobadas por el equipo antes de ser implementadas.
 
 
-#### Uso de ejemplos en artículos
+### Uso de ejemplos en artículos
 
 Los ejemplos en artículos deben ser breves y concisos, y deben incluir el contexto y el resultado o implementación esperados. 
 
@@ -153,7 +157,7 @@ class User {
 }
 ```
 
-#### Referencia de artefactos de código
+### Referencia de artefactos de código
 
 Las referencias a artefactos de código como clases, métodos, funciones, variables, nombre de archivos, rutas, etc. deben hacerse con bloques de código en línea (usando *backticks* ``).
 
