@@ -26,13 +26,13 @@ Esta guía describe cómo contribuir al **Reglamento de Estilo de Código del eq
 
 <!-- Descripción breve de la sección (Opcional) -->
 
-### 1. Nombrado de clases <!-- (Artículo 1) -->
+### Nombrado de clases <!-- (Artículo 1) -->
 
-### 1.A. Nombrado de interfaces <!-- (Inciso A) -->
+#### A. Nombrado de interfaces <!-- (Inciso A) -->
 
-### 1.B. Nombrado de implementaciones de servicios GraphQL <!-- (Inciso B) -->
+#### B. Nombrado de implementaciones de servicios GraphQL <!-- (Inciso B) -->
 
-### 2. Herencia de clases <!-- (Artículo 2) -->
+### Herencia de clases <!-- (Artículo 2) -->
 ```
 
 Generalmente, el nombre del Libro no se incluye en el cuerpo de las páginas de la documentación sino que se incluye en la barra de navegación de la página.
@@ -41,9 +41,10 @@ Generalmente, el nombre del Libro no se incluye en el cuerpo de las páginas de 
 
 Los títulos de los libros, capítulos, secciones y artículos deben cumplir con las siguientes reglas:
 
-* Los capítulos se titulan con títulos de primer nivel (`#`)
-* Las secciones se titulan con títulos de segundo nivel (`##`)
-* Los artículos e incisos se titulan con títulos de tercer nivel (`###`)
+* Los capítulos usan títulos de primer nivel (`#`)
+* Las secciones usan títulos de segundo nivel (`##`)
+* Los artículos usan títulos de tercer nivel (`###`)
+* Los incisos usan títulos de cuarto nivel (`####`)
 
 ### Reglas de nombramiento
 
@@ -51,9 +52,9 @@ Los libros, capítulos, secciones y artículos de forma breve y clara, con la pr
 
 Los acrónimos y abreviaturas deben ser escritas en mayúsculas. Evitar abreviaturas y acrónimos en libros, capítulos y secciones, con excepción de los artículos e incisos en el cual su uso es aceptado.
 
-### Reglas de enumeración de artículos
+### Reglas de enumeración de incisos
 
-Los artículos de cada sección deben ser enumerados de forma creciente en números decimales, empezando por `1.`. Los incisos de cada artículo deben ser identificados con letras mayúsuculas en orden alfabético, precedido por el número identificador del artículo que los incluye. Por ejemplo, el inciso `A` del artículo `1.` se identifica con `1.A.`.
+Los incisos de cada artículo deben ser identificados con letras mayúsuculas en orden alfabético. Por ejemplo, el primer inciso de un artículo se identifica con `A.`, el segundo con `B.` y así sucesivamente.
 
 ### Introducción de capítulos
 
