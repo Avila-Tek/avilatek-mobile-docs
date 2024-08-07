@@ -10,8 +10,8 @@ import {
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'ATMOS - Avila Tek Mobile Open Source',
-  tagline: 'Dinosaurs are cool',
+  title: 'Avila Docs - Departamento Mobile',
+  tagline: 'Documentación de la comunidad de Avila Tek',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -85,10 +85,16 @@ const config = {
         style: 'dark',
         links: [{
           title: 'Docs',
-          items: [{
-            label: 'Tutorial',
-            to: '/docs/intro',
-          },],
+          items: [
+            {
+              label: 'Reglamento de Estilo de Código',
+              to: '/code-rules',
+            },
+            {
+              label: 'Guía de contribución al Reglamento',
+              to: '/code-rules/contribute',
+            },
+          ],
         },
         {
           title: 'Community',
@@ -114,7 +120,7 @@ const config = {
           },
           {
             label: 'GitHub',
-            href: 'https://github.com/Avila-Tek',
+            href: 'https://github.com/Avila-Tek/avilatek-mobile-docs',
           },
           ],
         },

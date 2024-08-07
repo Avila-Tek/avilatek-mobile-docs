@@ -1,6 +1,5 @@
 ---
 title: Guía de contribución al Reglamento
-sidebar_position: 3
 ---
 
 # Guía de contribución al Reglamento de Estilo de Código
