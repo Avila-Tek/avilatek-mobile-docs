@@ -4,12 +4,14 @@
 
 ### Nombrado de entidades
 
-Las entidades **deben** tener nombres que representen de forma clara y directa la entidad del dominio que simbolizan. **No deben** incluir prefijos ni sufijos innecesarios como `Entity`, o similares.
+Las entidades **deben** tener nombres que representen de forma clara y directa la entidad del dominio que simbolizan. **No deben** incluir prefijos ni sufijos innecesarios como `Entity`, `Object` o similares.
+
+Los nombres de las entidades **deben** estar en singular y en caso de ser compuestos, **deben** estar en _PascalCase_.
 
 ```dart
 class User { }
 
-class Product { }
+class CivilStatus { }
 ```
 
 **Ejemplos adicionales:**
