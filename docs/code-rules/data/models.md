@@ -24,7 +24,7 @@ class CreateUserRequestModel extends CreateUserRequest { }
 class UpdateUserResponseModel { }
 ```
 
-### Extensión de la clase de entidad
+### Extensión de la clase entidad
 
 Las clases de modelos **deben** extender de la clase entidad correspondiente.
 
@@ -36,18 +36,76 @@ class ProductModel extends Product { }
 
 #### A. Excepción de extensión
 
-Esta regla no aplica en caso de modelos que no tienen una entidad correspondiente. Por ejemplo, modelos de datos que no representan entidades o modelos de uso limitado a la capa de datos.
-
+Esta regla no aplica para modelos que no tengan una clase entidad correspondiente. Por ejemplo, modelos de datos que no representan entidades o modelos de uso limitado a la capa de datos.
 
 ## Constructores
 
-### Constructor `fromMap`
+### Constructor generativo
 
-Los modelos que requieran ser serializados de un mapa **deben** tener un [constructor *factory*](https://dart.dev/language/constructors#factory-constructors) `fromMap`.
+Los modelos **deben** definir un [constructor generativo](https://dart.dev/language/constructors#generative-constructors) que acepte todos los [parámetros super](https://dart.dev/language/constructors#super-parameters).
+
+```dart
+class UserModel extends User {
+  UserModel({
+    required super.id,
+    required super.name,
+  });
+}
+```
+
+#### A. Uso de delegados para asignación de parámetros super
+
+Los modelos **pueden** aceptar parámetros de tipos diferentes a los de la entidad correspondiente. En estos casos, el cuerpo del constructor generativo **debe** realizar la conversión del parámetro delegado en la asignación del parámetro super correspondiente.
+
+```dart title="Delegación de parámetros de tipos primitivos"
+class UserModel extends User {
+  UserModel({
+    required int id, // 👈 Parámetro `id` delegado
+    required super.name,
+  }) : (super.id = id.toString());
+  // 👆 El constructor de UserModel recibe un int como parámetro id, mientras que el constructor de User espera un String. La conversión se realiza en el cuerpo del constructor del modelo.
+}
+```
+
+
+```dart title="Delegación de parámetros de tipo enum"
+/// Modelo de enum correspondiente a la entidad UserStatus
+enum UserStatusModel {
+  active('active'),
+  inactive('inactive');
+
+  const UserStatusModel(this.value);
+
+  final String value;
+
+  UserStatus toEntity() {
+    switch (this) {
+      case UserStatusModel.active:
+        return UserStatus.active;
+      case UserStatusModel.inactive:
+        return UserStatus.inactive;
+    }
+  }
+}
+
+class UserModel extends User {
+  UserModel({
+    required super.id,
+    required super.name,
+    required UserStatusModel status,
+  }) : super(
+      status: status.toEntity(), // 👈 Conversión del enum model al enum entidad
+    );
+}
+```
+
+### Constructor factory `fromMap`
+
+Los modelos que requieran ser serializados de un mapa **deben** tener un [constructor *factory*](https://dart.dev/language/constructors#factory-constructors) de nombre `fromMap` que crea una instancia del modelo a partir de un objeto `Map`.
 
 #### A. Argumento `data`
 
-El método `fromMap` **debe** recibir un objeto de tipo `Map<E,S>` como argumento obligatorio llamado `data`. Generalmente `E` es de tipo `String` y `S` es de tipo `dynamic`, pero esto **puede** variar de un modelo a otro.
+El método `fromMap` **debe** recibir un objeto de tipo `Map<E,S>` como argumento obligatorio llamado `data`. Generalmente, `E` es de tipo `String` y `S` es de tipo `dynamic`, pero esto **puede** variar de un modelo a otro.
 
 ```dart
 class UserModel extends User {
@@ -99,8 +157,26 @@ class UserModel extends User {
 }
 ```
 
+### Constructor nombrado `empty` 
 
-## Atributos 
+Los modelos **deben** tener un [constructor nombrado](https://dart.dev/language/constructors#named-constructors) constante `empty` que crea un modelo vacío con todos sus atributos con el valor mínimo representable de cada tipo de dato. Por ejemplo, un `int` sería `0`, un `String` una cadena vacía `''`, `List` una lista vacía `[]`, etc.
+
+```dart
+class ProductModel extends Product {
+  const ProductModel.empty() : super(
+    id: '', 
+    price: 0.0,
+    photos: [], 
+    status: ProductStatus.inactive
+  );
+}
+```
+
+:::note
+El constructor `empty` en modelos se usa principalmente en las pruebas unitarias para crear fácilmente instancias del modelo vacías.
+:::
+
+## Atributos
 
 ### Herencia de atributos de la entidad
 
@@ -127,69 +203,46 @@ class UserModel extends User {
 }
 ```
 
-#### B. Atributos heredados de tipo de dato incompatible
+### Atributo `query`
 
-Aquellos atributos del modelo cuyos tipos no coincidan con el tipo de dato de los atributos correspondientes en la entidad **deben** ser transformados en los constructores del modelo, incluyendo constructores factory.  
-
-Por ejemplo:
+Los modelos de objetos de GraphQL **deben** tener una constante estática `query` de tipo `String` con los campos respectivos del query que se debe ejecutar para obtener el modelo.
 
 ```dart
 class UserModel extends User {
-  UserModel(int id) : super(id.toString());
+  UserModel({
+    required super.id,
+    required super.name,
+  });
 }
+
+static const String query = r'''
+  id,
+  name,
+''';
 ```
 
+## Métodos especiales
 
+### Método `toMap`
 
-
-## Enumeradores
-
-Los parámetros de objetos con una cantidad finita de valores **deben** ser representados por enumeradores de Dart.
-
-Los enumeradores que formen parte de la lógica de negocio de la aplicación **deben** ser declarados en la capa de dominio de la misma. Aquellos enumeradores de uso limitado a la capa de datos **deben** ser declarados en la capa de datos y **no pueden** ser utilizados en ninguna otra capa.
-
-### Atributo `value` de enumeradores
-
-Los modelos de enumeradores **deben** tener un atributo `value` de tipo `T` que **debe** ser igual al valor usado en el servicio externo. 
+Los modelos que requieran ser convertidos a un mapa **deben** tener un método `toMap` que convierta el modelo en un objeto de tipo `Map<String,dynamic>`.
 
 ```dart
-enum UserStatusModel {
-  active('active'),
-  inactive('inactive');
-
-  const UserStatusModel(this.value);
-
-  final String value;
-}
-```
-
-### Método `fromValue` de enumeradores
-
-Aquellos enumeradores cuyos valores provengan de la respuesta de un servicio externo **deben** tener un método `fromValue` que convierta un tipo de dato `T` al valor correspondiente del enumerador.
-
-```dart
-enum UserStatusModel {
-  active('active'),
-  inactive('inactive');
-
-  const UserStatusModel(this.value);
-
-  final String value;
-
-  UserStatusModel fromValue(String value) {
-    return UserStatusModel.values.firstWhere(
-      (e) => e.value == value,
-      orElse: () => UserStatusModel.active,
-    );
+class UserModel extends User {  
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+    };
   }
 }
 ```
 
-### Método `toValue` de enumeradores
+#### A. Serialización de enums
 
-Los enumeradores cuyos valores deban ser enviados al servicio externo **deben** tener un método `toValue` que convierta el valor del enumerador al valor correspondiente de tipo `T` aceptado por el API.
+Los modelo con atributos de tipo enum **deben** serializar los valores de los enums en el formato adecuado para el servicio externo usando las funciones auxiliares del enum modelo.
 
-```dart
+```dart title="Serialización de enums"
 enum UserStatusModel {
   active('active'),
   inactive('inactive');
@@ -197,10 +250,52 @@ enum UserStatusModel {
   const UserStatusModel(this.value);
 
   final String value;
-    
-  String toValue() => this.value;
+
+  UserStatusModel fromEntity(UserStatus status) {
+    switch (status) {
+      case UserStatus.active:
+        return UserStatusModel.active;
+      case UserStatus.inactive:
+        return UserStatusModel.inactive;
+    }
+  }
+}
+
+class UserModel extends User {
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'status': UserstatusModel.fromEntity(status).value, // 👈 Conversión del enum entidad al enum model
+    };
+  }
 }
 ```
+
+#### B. Omisión del método `toMap`
+
+Los modelos que no requieran serializar a un mapa **deben** omitir el método `toMap`.
+
+
+### Método `toJson`
+
+Los modelos que requieran serializar a un objeto JSON **deben** tener un método `toJson` que convierta el modelo en un `String` en formato JSON mediante la función [`jsonEncode`](https://api.flutter.dev/flutter/dart-convert/jsonEncode.html) de la librería [`dart:convert`](https://api.dart.dev/stable/2.18.0/dart-convert/jsonEncode.html).
+
+```dart
+import 'dart:convert';
+
+class UserModel extends User {
+  Map<String, dynamic> toMap() { ... }
+  String toJson() {
+    return jsonEncode(toMap());
+  }
+}
+```
+
+#### A. Omisión del método `toJson`
+
+Los modelos que no requieran serializar a un objeto JSON **deben** omitir el método `toJson`.
+
 
 :::note
 Se recomienda usar interfaces para forzar la estructura de los enumeradores.
