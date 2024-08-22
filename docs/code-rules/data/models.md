@@ -203,18 +203,6 @@ class UserModel extends User {
 }
 ```
 
-#### B. Atributos heredados de tipo de dato incompatible
-
-Aquellos atributos del modelo cuyos tipos no coincidan con el tipo de dato de los atributos correspondientes en la entidad **deben** ser transformados en los constructores del modelo, incluyendo constructores factory.  
-
-Por ejemplo:
-
-```dart
-class UserModel extends User {
-  UserModel(int id) : super(id.toString());
-}
-```
-
 ### Atributo `query`
 
 Los modelos de objetos de GraphQL **deben** tener una constante estática `query` de tipo `String` con los campos respectivos del query que se debe ejecutar para obtener el modelo.
