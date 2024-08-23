@@ -41,7 +41,7 @@ Este atributo estará para recibir y/o enviar el valor que estemos manejando de 
 
 ### Nombrado de valores
 
-Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Según la regla, primero se debe colocar el nombre del parámetro, seguido del valor correspondiente entre paréntesis y comillas simples (' '), el cual proviene del backend.
+Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Según la regla, primero se debe colocar el nombre del parámetro, seguido del valor correspondiente entre paréntesis y comillas simples (' '), el cual proviene del servidor.
 
 ```dart title="Nombrado de valores"
     enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
