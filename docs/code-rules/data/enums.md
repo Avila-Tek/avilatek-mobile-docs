@@ -10,18 +10,22 @@ title: Enums
 
 ### Implementación de la interfaz BaseEnum
 
-Es fundamental que, al crear enumeradores, se implemente correctamente la interfaz `BaseEnum<E, T>`. Esta implementación permite estandarizar y sobrescribir los métodos `fromValue` y `toEntity`, asegurando una conversión consistente entre los valores del enumerador y sus entidades correspondientes. Además, la correcta implementación del atributo `value` es crucial, ya que define el tipo y valor que el enumerador manejará, facilitando la interacción con otras capas de la aplicación.
+Los enumeradores de la capa de datos **deben** implementar la interfaz `BaseEnum<E, T>`.
 
-La interfaz `BaseEnum<E, T>` proporciona una estructura base que garantiza que cada enumerador tenga un método para convertir desde un valor (`fromValue`) y otro para convertir a la entidad correspondiente (`toEntity`). A continuación se muestra un ejemplo de cómo implementar esta interfaz en un enumerador específico:
+```dart title="Regla de nombrado de clases"
+    enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {} // Implementación de BaseEnum
+
+    enum PrivacyTypeModel implements BaseEnum<PrivacyType, String> {}
+```
 
 ### Nombrado de clases
 
-Los nombres de los enumeradores **deben** tener el mismo nombre base de su entidad correspondiente y el sufijo `Enum`.
+Los nombres de los enumeradores **deben** tener el mismo nombre base de su entidad correspondiente y el sufijo `Model`, y su carpeta destino se encontrará adentro de la carpeta de `models` como una subcarpeta llamada `enums`.
 
 ```dart title="Regla de nombrado de clases"
-    enum ItemCollectionEnum implements BaseEnum<ItemCollection, String> {}
+    enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {}
 
-    enum PrivacyTypeEnum implements BaseEnum<PrivacyType, String> {}
+    enum PrivacyTypeModel implements BaseEnum<PrivacyType, String> {}
 ```
 
 ## Valores
@@ -32,7 +36,7 @@ Este atributo estará para recibir y/o enviar el valor que estemos manejando de 
 
 ```dart title="Atributo value"
   final String value;
-  const PrivacyTypeEnum(this.value);
+  const PrivacyTypeModel(this.value);
 ```
 
 ### Nombrado de valores
@@ -40,15 +44,18 @@ Este atributo estará para recibir y/o enviar el valor que estemos manejando de 
 Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Según la regla, primero se debe colocar el nombre del parámetro, seguido del valor correspondiente entre paréntesis y comillas simples (' '), el cual proviene del backend.
 
 ```dart title="Nombrado de valores"
-    enum ItemCollectionEnum implements BaseEnum<ItemCollection, String> {
-    post('post'),
-    book('book'),
-    track('track'),
-    album('album'),
-    comment('comment');
+    enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
+      post('post'),
+      book('book'),
+      track('track'),
+      album('album'),
+      comment('comment');
 
       final String value;
-      const PrivacyTypeEnum(this.value);
+      const PrivacyTypeModel(this.value);
+      
+      /// Resto del código...
+
     }
 
 ```
@@ -58,11 +65,13 @@ Los parámetros de los constructores en los enumeradores **deben** reflejarse de
 Cuando el valor incluye un guión, el nombre del parámetro que está fuera de los paréntesis debe representarse en formato camelCase.
 
 ```dart title="Valores con guión"
-    enum PrivacyTypeEnum implements BaseEnum<PrivacyType, String> {
-    public('public'),
-    private('private'),
-    followersConnections('followers-connections'), ///Aqui el ejemplo del camelCase
-    connections('connections');
+    enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
+      public('public'),
+      private('private'),
+      followersConnections('followers-connections'), ///Aqui el ejemplo del camelCase
+      connections('connections');
+
+      /// Resto del código...
     }
 ```
 
@@ -71,35 +80,57 @@ Cuando el valor incluye un guión, el nombre del parámetro que está fuera de l
 Nuestros enums siempre deberan tener un valor por defecto o nulo para evitar cualquier error o incidencia. Ejemplo: unknown, empty, etc.
 
 ```dart title="Valor nulo"
-    enum ItemCollectionEnum implements BaseEnum<ItemCollection, String> {
-    post('post'),
-    book('book'),
-    track('track'),
-    unknown('unknown');
+    enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
+      post('post'),
+      book('book'),
+      track('track'),
+      unknown('unknown');
+
+      /// Resto del código...
     }
 ```
 
 ### Método fromValue
 
-Este método nos sirve para comparar lo que recibamos en nuestra variable value con los distinto tipos de valores que tenemos determinados en nuestro enum.
+"El método `fromValue` **debe** convertir un valor de tipo `T` al valor del modelo correspondiente comparandolo con el atributo `value` usando el método `firstWhere`.
+
+````dart title="Método fromValue"
+    enum UserStatusModel implements BaseEnum<UserStatus, String> {
+      active('active'),
+      inactive('inactive');
+      
+      const UserStatusModel(this.value);
+      final String value;
+      
+      UserStatusModel fromValue(String value) {
+        return UserStatusModel.values.firstWhere(
+          (e) => e.value == value,
+          orElse: () => UserStatusModel.active,
+        );
+      }
+    }
+````
+
+#### A. Devolver un fallback con orElse
+
+Se **debe** colocar en el orElse un valor predeterminado en caso de no lo consiga con nuestro método `firstWhere`.
+
 
 ### Método fromEntity
 
 Estos metodos nos sirven para crear una instancia de una clase a partir de una de nuestras entidades, en este caso el enum que provenga de nuestra capa de dominio. La manera de representarlo es la siguiente.
 
-````
-
 #### A. Devolver excepciones
 
 Si no queremos devolver un valor de manera predeterminada podemos manejar excepciones en nuestro enum.
 
-```dart title="¿Cómo devolver excepciones?"
+````dart title="¿Cómo devolver excepciones?"
 ...
-    if (type == ItemCollection.vacant) {
-      return ItemCollectionEnum.vacant;
+    if (type == ItemCollectionEnum.vacant) {
+      return ItemCollectionModel.vacant;
     }
-    if (type == ItemCollection.none) {
-      return ItemCollectionEnum.none;
+    if (type == ItemCollectionEnum.none) {
+      return ItemCollectionModel.none;
     }
 
     throw Exception('Invalid ItemCollection'); //Podemos devolver una excepcion normal o una excepcion personalizada
@@ -108,19 +139,20 @@ Si no queremos devolver un valor de manera predeterminada podemos manejar excepc
 
 ### Método toEntity
 
-El método toEntity nos permite convertir nuestro enum o modelo de data y llevarlo a la capa de dominio para su uso sencillo en la aplicación.
+El método `toEntity` **debe**  convertir el valor del enumerador modelo al valor equivalente del enumerador entidad con una expresión 
+[`switch`](https://dart.dev/language/branches#switch-statements).
 
 ```dart title="toEntity"
-  PrivacyType get toEntity {
-    if (this == PrivacyTypeEnum.public) {
-      return PrivacyType.public;
+  PrivacyTypeEnum get toEntity {
+    if (this == PrivacyTypeModel.public) {
+      return PrivacyTypeEnum.public;
     }
-    if (this == PrivacyTypeEnum.private) {
-      return PrivacyType.private;
+    if (this == PrivacyTypeModel.private) {
+      return PrivacyTypeEnum.private;
     }
-    if (this == PrivacyTypeEnum.followersConnections) {
-      return PrivacyType.followersConnections;
+    if (this == PrivacyTypeModel.followersConnections) {
+      return PrivacyTypeEnum.followersConnections;
     }
-    return PrivacyType.connections;
+    return PrivacyTypeEnum.connections;
   }
 ```
