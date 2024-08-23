@@ -98,4 +98,75 @@ class User extends Equatable {
 
 Algunos ejemplos comunes de su uso son: inicializar un formulario vacío, declarar una variable constante en el estado de un bloc, e incluso para realizar pruebas unitarias.
 
+## Métodos
 
+### Getters y setters
+
+Dentro de los métodos que posee una entidad, **pueden** existir getters y setters para acceder a los atributos de la misma. Si bien no es común, **pueden** existir casos en los que sea necesario realizar alguna lógica adicional para obtener un atributo, como se muestra en el siguiente ejemplo:
+
+```dart
+class User extends Equatable {
+  final String name;
+  final String lastName;
+
+  const User({
+    required this.name,
+    required this.lastName,
+  });
+
+  String get fullName => '$name $lastName';
+
+  // Resto del código...
+}
+```
+
+En el caso de los setters, estos **deben** ser evitados en la medida de lo posible, ya que rompen con el principio de inmutabilidad de las entidades. Sin embargo, si es necesario, se **debe** implementar una lógica que permita mantener segura la integridad de la entidad.
+
+```dart
+class User extends Equatable {
+  final String name;
+  final String lastName;
+
+  const User({
+    required this.name,
+    required this.lastName,
+  });
+
+  set fullName(String value) {
+    final parts = value.split(' ');
+    name = parts[0];
+    lastName = parts[1];
+  }
+
+  // Resto del código...
+}
+```
+
+### Método `copyWith`
+
+#### A. Contexto del uso de `copyWith`
+
+El método copyWith es una técnica común en Dart para crear una copia de una instancia de una clase con algunos valores modificados. Este método permite trabajar en torno a la inmutabilidad de las entidades, ya que en lugar de modificar la instancia existente como se haría con un `setter`, `copyWith` permite crear una nueva instancia basada en la original, con ciertos atributos modificados.
+
+#### B. Implementación
+
+No todas las entidades requieren un método `copyWith`, pero en caso de que lo necesite, este **debe** ser implementado de la siguiente manera:
+
+```dart
+class User extends Equatable {
+
+  // Resto del código...
+
+  User copyWith({
+    String? id,
+    String? name,
+  }) {
+    return User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
+
+  // Resto del código...
+}
+```
