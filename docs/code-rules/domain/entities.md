@@ -29,6 +29,8 @@ En Dart, las clases no comparan instancias basadas en sus atributos de manera pr
 
 Las entidades **deben** extender de la clase `Equatable` para facilitar la comparación de instancias, asegurando que las entidades se consideren iguales si tienen los mismos valores en sus atributos.
 
+Es importante recordar que al extender de `Equatable`, se **debe** sobrescribir el método `props` para indicar cuáles son los atributos que se deben tener en cuenta al comparar dos instancias de la entidad. Esta lista de atributos se **debe** actualizar cada vez que se realice un cambio en la entidad.
+
 ```dart
 import 'package:equatable/equatable.dart';
 
@@ -57,3 +59,43 @@ class User extends Equatable {
   //...
 }
 ```
+
+## Constructores
+
+### Constructor base
+
+El constructor principal de la entidad **debe** ser constante `(const)` siempre que sea posible. Esto permite que la entidad se use en lugares donde se requieren constantes en tiempo de compilación.
+
+```dart
+class User extends Equatable {
+  final String id;
+  final String name;
+
+  const User({
+    required this.id,
+    required this.name,
+  });
+
+  // Resto del código...
+}
+```
+
+### Constructor `empty`
+
+Las entidades **pueden** incluir un constructor `empty`, que representa una entidad vacía y que permita inicializar la entidad con valores predeterminados. Este constructor **debe** ser constante `(const)` siempre que sea posible.
+
+```dart
+class User extends Equatable {
+  // Resto del código...
+
+  const User.empty()
+      : id = '',
+        name = '';
+
+  // Resto del código...
+}
+```
+
+Algunos ejemplos comunes de su uso son: inicializar un formulario vacío, declarar una variable constante en el estado de un bloc, e incluso para realizar pruebas unitarias.
+
+
