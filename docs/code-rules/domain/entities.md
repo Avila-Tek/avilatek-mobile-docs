@@ -82,7 +82,7 @@ class User extends Equatable {
 
 ### Constructor `empty`
 
-Las entidades **pueden** incluir un constructor `empty`, que representa una entidad vacía y que permita inicializar la entidad con valores predeterminados. Este constructor **debe** ser constante `(const)` siempre que sea posible.
+Las entidades **deben** incluir un constructor `empty` que permita inicializar la entidad con valores predeterminados o vacíos. Este constructor **debe** ser constante `(const)` siempre que sea posible.
 
 ```dart
 class User extends Equatable {
@@ -97,5 +97,3 @@ class User extends Equatable {
 ```
 
 Algunos ejemplos comunes de su uso son: inicializar un formulario vacío, declarar una variable constante en el estado de un bloc, e incluso para realizar pruebas unitarias.
-
-
