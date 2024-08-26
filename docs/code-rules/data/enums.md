@@ -8,11 +8,11 @@ title: Enums
 
 ## Clases
 
-### Implementación de la interfaz BaseEnum
+### Implementación de la interfaz `BaseEnum`
 
-Los enumeradores de la capa de datos **deben** implementar la interfaz `BaseEnum<E, T>`.
+Los enumeradores **deben** implementar la interfaz `BaseEnum<E, T>` estableciendo la palabra clave `implements` despues del nombrado del `Enum`.
 
-```dart title="Regla de nombrado de clases"
+```dart title="Implementación de BaseEnum"
 enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {} // Implementación de BaseEnum
 
 enum PrivacyTypeModel implements BaseEnum<PrivacyType, String> {}
@@ -36,8 +36,8 @@ Este atributo estará para recibir y/o enviar el valor que estemos manejando de 
 
 ```dart title="Atributo value"
 enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
-  final String value;
   const PrivacyTypeModel(this.value);
+  final String value;
   ///Resto del código
 }
 ```
@@ -51,7 +51,7 @@ enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
 
 ### Nombrado de valores
 
-Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Primero se coloca el nombre del parámetro, seguido del valor correspondiente entre paréntesis, el cual proviene de la fuente de datos original.
+Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Primero se coloca el nombre del parámetro, seguido del valor correspondiente en base al tipo de dato que proviene de la fuente de datos original entre paréntesis.
 
 ```dart title="Nombrado de valores"
 enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
@@ -60,6 +60,7 @@ enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
   track('track'),
   album('album'),
   comment('comment')
+
   final String value;
   const PrivacyTypeModel(this.value);
 
@@ -68,9 +69,9 @@ enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
 
 ```
 
-#### A. Casos en los que el valor venga con un guión
+#### A. Formato camelCase
 
-Cuando el valor incluye un guión, el nombre del parámetro que está fuera de los paréntesis debe representarse en formato camelCase.
+Los valores de los enumeradores **deben** definirse en camel case.
 
 ```dart title="Nombrado de valores"
 enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
@@ -86,18 +87,6 @@ enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
 
 ```
 
-```dart title="Inicialización de enum con Int"
-enum DocumentTypeModel implements BaseEnum<DocumentType, Int> {
-  v(1),
-  j(2)
-  e(3),
-  g(4);
-
-  const DocumentTypeModel(this.value);
-  final String value;
-  }
-```
-
 ### Valor nulo
 
 Los enumeradores **deben** tener una opción que represente la ausencia de valor.
@@ -107,7 +96,7 @@ enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
   post('post'),
   book('book'),
   track('track'),
-  unknown('unknown');
+  unknown('');
 
   /// Resto del código...
 }
@@ -118,7 +107,11 @@ enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
 
 "El método `fromValue` **debe** convertir un valor de tipo `T` al valor del modelo correspondiente comparandolo con el atributo `value` usando el método `firstWhere`.
 
-```dart title="Método fromValue"
+#### A. Devolver un fallback con orElse
+
+Se **debe** pasar el parametro `orElse` del método `firstWhere` para manejar posible valores nulos.
+
+```dart title="Fallback"
 enum UserStatusModel implements BaseEnum<UserStatus, String> {
   active('active'),
   inactive('inactive');
@@ -135,10 +128,6 @@ enum UserStatusModel implements BaseEnum<UserStatus, String> {
 }
 
 ```
-
-#### A. Devolver un fallback con orElse
-
-Se **debe** pasar el parametro `orElse` del método `firstWhere` para manejar posible valores nulos.
 
 ### Método fromEntity
 
@@ -166,14 +155,28 @@ Si no queremos devolver un valor de manera predeterminada podemos manejar excepc
 
 ```dart title="¿Cómo devolver excepciones?"
 ...
-  if (type == ItemCollectionEnum.vacant) {
-    return ItemCollectionModel.vacant;
-  }
-  if (type == ItemCollectionEnum.none) {
-    return ItemCollectionModel.none;
+  spam('spam'),
+  inappropriate('inappropriate'),
+  other('other');
+
+  const ReportTypeEnum(this.value);
+  final String value;
+
+  static ReportTypeEnum fromEntity(ReportType type) {
+    if (type == ReportType.spam) {
+      return ReportTypeEnum.spam;
+    }
+    if (type == ReportType.inappropriate) {
+      return ReportTypeEnum.inappropriate;
+    }
+    if (type == ReportType.other) {
+      return ReportTypeEnum.other;
+    }
+
+    throw Exception('Invalid ReportTypeEnum');//Podemos devolver una excepcion normal o una excepcion personalizada
   }
 
-  throw Exception('Invalid ItemCollection'); //Podemos devolver una excepcion normal o una excepcion personalizada
+  ///Resto del código
 
 ```
 
