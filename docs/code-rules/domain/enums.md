@@ -16,7 +16,7 @@ Los nombres de los enumeradores **deben** tener el mismo nombre base relacionado
 
 ### Nombrado de valores
 
-Los parámetros de los enumeradores **deben** ser iguales a los valores que vengan directamente del servidor. En caso de que dicho valor proveniente del servidor contenga un guión debe representarse en formato camelCase
+Los parámetros de los enumeradores **deben** ser iguales a los valores que vengan directamente de la fuente de datos original. En caso de que dicho valor proveniente del servidor contenga un guión debe representarse en formato camelCase
 
 ```dart title="Nombrado de valores"
 enum PrivacyTypeEnum {
@@ -48,7 +48,7 @@ Nuestros enums siempre deberan tener un valor por defecto o nulo para evitar cua
 
 ### Getters
 
-Los enumeradores **pueden** tener `getters` los cuales nos permite establecer nuevas instancias de facil acceso al momento de querer usarlo en condicionales y poder lograr un menor ruido visual en el código.
+Los enumeradores **pueden** incluir getters, lo que permite establecer nuevas instancias de fácil acceso para su uso en condicionales.
 
 
 ```dart title="Getters"
