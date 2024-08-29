@@ -151,7 +151,7 @@ static ReportTypeEnum fromEntity(ReportType type) {
 
 #### A. Devolver excepciones
 
-Si no queremos devolver un valor de manera predeterminada podemos manejar excepciones en nuestro enum.
+Para evitar devolver un valor predeterminado, se pueden manejar excepciones dentro del enumerador.
 
 ```dart title="¿Cómo devolver excepciones?"
 
