@@ -10,7 +10,7 @@ title: Enums
 
 ### Implementación de la interfaz `BaseEnum`
 
-Los enumeradores **deben** implementar la interfaz `BaseEnum<E, T>` estableciendo la palabra clave `implements` despues del nombrado del `Enum`.
+Los enumeradores de la capa de datos **deben** implementar la interfaz `BaseEnum<E, T>`.
 
 ```dart title="Implementación de BaseEnum"
 enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {} // Implementación de BaseEnum
@@ -51,7 +51,7 @@ enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
 
 ### Nombrado de valores
 
-Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Primero se coloca el nombre del parámetro, seguido del valor correspondiente en base al tipo de dato que proviene de la fuente de datos original entre paréntesis.
+Los parámetros de los constructores en los enumeradores **deben** reflejarse dentro de las llaves de inicialización. Primero se coloca el nombre del parámetro, seguido del valor correspondiente con base en el tipo de dato que proviene de la fuente de datos original entre paréntesis.
 
 ```dart title="Nombrado de valores"
 enum ItemCollectionModel implements BaseEnum<ItemCollectionEnum, String> {
@@ -154,10 +154,14 @@ static ReportTypeEnum fromEntity(ReportType type) {
 Si no queremos devolver un valor de manera predeterminada podemos manejar excepciones en nuestro enum.
 
 ```dart title="¿Cómo devolver excepciones?"
-...
+
+enum ReportTypeEnum {
   spam('spam'),
   inappropriate('inappropriate'),
   other('other');
+
+  const ReportTypeEnum(this.value);
+  final String value;
 
   const ReportTypeEnum(this.value);
   final String value;
@@ -173,10 +177,12 @@ Si no queremos devolver un valor de manera predeterminada podemos manejar excepc
       return ReportTypeEnum.other;
     }
 
-    throw Exception('Invalid ReportTypeEnum');//Podemos devolver una excepcion normal o una excepcion personalizada
+    throw Exception('Invalid ReportTypeEnum'); //Podemos devolver una excepcion normal o una excepcion personalizada
   }
-
   ///Resto del código
+
+}
+
 
 ```
 
