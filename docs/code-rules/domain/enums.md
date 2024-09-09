@@ -10,7 +10,15 @@ title: Enums
 
 ### Nombrado de clases
 
-Los nombres de los enumeradores **deben** tener el mismo nombre base relacionado a su entidad y correspondientes al uso que tendrá y deben terminar con el sufijo `Enum`.
+Los enumeradores en la capa de dominio **deben** tener el mismo nombre base relacionado a su entidad, correspondiente al uso que tendrá y nombrarse en singular. Algunos ejemplos de nombres de enumeradores son:
+
+```
+enum UserStatus {}
+
+enum UserRole {}
+
+enum PrivacyType {}
+```
 
 ## Valores
 
@@ -31,14 +39,15 @@ enum PrivacyTypeEnum {
 
 ### Valor nulo
 
-Nuestros enums siempre deberan tener un valor por defecto o nulo para evitar cualquier error o incidencia. Ejemplo: unknown, empty, etc.
+
+Los enumeradores **deben** tener una opción que represente la ausencia de valor.
 
 ```dart title="Valor nulo"
     enum ItemCollectionEnum {
       post,
       book,
       track,
-      unknown;
+      unknown; /// Valor nulo
 
       /// Resto del código...
     }
