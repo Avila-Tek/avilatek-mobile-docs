@@ -10,7 +10,7 @@ title: Enums
 
 ### Nombrado de clases
 
-Los enumeradores en la capa de dominio **deben** tener el mismo nombre base relacionado a su entidad, correspondiente al uso que tendrá y nombrarse en singular. Algunos ejemplos de nombres de enumeradores son:
+Los enumeradores en la capa de dominio **deben** ser correspondientes al uso que tendrá y nombrarse en singular. Algunos ejemplos de nombres de enumeradores son:
 
 ```
 enum UserStatus {}
@@ -24,13 +24,13 @@ enum PrivacyType {}
 
 ### Nombrado de valores
 
-Los parámetros de los enumeradores **deben** ser iguales a los valores que vengan directamente de la fuente de datos original. En caso de que dicho valor proveniente del servidor contenga un guión debe representarse en formato camelCase
+Los parámetros de los enumeradores **deben** definirse en camel case.
 
 ```dart title="Nombrado de valores"
 enum PrivacyTypeEnum {
     public,
     private,
-    followersConnection, //Uso del camelCase
+    followersConnection, 
     connections;
 
     ///Resto del código...
