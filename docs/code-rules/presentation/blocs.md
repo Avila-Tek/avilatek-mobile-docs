@@ -34,13 +34,52 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {}
 class SplashBloc extends Bloc<SplashEvent, SplashState> {}
 ```
 #### 2. SendDataBloc
-(Próximamente)
+Si la lógica que va a gestionar el Bloc del feature implica la necesidad de enviar datos al servidor, se **debe** utilizar la extensión [SendDataBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#senddatabloc) definida en el paquete de Avila Tek Flutter Common Library (AFCL).
+
+```dart
+class FeatureBloc extends SendDataBloc<E> {
+  FeatureBloc();
+
+  @override
+  Future<E> sendData(
+    SendDataState oldState,
+    DataSent<E> event,
+  ) async {
+    ... /// 👈 Implementación de la llamada al backend para enviar la respectiva data.
+
+    return response; /// 👈 Retorno de la respuesta recibidad desde el backend.
+  }
+}
+```
+
 #### 3. RemoteDataFetchBloc
-(Próximamente)
+Si la lógica que va a gestionar el Bloc del feature implica la necesidad de recibir datos desde el servidor (no paginados), se **debe** utilizar la extensión [RemoteDataFetchBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#remotedatabloc) definida en el paquete de Avila Tek Flutter Common Library (AFCL). 
+
+```dart
+class FeatureBloc extends RemoteDataBloc<E> {
+  FeatureBloc({
+    super.initialData,
+  }) {
+    add(const FetchRemoteData());
+  }
+
+  @override
+  Future<E> fetchAndParseData(
+    RemoteDataState<E> oldState,
+    FetchRemoteData event,
+  ) async {
+    final data = await requestDataFunction() /// 👈 Implementación de la llamada al backend para recibir la respectiva data.
+
+    return data 
+  }
+}
+```
 #### 4. PagedRemoteDataFetchBloc
-(Próximamente)
-#### 5. Excepciones
-(Próximamente)
+Si la lógica que va a gestionar el Bloc del feature implica la necesidad de recibir datos paginados desde el servidor, se **debe** utilizar la extensión [PagedRemoteDataFetchBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#pagedremotedatabloc) definida en el paquete de Avila Tek Flutter Common Library (AFCL). 
+
+:::note
+Las extensiones de Bloc que se encuentran en el **Avila Tek Flutter Common Library** han sido diseñadas específicamente para facilitar la comunicación entre la aplicación y el servidor, evitando la necesidad de replicar el mismo código varias veces, simplificando así la logica del Bloc y la complejidad del proyecto.
+:::
 
 ## Constructor
 
