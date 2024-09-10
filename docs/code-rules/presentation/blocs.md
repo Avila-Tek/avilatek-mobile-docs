@@ -3,11 +3,11 @@
 El **Componente de Lógica Empresarial (BLoC)** es uno de los varios manejadores de estados que tiene Flutter para separar la lógica de negocio de la interfaz de usuario. Su implementación permite desarrollar componentes reusables y aplicaciones escalables y testeables.
 
 :::warning
-En los proyectos **debes** usar Bloc como manejador de estados en la capa de presentación.
+Bloc es el único manejador de estados permitido en la capa de presentación.
 :::
 
 :::info
-Para mayor información sobre el uso y funcionamiento de los Blocs puedes leer la documentacion en https://bloclibrary.dev.
+Para mayor información sobre el uso y funcionamiento de los Blocs, referirse a la documentacion de Bloc en https://bloclibrary.dev.
 :::
 
 ## Clases
@@ -26,9 +26,9 @@ class SplashBloc extends ... {}
 
 #### 1. Bloc
 
-Es la extensión Base de Bloc. En este caso la clase **debe** extender de la clase abstracta `Bloc` (proporcionado por el paquete de pub `flutter_bloc`), definiendo el evento y estado base.
+Es la extensión base. En este caso la clase **debe** extender de la clase abstracta `Bloc` (proporcionado por el paquete de pub `flutter_bloc`), definiendo el evento y estado base.
 
-```dart
+```dart 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {}
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {}
@@ -44,7 +44,6 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {}
 
 ## Constructor
 
-
 ### Parámetros
 Los atributos requeridos por el Bloc se **deben** pasar como parámetros nombrados. Estos parámetros normalmente son entidades, variables o casos de usos.
 
@@ -56,10 +55,10 @@ Los parámetros pueden ser guardados de dos maneras en el Bloc para su uso:
 ```dart
 class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
     const ProductDetailBloc({
-        required Product initialData;
+        required Product initialData; // 👈 Se recibe la variable como parámetro nombrado.
     }) : super(
             ProductDetaiState(
-                initialData: initialData,
+                initialData: initialData, // 👈 Se guarda en el estado del Bloc.
             ),
         );
 }
@@ -70,8 +69,9 @@ class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
 ```dart
 class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
     const ProductDetailBloc({
-        required String productId;
-    }) : _productId = productId, super(ProductDetaiState());
+        required String productId; // 👈 Se recibe la variable como parámetro nombrado.
+    }) : _productId = productId, // 👈 Se guarda en un atributo privado que solo puede acceder el Bloc internamente.
+        super(ProductDetaiState());
 
     final String _productId;
 }
@@ -79,24 +79,24 @@ class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
 
 ### Principio de inversión de dependencias
 
-Los Blocs solo pueden recibir casos de uso (definidos en la capa de dominio) para manejar la logica de negocio del feature, y **deben** ser asignados obligatoriamente a atributos privados dentro del Bloc.
+Los Blocs solo **deben** recibir casos de uso (definidos en la capa de dominio) para manejar la logica de negocio del feature, y **deben** ser asignados obligatoriamente a atributos privados dentro del Bloc.
 
 :::danger
- **Está prohibida la interdependencia de Blocs** (paso de un Bloc a otro por parámetro). La comunicación entre Blocs debe hacerse por medio de `BlocListeners` o directamente accediendo a ellos por medio del contexto de la app (inyección de dependencias).
+ **Está prohibida la interdependencia de Blocs** (paso de un Bloc a otro por parámetro). La comunicación entre Blocs **debe** hacerse por medio de `BlocListeners` o directamente accediendo a ellos por medio del contexto de la app (inyección de dependencias).
 :::
 
 ### Registro de manejadores de eventos
 El constructor de la clase registra varios manejadores de eventos utilizando el método `on<Event>(FutureOr<void> Function(E, Emitter<State>) handler, {Stream<E> Function(Stream<E>, Stream<E> Function(E))? transformer})`. Este método es el encargado de vincular un tipo de evento específico con su respectivo manejador.
 
 - `Event` hace referencia al nombre del evento.
-- `handler` hace referencia al manejador del evento. Siempre **debe** ser privado y solo se debe referenciar en el constructor. El cuerpo de la función **será** definido dentro de la clase, no del constructor.
+- `handler` hace referencia al manejador del evento. Siempre **debe** ser privado y solo se **debe** referenciar en el constructor. El cuerpo de la función **será** definido dentro de la clase, no del constructor.
 
 #### Transformadores
-Los transformadores son funciones opcionales que se puede aplicar para controlar cómo se gestionan las emisiones de eventos, antes de que lleguen al manejador del evento. Para esto puedes desarrollar transformadores o usar los proporcionados por el paquete `bloc_concurrency`.
+Los transformadores son funciones opcionales que se pueden aplicar para controlar cómo se gestionan las emisiones de eventos, antes de que lleguen al manejador del evento. Para esto, **se puede** utilizar los proporcionados por el paquete `bloc_concurrency` o desarrollar manejadores específicos que se adapte mejor a la lógica del negocio.
 
 
 ### Registro de Stream Listeners
-En caso de que sea necesario escuchar los eventos de un Stream dentro del Bloc, es recomendable definir esta lógica en el constructor. Para ello, es necesario almacenar la suscripción al Stream en una variable privada y, posteriormente, inicializar el listener del Bloc con la lógica correspondiente (por ejemplo, emitir un evento del Bloc cuando el Stream produzca una emisión).
+Los Stream listeners **deben** registrarse en el constructor de Bloc en caso de ser necesario escuchar los eventos que emite el Stream. Para ello, **se debe** almacenar la suscripción al Stream en una variable privada y, posteriormente, inicializar el listener del Bloc con la lógica correspondiente (por ejemplo, emitir un evento del Bloc cuando el Stream emita una señal).
 
 ```dart
 class UserBloc extends Bloc<UserEvent, UserState> {
@@ -106,38 +106,38 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             super(const UserState()) {
             on<UserChanged>(_onUserChanged);
 
-            _streamSubscription = _userUseCase.user.listen((user) {
-                add(UserChanged(user: user));
+            _streamSubscription = _userUseCase.user.listen((user) {  // 👈 Inicialización del listener y guardado en la variable declarada.
+                add(UserChanged(user: user)); // 👈 Llamado a evento cuando el stream emite data nueva.
             });
         }
 
-    StreamSubscription<User>? _streamSubscription;
+    StreamSubscription<User>? _streamSubscription; // 👈 Declaración de variable de tipo StreamSubscription.
 }
 ```
 
 :::warning
-    Todo listener de un Stream debe cancelarse en el método `close()` de los Blocs para evitar fugas de memoria y problemas de rendimiento.
+    Todo listener de un Stream **debe** cancelarse en el método `close()` de los Blocs para evitar fugas de memoria y problemas de rendimiento.
 :::
 
 ## Manejadores de eventos
 Los manejadores de eventos permiten realizar operaciones asíncronas o síncronas y emitir nuevos estados según sea necesario.
 
 ### Nombrado
-Los manejadores de eventos **deben** nombrarse como el evento, agregando el prefijo on. Debe declararse de manera privada.
+Los manejadores de eventos **deben** nombrarse como el evento, agregando el prefijo on. Además, **se debe** declarar de manera privada.
 
 ```dart
 on<Event>(_onEvent);
 ```
 
 ### Implementación
-La implementación de un manejador de evento, utilizando el patrón Bloc, debe seguir la siguiente estructura:
+La implementación de un manejador de evento, utilizando el patrón Bloc, **debe** seguir la siguiente estructura:
 
 ```dart
 FutureOr<void> _onEvent(
     Event event,
     Emitter<State> emit,
 ) async {
-    // Lógica a implementar
+    // 👈 Lógica a implementar
 }
 ```
 Donde:
@@ -146,31 +146,24 @@ Donde:
 3. Emitter: Es la función utilizada para emitir un nuevo estado. A través de emit, se notifica al Bloc el nuevo estado que debe adoptar en respuesta al evento recibido.
 
 #### a. Manejo de errores
-
+Se debe usar el bloque `try-catch` para manejar excepciones que puedan ocurrir durante la ejecución del código en el manejador de evento.
 
 ```dart
-FutureOr<void> _onUserStarted(
-    UserStarted event,
-    Emitter<UserState> emit,
+FutureOr<void> _onEvent(
+    Event event,
+    Emitter<State> emit,
 ) async {
     try {
-      emit(state.copyWith(status: UserStatus.loading));
+        emit(state.copyWith(status: BlocStateStatus.loading)); // 👈 Emisión de estado de carga.
 
-      final currentUser = await _userUseCase.currentUser;
+        ... // 👈 Implementación de logica síncrona/asíncrona.
 
-      emit(
-        state.copyWith(
-          user: currentUser,
-          status: currentUser == User.empty
-              ? UserStatus.unauthenticated
-              : UserStatus.authenticated,
-        ),
-      );
+        emit(state.copyWith(status: BlocStateStatus.success)); // 👈 Emisión de estado exitoso.
     } catch (e) {
         emit(
             state.copyWith(
-                errorMessage: e.message,
-                status: UserStatus.failure,
+                errorMessage: e.message, // 👈 Manejo del mensaje de error.
+                status: BlocStateStatus.failure, // 👈 Emisión de estado fallido.
             ),
         );
     }
