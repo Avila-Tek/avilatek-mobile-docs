@@ -45,7 +45,9 @@ class User extends Equatable {
 }
 ```
 
+:::info
 Para profundizar un poco más en el tema, se recomienda leer la documentación oficial de [Equatable](https://pub.dev/packages/equatable).
+:::
 
 ### Documentación de la entidad
 
@@ -82,7 +84,7 @@ class User extends Equatable {
 
 ### Constructor `empty`
 
-Las entidades **pueden** incluir un constructor `empty`, que representa una entidad vacía y que permita inicializar la entidad con valores predeterminados. Este constructor **debe** ser constante `(const)` siempre que sea posible.
+Las entidades **deben** incluir un constructor `empty` que permita inicializar la entidad con valores predeterminados o vacíos. Este constructor **debe** ser constante `(const)` siempre que sea posible.
 
 ```dart
 class User extends Equatable {
