@@ -172,3 +172,74 @@ class User extends Equatable {
   // Resto del código...
 }
 ```
+
+## Atributos
+
+### Declaración de atributos `final`
+
+Los atributos de las entidades **deben** ser declarados como `final`, asegurando así que las instancias sean inmutables. Esto significa que los valores de los atributos se asignan en el constructor y no pueden cambiar después de que se haya creado la instancia. La única excepción a esta regla es cuando se necesita modificar un atributo en un método `copyWith`.
+
+```dart
+class User extends Equatable {
+  final String id;
+  final String name;
+
+  // Resto del código...
+}
+```
+
+### Atributos anulables
+
+Los atributos de la entidad **pueden** ser anulables `(null)`, pero esto **debe** estar justificado, bien sea porque el atributo es opcional o porque su valor puede ser nulo en algún momento. La explicación de por qué un atributo es anulable **debe** estar documentada en el comentario de la entidad.
+
+```dart
+class User extends Equatable {
+  final String id;
+
+  /// The email of the user. Can be null if the user hasn't provided one.
+  final String? email;
+
+  // Resto del código...
+}
+```
+
+**Ejemplos adicionales:**
+
+- En el caso de un formulario de registro, el campo de teléfono podría ser opcional, por lo que el atributo correspondiente sería anulable.
+- Si una entidad será utilizada en múltiples flujos y en alguno de ellos un atributo no es necesario o no existe, este atributo **debe** ser anulable.
+
+### Atributos requeridos / no requeridos
+
+Los atributos que son esenciales para la identidad o funcionamiento de la entidad **deben** ser marcados como `required` en el constructor. Los atributos opcionales pueden ser declarados como anulables o tener valores por defecto. La elección entre un atributo anulable o un valor por defecto **debe** estar justificada y documentada en el comentario de la entidad.
+
+```dart
+class User extends Equatable {
+  final String id;
+  /// The phones of the user. Can be null if the user has no phones.
+  final List<Phone>? phones;
+
+  const User({
+    required this.id,
+    this.phones,
+  });
+
+  // Resto del código...
+}
+```
+
+O, alternativamente:
+
+```dart
+class User extends Equatable {
+  final String id;
+  /// The phones of the user. Can be empty if the user has no phones.
+  final List<Phone> phones;
+
+  const User({
+    required this.id,
+    this.phones = const [],
+  });
+
+  // Resto del código...
+}
+```
