@@ -20,7 +20,7 @@ class PortfolioRepository
 
 ### Extensión de repositorio (capa de dominio)
 
-El repositorio luego de su nombramiento **debe** incluir la extensión de su interfaz de la capa de dominio agregando `extends` despues de nombrarlo.
+La clase repositorio de la capa de datos **debe** extender de la interfaz repositorio de la capa dominio.
 
 ```dart
 class UserRepository extends IUserRepository {}
@@ -34,7 +34,7 @@ class PortfolioRepository IPortfolioRepository {}
 
 ### Inyección de dependencias (Data sources)
 
-El repositorio **debe** inicializar sus dependencias a través de una variable y luego instanciarse a través del constructor.
+El repositorio **debe** recibir las variables y dependencias como parámetros delegados y asignarlos a los atributos privados respectivos de la clase en el constructor.
 
 ```dart
 class UserRepository extends IUserRepository {
@@ -49,26 +49,29 @@ class UserRepository extends IUserRepository {
 
 ### Declarar variables públicas y privadas
 
-El repositorio **puede** declarar variables públicas para el uso global del proyecto y variables privadas para uso interno del archivo.
+#### A. Atributos privados
+
+Los atributos de uso interno de la clase, como dependencias y variables auxiliares, **deben** ser atributos privados.
+
+#### B. Atributos públicos
+
+Los atributos públicos que sean parte de la firma de la interfaz del repositorio **deben** declararse como getters de atributos privados.
 
 ```dart
+abstract class IUserRepository {
+   List<Country> countries;
+}
+
 class UserRepository extends IUserRepository {
-  UserRepository(UserApi api) : _api = api;
-
-  final UserApi _api; ///Variable privada 🔒
-
-  ///Variables públicas que podrán ser implementadas fuera del archivo
+  List<Country> _countries = <Country>[];
   @override
-  List<Country> countries = <Country>[];
-
-  @override
-  List<LanguageTag> languages = <LanguageTag>[];
+  List<Country> get countries => _countries;
 }
 ```
 
-## Stream
+## Streams
 
-Los repositorios **pueden** tener inicializaciones y ejecuciones de streams.
+Los `Streams` **deben** declararse como getters del atributo stream de un `StreamController` que controle el flujo de información en el repositorio. La variable del `StreamController` **debe** ser privada.
 
 ### Declaración
 
@@ -94,55 +97,6 @@ class UserRepository extends IUserRepository {
 }
 ```
 
-### Casos de uso
-
-La función `Sink` del stream a utilizar **debe** implementarse luego de la llamada de la función para que el nuevo valor sea implementado al stream.
-
-```dart
-class UserRepository extends IUserRepository {
-  UserRepository(UserApi api) : _api = api;
-
-  final UserApi _api;
-
-  //Block Stream
-  final _blockController = StreamController<String>.broadcast();
-
-  @override
-  Stream<String> get blockStream => _blockController.stream;
-
-  void Function(String) get _blockSink => _blockController.sink.add;
-
-  @override
-  Future<void> blockProfile(String profileId) async {
-    try {
-      log(
-        '📡 Blocking profile',
-        name: '$_source.blockProfile()',
-      );
-
-      await _api.blockProfile(currentUserId, profileId);
-
-      log(
-        '✅ Profile blocked',
-        name: '$_source.blockProfile()',
-      );
-       /// Luego de la llamada se utiliza el sink para pasar el valor
-       /// en este caso para saber el id del usuario que se está bloqueando
-      _blockSink(profileId);
-
-      return;
-    } catch (e, s) {
-      log(
-        '❌ Error blocking profile',
-        name: '$_source.blockProfile()',
-        error: e,
-      );
-      rethrow;
-    }
-  }
-}
-```
-
 ## Logger
 
 Las funciones en los repositorios **deben** tener un control de ejecución al momento de las llamadas mediante la función `log`
@@ -151,7 +105,11 @@ Las funciones en los repositorios **deben** tener un control de ejecución al mo
 
 #### A. Inicio de la llamada, error y success
 
-Al momento de iniciar una llamada debe registrarse los pasos de ejecución de la siguiente manera:
+Al momento de iniciar una llamada debe registrarse los pasos de ejecución y **debe** incluir el uso de los siguientes emojis:
+
+- 📡 Inicio de la llamada
+- ✅ Llamada exitosa
+- ❌ Error en la llamada
 
 ```dart
 class PostRepository extends IPostRepository {
@@ -181,9 +139,51 @@ class PostRepository extends IPostRepository {
 }
 ```
 
-#### B. Variable \_source
+#### B. Variable `_source`
 
 Los repositorios **deben** dar a la creación de una variable privada llamada `_source` para que sea incluida en la ejecución y rastreo de la llamada de las funciones en el parametro `name` de la función `log`.
+
+```dart
+class PostRepository extends IPostRepository {
+  PostRepository({required PostApi api}) : _api = api;
+
+  final PostApi _api;
+
+  static const String _source = 'PostRepository';
+
+  @override
+  Future<void> deleteComment({
+    required String userId,
+    required String commentId,
+  }) async {
+    try {
+    // Uso de la variable source para localizar el repositorio + la función que se está usando
+      log(
+        'Delete comment $commentId',
+        name: '$_source.deleteComment',
+      );
+      await _api.deleteCommentPost(
+        itemId: commentId,
+        ownerId: userId,
+      );
+      log(
+        '✅ Success delete comment $commentId',
+        name: '$_source.deleteComment',
+      );
+    } catch (e, s) {
+      log(
+        '❌ Delete comment $commentId',
+        name: '$_source.deleteComment',
+      );
+      rethrow;
+    }
+  }
+}
+```
+
+#### A. Pasar `error` y `stacktrace` en el log de catch
+
+Al momento de realizar el try/catch de la petición se **puede** pasar el parametro `e` y el `s` en el log del catch
 
 ```dart
 class PostRepository extends IPostRepository {
@@ -224,7 +224,6 @@ class PostRepository extends IPostRepository {
   }
 }
 ```
-
 ## Métodos
 
 ### Flujo de ejecución (try/catch, excepciones)
@@ -259,7 +258,7 @@ class ReportsRepository extends IReportsRepository {
         '✅ Report created',
         name: '$_source.createReport',
       );
-    /// Vamos a identificar si existe una excepcion personalisada en la cual
+    /// Vamos a identificar si existe una excepcion personalizada en la cual
     /// recogeremos el mensaje de error que nos arroje el servidor y haremos un throw de dicha excepción
     /// que se manejará en la UI.
     } on ResponseException catch (e) {
