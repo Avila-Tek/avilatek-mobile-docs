@@ -32,7 +32,7 @@ enum PrivacyTypeModel implements BaseEnum<PrivacyType, String> {}
 
 ### Atributo `value`
 
-Este atributo estará para recibir y/o enviar el valor que estemos manejando de nuestro enum.
+El atributo value representa el valor equivalente de la fuente de datos del `enum`.
 
 ```dart title="Atributo value"
 enum PrivacyTypeModel implements BaseEnum<PrivacyTypeEnum, String> {
