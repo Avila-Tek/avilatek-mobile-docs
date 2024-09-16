@@ -157,9 +157,11 @@ class UserModel extends User {
 }
 ```
 
-### Constructor nombrado `empty` 
+### Constructor nombrado `empty`
 
-Los modelos **deben** tener un [constructor nombrado](https://dart.dev/language/constructors#named-constructors) constante `empty` que crea un modelo vacío con todos sus atributos con el valor mínimo representable de cada tipo de dato. Por ejemplo, un `int` sería `0`, un `String` una cadena vacía `''`, `List` una lista vacía `[]`, etc.
+Los modelos **deben** tener un [constructor nombrado](https://dart.dev/language/constructors#named-constructors) constante `empty` que crea un modelo vacío con todos sus atributos con el valor mínimo representable de cada tipo de dato. Por ejemplo, un `int` sería `0`, un `String` una cadena vacía `''`, `List` una lista vacía `[]`, etc. 
+
+El constructor `empty` **debe** ser un [constructor constante](https://dart.dev/language/constructors#constant-constructors).
 
 ```dart
 class ProductModel extends Product {
@@ -175,6 +177,7 @@ class ProductModel extends Product {
 :::note
 El constructor `empty` en modelos se usa principalmente en las pruebas unitarias para crear fácilmente instancias del modelo vacías.
 :::
+
 
 ## Atributos
 
@@ -220,6 +223,29 @@ static const String query = r'''
   name,
 ''';
 ```
+
+### Atributos de tipo `DateTime`
+
+Los modelos con atributos de tipo `DateTime` **deben** declarar estos atributos como getters y guardar el valor en formato [Unix epoch UTC](https://es.wikipedia.org/wiki/Tiempo_Unix) (de tipo `int`).
+
+```dart
+class UserModel extends User {
+  const UserModel({
+    required this.createdAtUnix,
+  });
+
+  const ProductModel.empty() : super(
+    createdAtUnix: 0,
+  );
+
+  DateTime get createdAt => DateTime.fromMillisecondsSinceEpoch(createdAtUnix);
+  final int createdAtUnix;
+}
+```
+
+:::warning
+Esta regla también aplica a las entidades. En la mayoría de los casos, el modelo no necesita declarar el atributo dentro de su clase, ya que el valor se obtiene de la entidad por herencia.
+:::
 
 ## Métodos especiales
 
