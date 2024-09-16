@@ -8,7 +8,7 @@ title: Repositorios
 
 ### Nombrado de repositorios
 
-Los repositorios **deben** reflejar el módulo o el conjunto de datos que gestiona y terminar con el sufijo `Repository`.
+El nombre de la clase repositorio **debe** representar el módulo o el conjunto de datos que gestiona y **debe** terminar con el sufijo `Repository`.
 
 ```dart
 class UserRepository
@@ -18,7 +18,7 @@ class ReportRepository
 class PortfolioRepository
 ```
 
-### Extensión de repositorio (capa de dominio)
+### Extensión de la interfaz del repositorio (capa de dominio)
 
 La clase repositorio de la capa de datos **debe** extender de la interfaz repositorio de la capa dominio.
 
@@ -32,7 +32,7 @@ class PortfolioRepository IPortfolioRepository {}
 
 ## Constructores
 
-### Inyección de dependencias (Data sources)
+### Inyección de dependencias
 
 El repositorio **debe** recibir las variables y dependencias como parámetros delegados y asignarlos a los atributos privados respectivos de la clase en el constructor.
 
@@ -59,23 +59,30 @@ Los atributos públicos que sean parte de la firma de la interfaz del repositori
 
 ```dart
 abstract class IUserRepository {
-   List<Country> countries;
+   List<Country> countries; // Atributo parte de la firma de la interfaz
 }
 
 class UserRepository extends IUserRepository {
   List<Country> _countries = <Country>[];
   @override
-  List<Country> get countries => _countries;
+  List<Country> get countries => _countries; // Implementación del atributo de la interfaz por medio de un getter.
 }
 ```
 
 ## Streams
 
-Los `Streams` **deben** declararse como getters del atributo stream de un `StreamController` que controle el flujo de información en el repositorio. La variable del `StreamController` **debe** ser privada.
+Los `Streams` **deben** crearse a partir de un `StreamController` que controle el flujo de información del Stream desde y hacia el repositorio.
 
 ### Declaración
 
-Los streams **deben** tener la siguiente estructura.
+
+#### A. `StreamController` de tipo `BehaviorSubject` 
+
+El `StreamController` **debe** declararse como una variable privada. El valor asignado debe ser de tipo `BehaviorSubject` del paquete [package:rxdart](https://pub.dev/packages/rxdart).
+
+#### B. Atributo de tipo `Stream<T>`
+
+El atributo de tipo `Stream<T>` **debe** ser un getter del stream de la variable `StreamController` de la clase.
 
 ```dart
 class UserRepository extends IUserRepository {
@@ -83,65 +90,40 @@ class UserRepository extends IUserRepository {
 
   final UserApi _api;
 
-  /// Se crea el controlador privado y utilizando el tipo de dato a manejar se termina
-  /// con broadcast para permitir múltiples suscriptores al stream
-  final _currentUserController = StreamController<bool>.broadcast();
+  final _currentUserController = BehaviorSubject<User>();
 
+  @override
   /// Stream que emite el estado actual y
   /// los suscriptores pueden escuchar este stream para recibir actualizaciones.
-  @override
-  Stream<bool> get currentUserStream => _currentUserController.stream;
-
-  /// Se crea un Sink para agregar nuevos valores al stream al momento de ejecutar una función
-  void Function(bool) get _currentUserSink => _currentUserController.sink.add;
+  Stream<User> get currentUserStream => _currentUserController.stream;
 }
 ```
 
 ## Logger
 
-Las funciones en los repositorios **deben** tener un control de ejecución al momento de las llamadas mediante la función `log`
+Las funciones en los repositorios **deben** realizar un control de ejecución de las llamadas con la función `log` de la librería [`dart:developer`](https://api.flutter.dev/flutter/dart-developer/dart-developer-library.html). 
 
 ### Rastreo de llamadas
 
-#### A. Inicio de la llamada, error y success
+#### A. Eventos de ejecución
 
-Al momento de iniciar una llamada debe registrarse los pasos de ejecución y **debe** incluir el uso de los siguientes emojis:
+Al momento de iniciar una llamada **deben** registrarse al menos tres eventos de la ejecución: Al iniciar, al finalizar con éxito o al finalizar con un error.
+
+#### B. Emojis para identificar los eventos de ejecución
+
+Cada evento de ejecución **debe** incluir un emoji en el log de la llamada. Los emojis **deben** ser los siguientes:
 
 - 📡 Inicio de la llamada
 - ✅ Llamada exitosa
 - ❌ Error en la llamada
 
-```dart
-class PostRepository extends IPostRepository {
-  PostRepository({required PostApi api}) : _api = api;
+#### C. Variable `_source`
 
-  final PostApi _api;
+Los repositorios **deben** declarar la variable privada `_source` de tipo estática y constante con el nombre de la clase para identificar el origen de la llamada de la función `log`.
 
-  @override
-  Future<void> likeComment({
-    required String commentId,
-    required String userId,
-  }) async {
-    try {
-      log('📡 Adding like comment to comment: $commentId'); // Inicio de la llamada
+#### D. Declaración de parámetros `error` y `stackTrace` en el log de bloque `catch`
 
-      await _api.addLikeComment(
-        commentId: commentId,
-        userId: userId,
-      );
-
-      log('✅ Success add like comment $commentId'); // LLamada exitosa
-    } catch (e, s) {
-      log('❌ Add like comment $commentId failure'); // Error en la llamada
-      rethrow;
-    }
-  }
-}
-```
-
-#### B. Variable `_source`
-
-Los repositorios **deben** dar a la creación de una variable privada llamada `_source` para que sea incluida en la ejecución y rastreo de la llamada de las funciones en el parametro `name` de la función `log`.
+Se **deben** declarar los parámetros `error` y `stackTrace` del método `log` en el bloque `catch` de la función.
 
 ```dart
 class PostRepository extends IPostRepository {
@@ -157,51 +139,8 @@ class PostRepository extends IPostRepository {
     required String commentId,
   }) async {
     try {
-    // Uso de la variable source para localizar el repositorio + la función que se está usando
       log(
-        'Delete comment $commentId',
-        name: '$_source.deleteComment',
-      );
-      await _api.deleteCommentPost(
-        itemId: commentId,
-        ownerId: userId,
-      );
-      log(
-        '✅ Success delete comment $commentId',
-        name: '$_source.deleteComment',
-      );
-    } catch (e, s) {
-      log(
-        '❌ Delete comment $commentId',
-        name: '$_source.deleteComment',
-      );
-      rethrow;
-    }
-  }
-}
-```
-
-#### A. Pasar `error` y `stacktrace` en el log de catch
-
-Al momento de realizar el try/catch de la petición se **puede** pasar el parametro `e` y el `s` en el log del catch
-
-```dart
-class PostRepository extends IPostRepository {
-  PostRepository({required PostApi api}) : _api = api;
-
-  final PostApi _api;
-
-  static const String _source = 'PostRepository';
-
-  @override
-  Future<void> deleteComment({
-    required String userId,
-    required String commentId,
-  }) async {
-    try {
-    // Uso de la variable source para localizar el repositorio + la función que se está usando
-      log(
-        'Delete comment $commentId',
+        '📡 Delete comment $commentId',
         name: '$_source.deleteComment',
       );
       await _api.deleteCommentPost(
@@ -224,9 +163,10 @@ class PostRepository extends IPostRepository {
   }
 }
 ```
+
 ## Métodos
 
-### Flujo de ejecución (try/catch, excepciones)
+### Flujo de ejecución (try/catch)
 
 Las funciones de los repositorios **deben** incluir un control de flujo implementado bajo un `try/catch` y del retorno de excepciones segun sea el caso. Como el siguiente ejemplo:
 
@@ -243,7 +183,6 @@ class ReportsRepository extends IReportsRepository {
     required String locale,
   }) async {
     try {
-    /// Inicialización del try/catch
       log(
         '📡 Creating report',
         name: '$_source.createReport',
@@ -258,9 +197,6 @@ class ReportsRepository extends IReportsRepository {
         '✅ Report created',
         name: '$_source.createReport',
       );
-    /// Vamos a identificar si existe una excepcion personalizada en la cual
-    /// recogeremos el mensaje de error que nos arroje el servidor y haremos un throw de dicha excepción
-    /// que se manejará en la UI.
     } on ResponseException catch (e) {
       log(
         '❌ Error creating the report: ${e.message}',
@@ -270,8 +206,6 @@ class ReportsRepository extends IReportsRepository {
       throw ReportProfileException(
         message: e.message,
       );
-    /// De no tener la excepción finalizaremos el try/catch para hacer un rethrow
-    /// y en las capas inferiores del proyecto se manejará esta excepción.
     } catch (e) {
       log(
         '❌ Error creating the report',
