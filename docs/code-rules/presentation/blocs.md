@@ -24,7 +24,7 @@ class SplashBloc extends ... {}
 
 ### Extensiones
 
-#### 1. Bloc
+#### A. Bloc
 
 Es la extensión base. En este caso la clase **debe** extender de la clase abstracta `Bloc` (proporcionado por el paquete de pub `flutter_bloc`), definiendo el evento y estado base.
 
@@ -33,8 +33,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {}
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {}
 ```
-#### 2. SendDataBloc
-Si la lógica que va a gestionar el Bloc del feature implica la necesidad de enviar datos al servidor, se **debe** utilizar la extensión [SendDataBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#senddatabloc) definida en el paquete de Avila Tek Flutter Common Library (AFCL).
+
+#### B. SendDataBloc
+Si la lógica que va a gestionar el Bloc del feature implica la necesidad de enviar datos al servidor, se **debe** utilizar la extensión [SendDataBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#senddatabloc) definida en el paquete de Avila Tek Flutter Common Library (FCL).
 
 ```dart
 class FeatureBloc extends SendDataBloc<E> {
@@ -52,8 +53,8 @@ class FeatureBloc extends SendDataBloc<E> {
 }
 ```
 
-#### 3. RemoteDataFetchBloc
-Si la lógica que va a gestionar el Bloc del feature implica la necesidad de recibir datos desde el servidor (no paginados), se **debe** utilizar la extensión [RemoteDataFetchBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#remotedatabloc) definida en el paquete de Avila Tek Flutter Common Library (AFCL). 
+#### C. RemoteDataFetchBloc
+Si la lógica que va a gestionar el Bloc del feature implica la necesidad de recibir datos desde el servidor (no paginados), se **debe** utilizar la extensión [RemoteDataFetchBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#remotedatabloc) definida en el paquete de Avila Tek Flutter Common Library (FCL). 
 
 ```dart
 class FeatureBloc extends RemoteDataBloc<E> {
@@ -74,22 +75,21 @@ class FeatureBloc extends RemoteDataBloc<E> {
   }
 }
 ```
-#### 4. PagedRemoteDataFetchBloc
-Si la lógica que va a gestionar el Bloc del feature implica la necesidad de recibir datos paginados desde el servidor, se **debe** utilizar la extensión [PagedRemoteDataFetchBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#pagedremotedatabloc) definida en el paquete de Avila Tek Flutter Common Library (AFCL). 
+#### D. PagedRemoteDataFetchBloc
+Si la lógica que va a gestionar el Bloc del feature implica la necesidad de recibir datos paginados desde el servidor, se **debe** utilizar la extensión [PagedRemoteDataFetchBloc](https://github.com/Avila-Tek/flutter_common_lib/blob/master/packages/avilatek_bloc/README.md#pagedremotedatabloc) definida en el paquete de Avila Tek Flutter Common Library (FCL). 
 
 :::note
 Las extensiones de Bloc que se encuentran en el **Avila Tek Flutter Common Library** han sido diseñadas específicamente para facilitar la comunicación entre la aplicación y el servidor, evitando la necesidad de replicar el mismo código varias veces, simplificando así la logica del Bloc y la complejidad del proyecto.
 :::
+
 
 ## Constructor
 
 ### Parámetros
 Los atributos requeridos por el Bloc se **deben** pasar como parámetros nombrados. Estos parámetros normalmente son entidades, variables o casos de usos.
 
-#### 1. Asignación de parámetros a atributos privados
-Los parámetros pueden ser guardados de dos maneras en el Bloc para su uso:
-
-- **En el estado:** en este caso el parámetro recibido en el constructor se guarda directamente cuando se instancia el estado base del Bloc en el método `super()`.
+#### A. Asignación de parámetro como variable del Bloc
+En este caso el parámetro recibido en el constructor se guarda directamente cuando se instancia el estado base del Bloc en el método `super()`.
 
 ```dart
 class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
@@ -103,32 +103,41 @@ class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
 }
 ```
 
-- **Como atributo privado:** en este caso el parámetro recibido en el constructor se guarda en un atributo `final` **privado** definido en el Bloc.
+#### B. Asignación de parámetro como valor del estado del Bloc
+En este caso el parámetro recibido en el constructor se guarda en un atributo `final` definido en el Bloc. Dicho atributo puede ser definido como público o privado, dependiendo de su utilidad y uso fuera del Bloc. De ser este el caso podemos acceder a estas variables por medio del contexto.
 
 ```dart
 class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
     const ProductDetailBloc({
         required String productId; // 👈 Se recibe la variable como parámetro nombrado.
-    }) : _productId = productId, // 👈 Se guarda en un atributo privado que solo puede acceder el Bloc internamente.
+        required int otherVar;
+    }) : productId = productId, // 👈 Se guarda en un atributo privado que solo puede acceder el Bloc internamente.
+        _otherVar = otherVar, // 👈 Se guarda en un atributo público y se accede con context.read fuera del Bloc.
         super(ProductDetaiState());
 
-    final String _productId;
+    final String productId;
+    final int _otherVar;
 }
 ```
 
+
 ### Principio de inversión de dependencias
 
-Los Blocs solo **deben** recibir casos de uso (definidos en la capa de dominio) para manejar la logica de negocio del feature, y **deben** ser asignados obligatoriamente a atributos privados dentro del Bloc.
+Los Blocs solo **deben** recibir [Casos de Uso](../domain/use-cases.md) para manejar la logica de negocio del feature, y **deben** ser asignados obligatoriamente a atributos privados dentro del Bloc.
 
 :::danger
- **Está prohibida la interdependencia de Blocs** (paso de un Bloc a otro por parámetro). La comunicación entre Blocs **debe** hacerse por medio de `BlocListeners` o directamente accediendo a ellos por medio del contexto de la app (inyección de dependencias).
+ **Está prohibida la interdependencia de Blocs** (paso de un Bloc a otro por parámetro). La comunicación entre Blocs **debe** hacerse desde fuera; por ejemplo, mediante la emisión de eventos como respuesta del cambio de estado de otro Bloc con el uso de `BlocListeners`, o accediendo a la instancia de los blocs por contexto con los métodos `context.read`, `context.watch` o `context.select`.
 :::
 
 ### Registro de manejadores de eventos
-El constructor de la clase registra varios manejadores de eventos utilizando el método `on<Event>(FutureOr<void> Function(E, Emitter<State>) handler, {Stream<E> Function(Stream<E>, Stream<E> Function(E))? transformer})`. Este método es el encargado de vincular un tipo de evento específico con su respectivo manejador.
+El constructor de la clase registra varios manejadores de eventos utilizando el método `on<Event>`
+```dart 
+on<Event>(FutureOr<void> Function(E, Emitter<State>) handler, {Stream<E> Function(Stream<E>, Stream<E> Function(E))? transformer})
+```
+Este método es el encargado de vincular un tipo de evento específico con su respectivo manejador.
 
 - `Event` hace referencia al nombre del evento.
-- `handler` hace referencia al manejador del evento. Siempre **debe** ser privado y solo se **debe** referenciar en el constructor. El cuerpo de la función **será** definido dentro de la clase, no del constructor.
+- `handler` hace referencia al [manejador del evento](#manejadores-de-eventos). Siempre **debe** ser privado y solo se **debe** referenciar en el constructor. El cuerpo de la función **será** definido dentro de la clase, no del constructor.
 
 #### Transformadores
 Los transformadores son funciones opcionales que se pueden aplicar para controlar cómo se gestionan las emisiones de eventos, antes de que lleguen al manejador del evento. Para esto, **se puede** utilizar los proporcionados por el paquete `bloc_concurrency` o desarrollar manejadores específicos que se adapte mejor a la lógica del negocio.
@@ -151,6 +160,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
 
     StreamSubscription<User>? _streamSubscription; // 👈 Declaración de variable de tipo StreamSubscription.
+
+    @override
+    Future<void> close() {
+        _streamSubscription?.cancel(); // 👈 Cancelación del listener
+        return super.close();
+    }
 }
 ```
 
@@ -184,7 +199,7 @@ Donde:
 2. Event: Representa el evento que desencadena este manejador. En la mayoría de los casos, es una clase de evento definida previamente, como parte de los eventos de Bloc.
 3. Emitter: Es la función utilizada para emitir un nuevo estado. A través de emit, se notifica al Bloc el nuevo estado que debe adoptar en respuesta al evento recibido.
 
-#### a. Manejo de errores
+#### A. Manejo de errores
 Se debe usar el bloque `try-catch` para manejar excepciones que puedan ocurrir durante la ejecución del código en el manejador de evento.
 
 ```dart
@@ -201,7 +216,7 @@ FutureOr<void> _onEvent(
     } catch (e) {
         emit(
             state.copyWith(
-                errorMessage: e.message, // 👈 Manejo del mensaje de error.
+                error: e.message, // 👈 Manejo del mensaje de error.
                 status: BlocStateStatus.failure, // 👈 Emisión de estado fallido.
             ),
         );
