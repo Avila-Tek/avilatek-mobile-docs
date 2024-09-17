@@ -47,3 +47,90 @@ La implementación completa del constructor con las dependencias de la clase se 
 
     }
 ```
+
+## Métodos
+
+### Implementación de métodos
+
+#### A. Nombrado de métodos
+
+Los métodos de un caso de uso **deben** llevar el mismo nombre de su método homólogo en la interfaz del repositorio que implementan, para facilitar la comprensión y el mantenimiento del código.
+
+```dart
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    final user = await _authRepository.signIn(email, password);
+    // Resto del código...
+  }
+```
+
+#### B. Características
+
+Los métodos de un caso de uso **deben** ser públicos y **deben** devolver un `Future` con el tipo de dato que corresponda al resultado de la operación que realiza. En caso de no devolver ningún valor, **debe** devolver un `Future<void>`.
+
+```dart
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    // Resto del código...
+  }
+
+  Future<User> getCurrentUser() async {
+    // Resto del código...
+  }
+```
+
+### Documentación de métodos
+
+El código, por regla general, **debe** ser autoexplicativo. Los métodos no son una excepción, y si bien no es necesario documentar cada línea de código, se **deben** documentar todos aquellos métodos que realicen operaciones complejas o que reciban parámetros, con el objetivo de facilitar su comprensión y uso para otros desarrolladores.
+
+Esta documentación **debe** incluir una descripción clara y concisa de la funcionalidad del método, así como la descripción de los parámetros y el valor de retorno.
+
+```dart
+  /// Authenticates the user with the provided credentials.
+  /// Receives the user's [email] and [password] as parameters.
+  /// Returns a [User] object with the user's information.
+  Future<User> signIn({
+    required String email,
+    required String password,
+  }) async {
+    // Resto del código...
+  }
+```
+
+### Streams
+
+Para manejar cambios en tiempo real, las aplicaciones **pueden** hacer uso de Streams. En los casos de uso, se **deben** definir como getters que acceden a los Streams de los repositorios correspondientes. Estos Streams se definen con el tipo de dato que se espera recibir.
+
+```dart
+  Stream<bool> get refreshProfile => _profileRepository.refreshPoliciesStream;
+```
+
+### Manejo de excepciones
+
+Los casos de uso **deben** manejar las excepciones que puedan surgir durante su ejecución. Para ello, **deben** utilizar bloques `try-catch` para capturar las excepciones y devolverlas a capas superiores de manera controlada.
+
+Si se espera que el método devuelva una excepción particular que deba ser gestionada de manera diferente (por ejemplo, una llamada a un repositorio), se **debe** utilizar un bloque `catch` específico para esa excepción.
+
+```dart
+  Future<User> getCurrentUser() async {
+    try {
+
+      final user = await _authRepository.getCurrentUser();
+      return user;
+
+    } on NotAuthorizedException catch (e) {
+      // Manejo de excepción específica
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+```
+
+:::info
+Es importante manejar todas las llamadas a repositorios de manera asíncrona. Asimismo, se **debe** hacer la llamada en una variable que posteriormente se devuelva, para facilitar la captura de excepciones.
+:::
