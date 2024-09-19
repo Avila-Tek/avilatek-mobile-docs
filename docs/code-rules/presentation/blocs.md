@@ -137,7 +137,7 @@ on<Event>(FutureOr<void> Function(E, Emitter<State>) handler, {Stream<E> Functio
 Este método es el encargado de vincular un tipo de evento específico con su respectivo manejador.
 
 - `Event` hace referencia al nombre del evento.
-- `handler` hace referencia al [manejador del evento](#manejadores-de-eventos). Siempre **debe** ser privado y solo se **debe** referenciar en el constructor. El cuerpo de la función **será** definido dentro de la clase, no del constructor.
+- `handler` hace referencia al [manejador del evento](#manejadores-de-eventos). Siempre **debe** ser privado y solo se **debe** referenciar en el constructor. El cuerpo de la función **debe** ser definido dentro de la clase, no del constructor.
 
 #### Transformadores
 Los transformadores son funciones opcionales que se pueden aplicar para controlar cómo se gestionan las emisiones de eventos, antes de que lleguen al manejador del evento. Para esto, **se puede** utilizar los proporcionados por el paquete `bloc_concurrency` o desarrollar manejadores específicos que se adapte mejor a la lógica del negocio.
