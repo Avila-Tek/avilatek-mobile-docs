@@ -4,26 +4,16 @@ Este capítulo describe cómo crear, organizar, nombrar y desarrollar los difere
 
 ## Creación
 
-Para la creación de un `feature` se **puede** hacer uso de la plantilla de Mason llamada `feature_brick`, que permite la rápida creación de un `feature` con toda la estructura necesaria para cumplir con la Arquitectura Limpia, como se explica más adelante. Sin embargo, en caso de que se desee usar, ésta **debe** ser la disponible en el paquete de [Avila Tek Flutter Common Library (FCL)](https://github.com/Avila-Tek/flutter_common_lib/tree/master/bricks/feature_brick), y no la original de [BrickHub.dev](https://brickhub.dev/bricks/feature_brick/0.6.2), ya que la de Ávila contiene unas pequeñas adaptaciones que se ajustan a la estructura requerida y definida por el departamento de desarollo móvil.
-
-### Sin `feature_brick`
-
-Si no se desea usar la plantilla de Ávila `feature_brick`, la estructura del `feature` **puede** ser creada manualmente, siempre y cuando cumpla con todo lo requerido en el presente capítulo.
-
-:::warning
-Si bien es cierto que se **puede** crear un `feature` de forma manual, el tiempo invertido y la dificultad es mucho mayor, que apoyándose de la plantilla creada para tal fin. Por lo cual al conocer bien la estructura y organización de un `feature`, se recomienda hacer uso de la plantilla.
-:::
-
-### Con `feature_brick`
+Para la creación de un `feature` se **debe** hacer uso de la plantilla de Mason llamada `feature_brick`, que permite la rápida creación de un `feature` con toda la estructura necesaria para cumplir con la Arquitectura Limpia. Sin embargo, ésta **debe** ser la disponible en el paquete de [Avila Tek Flutter Common Library (FCL)](https://github.com/Avila-Tek/flutter_common_lib/tree/master/bricks/feature_brick), y no la original de [BrickHub.dev](https://brickhub.dev/bricks/feature_brick/0.6.2), ya que la de Ávila contiene unas pequeñas adaptaciones que se ajustan a la estructura requerida y definida por el departamento de desarollo móvil.
 
 ### Comando a ejecutar
 
 Para la creación de un `feature` con la plantilla `feature_brick` de Ávila, se **debe** ejecutar su respectivo comando en la terminal del proyecto, apuntando desde la dirección raíz del mismo, en cualquiera de sus siguientes versiones:
 
 ```sh
-mason make feature_brick -o ./lib/src/modules/exchange/presentation
+mason make feature_brick -o <Dirección-de-la-carpeta-de-presentación>
 
-mason make feature_brick --feature_name market_loan_requests --state_management bloc --output-dir ./lib/src/modules/loans/presentation
+mason make feature_brick --feature_name <Nombre-del-feature> --state_management bloc --output-dir <Dirección-de-la-carpeta-de-presentación>
 ```
 
 ### Explicación del comando
@@ -32,7 +22,7 @@ El comando viene con varias opciones o variables que se **pueden** indicar direc
 
 #### A. `--output-dir` u `-o`
 
-La ruta dentro del proyecto en donde se creará el `feature` **debe** ser indicada al ejecutar el comando, desde la raíz del mismo. La ruta final en donde se creará el `feature` **debe** ser dentro de la respectiva carpeta de presentación del proyecto.
+La ruta dentro del proyecto en donde se creará el `feature` **puede** ser indicada al ejecutar el comando, y en caso de no serlo, se **debe** ejecutar el comando en la terminal desde la dirección en donde se desea crear el `feature`, la cual **debe** ser dentro de la respectiva carpeta de presentación del proyecto.
 
 #### B. `--feature_name`
 
