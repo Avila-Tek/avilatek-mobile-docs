@@ -1,3 +1,4 @@
+
 # Bloc
 
 El **Componente de Lógica Empresarial (BLoC)** es uno de los varios manejadores de estados que tiene Flutter para separar la lógica de negocio de la interfaz de usuario. Su implementación permite desarrollar componentes reusables y aplicaciones escalables y testeables.
@@ -123,7 +124,7 @@ class ProductDetaiBloc extends Bloc<ProductDetaiEvent, ProductDetaiState> {
 
 ### Principio de inversión de dependencias
 
-Los Blocs solo **deben** recibir [Casos de Uso](../domain/use-cases.md) para manejar la logica de negocio del feature, y **deben** ser asignados obligatoriamente a atributos privados dentro del Bloc.
+Los Blocs solo **deben** recibir [Casos de Uso](/docs/code-rules/domain/use-cases.md) para manejar la logica de negocio del feature, y **deben** ser asignados obligatoriamente a atributos privados dentro del Bloc.
 
 :::danger
  **Está prohibida la interdependencia de Blocs** (paso de un Bloc a otro por parámetro). La comunicación entre Blocs **debe** hacerse desde fuera; por ejemplo, mediante la emisión de eventos como respuesta del cambio de estado de otro Bloc con el uso de `BlocListeners`, o accediendo a la instancia de los blocs por contexto con los métodos `context.read`, `context.watch` o `context.select`.
