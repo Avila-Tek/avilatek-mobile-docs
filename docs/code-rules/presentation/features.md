@@ -4,40 +4,42 @@ Este capítulo describe cómo crear, organizar, nombrar y desarrollar los difere
 
 ## Creación
 
-Para la creación de un `Feature` se **puede** hacer uso de la plantilla de Mason llamada `feature_brick`, la cual contiene toda la estructura necesaria para cumplir con la Arquitectura Limpia, que se explicará más adelante.
+Para la creación de un `feature` se **debe** hacer uso de la plantilla de Mason llamada `feature_brick`, que permite la rápida creación de un `feature` con toda la estructura necesaria para cumplir con la Arquitectura Limpia. Sin embargo, ésta **debe** ser la disponible en el paquete de [Avila Tek Flutter Common Library (FCL)](https://github.com/Avila-Tek/flutter_common_lib/tree/master/bricks/feature_brick), y no la original de [BrickHub.dev](https://brickhub.dev/bricks/feature_brick/0.6.2), ya que la de Ávila contiene unas pequeñas adaptaciones que se ajustan a la estructura requerida y definida por el departamento de desarollo móvil.
 
-:::info
-Para mayor información sobre el uso y funcionamiento de las plantillas de Mason, referirse a su documentación oficial en https://docs.brickhub.dev/.
-:::
+### Comando a ejecutar
 
-### Ejemplo de creación con `feature_brick`
-
-#### A. Comando a ejecutar
-
-Para la creación de un `Feature` con la plantilla `feature_brick` de Mason, se **debe** ejecutar el siguiente comando en la terminal del proyecto, apuntando desde la dirección raíz del mismo:
+Para la creación de un `feature` con la plantilla `feature_brick` de Ávila, se **debe** ejecutar su respectivo comando en la terminal del proyecto, apuntando desde la dirección raíz del mismo, en cualquiera de sus siguientes versiones:
 
 ```sh
-mason make feature_brick --feature_name market_loan_requests --state_management bloc --output-dir ./lib/src/modules/loans/presentation
+mason make feature_brick -o <Dirección-de-la-carpeta-de-presentación>
 
-mason make feature_brick --feature_name profile --state_management bloc --output-dir ./lib/src/modules/user/presentation
+mason make feature_brick --feature_name <Nombre-del-feature> --state_management bloc --output-dir <Dirección-de-la-carpeta-de-presentación>
 ```
 
-#### B. Explicación del comando
+### Explicación del comando
 
-El comando viene con varias opciones o variable que se **pueden** indicar como lo son:
+El comando viene con varias opciones o variables que se **pueden** indicar directamente al escribir el comando inicial, o ir respondiendo uno a uno cuando la plantilla te pregunte. Estas opciones son:
 
-##### B.1. `--feature_name`
+#### A. `--output-dir` u `-o`
+
+La ruta dentro del proyecto en donde se creará el `feature` **puede** ser indicada al ejecutar el comando, y en caso de no serlo, se **debe** ejecutar el comando en la terminal desde la dirección en donde se desea crear el `feature`, la cual **debe** ser dentro de la respectiva carpeta de presentación del proyecto.
+
+#### B. `--feature_name`
 
 Aquí se indicará el nombre que tendrá el `feature`, el cual **debe** cumplir con las reglas de nombrado que se explican en su respectiva sección a continuación. De no ser indicado, el mismo por defecto será `login`.
 
-##### B.2. `--state_management`
+#### C. `--state_management`
 
 El manejador de estados **debe** ser `bloc`. De no indicarse, será este mismo por defecto.
 
-##### B.3. `--output-dir`
-
-La ruta dentro del proyecto en donde se creará el `feature` **debe** ser indicada, desde la raíz del mismo. La ruta final **debe** ser dentro de la carpeta de presentación.
-
-:::info
-Para mayor información sobre el uso y funcionamiento de la plantilla `feature_brick` de Mason, referirse a su documentación oficial en https://brickhub.dev/bricks/feature_brick/0.6.2.
+:::danger
+No se permitará otro manejador de estados que no sea `bloc`, ya que es el definido por el departamento en su arquitectura.
 :::
+
+#### D. ¿Deseas usar equatable con tu bloc?
+
+A diferencia de las opciones anteriores, ésta no tiene una variable que se pueda agregar en el comando, sino que se trata de una pregunta que te hace la plantilla al intentar crear el `feature`. Debido a que se está usando `bloc` como manejador de estado, se **debe** indicar que sí (`true`) se usará el paquete `equatable` para manejar la igualdad entre objetos de una forma sencilla.
+
+#### E. ¿Te gustaría incluir tests en este feature?
+
+Otra pregunta que no incluye una variable, y que en este caso, es totalmente opcional si se desea incluir o no los tests, según la naturaleza del `feature`.
