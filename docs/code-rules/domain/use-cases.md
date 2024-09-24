@@ -21,7 +21,7 @@ El nombre de la clase de un caso de uso **debe** reflejar claramente la funciona
 
 ### Inyección de dependencias
 
-Los casos de uso **deben** recibir las dependencias necesarias a través de su constructor. Estos parámetros nombrados se declaran como `required` y **deben** ser interfaces, **no** implementaciones concretas. Esto permite garantizar que el caso de uso esté desacoplado de la lógica de otras capas ajenas al dominio, manteniendo así una arquitectura limpia y escalable.
+Los casos de uso **deben** recibir las dependencias necesarias a través de su constructor. Estos parámetros nombrados se declaran como `required` y **deben** ser interfaces, **no** implementaciones concretas.
 
 ```dart
     class AuthUseCase {
@@ -54,7 +54,7 @@ La implementación completa del constructor con las dependencias de la clase se 
 
 #### A. Nombrado de métodos
 
-Los métodos de un caso de uso **deben** llevar el mismo nombre de su método homólogo en la interfaz del repositorio que implementan, para facilitar la comprensión y el mantenimiento del código.
+Los métodos de un caso de uso **deben** tener el mismo nombre que los métodos correspondientes en la interfaz del repositorio que implementan. Esto facilita la comprensión y el mantenimiento del código.
 
 ```dart
   Future<void> signIn({
@@ -103,7 +103,7 @@ Esta documentación **debe** incluir una descripción clara y concisa de la func
 
 ### Streams
 
-Para manejar cambios en tiempo real, las aplicaciones **pueden** hacer uso de Streams. En los casos de uso, se **deben** definir como getters que acceden a los Streams de los repositorios correspondientes. Estos Streams se definen con el tipo de dato que se espera recibir.
+En los casos de uso, los `Streams` **deben** crearse a partir del mismo dato que se espera recibir. **Deben** ser declarados como `getter` e inicializados desde el repositorio al que pertenecen.
 
 ```dart
   Stream<bool> get refreshProfile => _profileRepository.refreshPoliciesStream;
