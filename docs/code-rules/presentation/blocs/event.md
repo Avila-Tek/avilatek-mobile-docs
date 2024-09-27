@@ -29,7 +29,7 @@ Los constructores de los eventos de un Bloc **deben** ser definidos como constan
 
 ```dart
 class LoginStarted extends LoginEvent {
-  const LoginStarted();
+  const LoginStarted();  /// 👈 Definición del constructor constante.
 }
 ```
 De contener parámetros, estos **deben** ser definidos como parámetros nombrados. Esta regla no aplica cuando el evento tiene un solo parámetro, en este caso **puede** no ser parámetro nombrado.
