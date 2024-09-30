@@ -181,14 +181,8 @@ El nombrado de ésta clase es generado automáticamente por el `feature_brick`.
 La clase `Page` **debe** extender de la clase abstracta `StatelesWidget`.
 
 ```dart
-    /// Para el feature de iniciar sesión.
-    class LoginPage extends StatelessWidget {}
-
-    /// Para el feature de un perfil.
-    class ProfilePage extends StatelessWidget {}
-
-    /// Para el feature del detalle de un contrato.
-    class ContractDetailPage extends StatelessWidget {}
+    /// Para cualquier feature.
+    class FeatureNamePage extends StatelessWidget {}
 ```
 
 Sin embargo, existe una excepción a esta regla, que permite que se extienda de la clase abstracta `StatefulWidget`:
@@ -217,7 +211,7 @@ class _CreateBusinessFormPageState extends State<CreateBusinessFormPage>
     Widget build(BuildContext context) {
 
         /// Requerido por el mixin utilizado.
-        super.buidl();
+        super.build();
 
         /// Implementación del build.
         return BlocProvider();
