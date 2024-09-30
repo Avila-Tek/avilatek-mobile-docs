@@ -55,7 +55,7 @@ En caso de que el nombre sea compuesto por más de una palabra, éste **debe** e
 ```
 presentation/
 ├─ login/
-├─ register/
+├─ profile/
 ├─ contract_detail/
 ├─ follow_requests/
 
@@ -151,4 +151,27 @@ Al momento de refactorizar componentes o elementos de la interfaz gráfica, es i
 
 :::info
 Para mayor información y detalle sobre los `widgets`, referirse a su respectivo capítulo documentado.
+:::
+
+## Page
+
+Esta sección describe todo lo necesario para elaborar correctamente la clase Page, dentro del archivo `view/feature_page.dart`.
+
+### Nombrado de la clase
+
+El nombre de la clase `Page` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `Page`, escrito con el estilo _PascalCase_.
+
+```dart
+    /// Para el `feature` de iniciar sesión.
+    class LoginPage {}
+
+    /// Para el `feature` de un perfil.
+    class ProfilePage {}
+
+    /// Para el `feature` del detalle de un contrato.
+    class ContractDetailPage {}
+```
+
+:::info
+El nombrado de ésta clase es generado automáticamente por el `feature_brick`.
 :::
