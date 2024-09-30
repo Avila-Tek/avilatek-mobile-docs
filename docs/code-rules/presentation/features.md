@@ -157,7 +157,7 @@ Para mayor información y detalle sobre los `widgets`, referirse a su respectivo
 
 Esta sección describe todo lo necesario para elaborar correctamente la clase `Page`, dentro del archivo `view/feature_page.dart`.
 
-### Nombrado de la clase
+### Nombrado
 
 El nombre de la clase `Page` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `Page`, escrito con el estilo _PascalCase_.
 
@@ -176,7 +176,7 @@ El nombre de la clase `Page` de un `feature` **debe** estar compuesto por el nom
 El nombrado de ésta clase es generado automáticamente por el `feature_brick`.
 :::
 
-### Extensión de la clase
+### Extensión
 
 La clase `Page` **debe** extender de la clase abstracta `StatelesWidget`.
 
@@ -226,3 +226,136 @@ class _CreateBusinessFormPageState extends State<CreateBusinessFormPage>
 :::warning
 Existen diferentes `mixins` que se **pueden** implementar en una clase. Sin embargo, es importante saber con exactitud la finalidad de su uso, para así determinar si éste debe ser aplicado en la clase `Page` o en otra clase como el `Body`, según el impacto y las implementaciones que requiera.
 :::
+
+### Constructor
+
+//TODO
+
+#### A. Inyección de dependencias
+
+//TODO
+
+### Definición de parámetros
+
+//TODO
+
+#### A. Un sólo parámetro
+
+//TODO
+
+#### B. Varios parámetros
+
+//TODO
+
+#### C. QueryParams
+
+//TODO
+
+### Rutas
+
+//TODO
+
+#### A. Variable `path`
+
+//TODO
+
+#### B. Variable `routeName`
+
+//TODO
+
+#### C. Método `buildPath`
+
+//TODO
+
+#### D. Widget `PopScope`
+
+//TODO
+
+### Declaración de `BlocProviders`
+
+//TODO
+
+Al utilizar `Bloc` como manejador de estados, el método `build` de la clase `Page` siempre **debe** retornar un `BlocProvider`.
+// danger no widgets.
+
+#### A. BlocProvider
+
+//TODO
+
+#### B. MultiBlocProvider
+
+//TODO
+
+#### C. Child
+
+//TODO
+
+### Scaffolding
+
+//TODO
+
+#### A. AppBar
+
+//TODO
+
+#### B. Body
+
+el view
+//TODO
+
+## View
+
+//TODO
+
+### Nombrado
+
+//TODO
+
+### Extensión
+
+//TODO
+
+### Constructor
+
+//TODO
+
+### Declaración de `BlocListeners`
+
+//no widgets
+//TODO
+
+#### A. BlocListener
+
+//TODO
+
+#### B. MultiBlocListener
+
+//TODO
+
+#### C. Body
+
+//TODO
+
+### Layouts Responsivos
+
+//TODO
+
+## Body
+
+//TODO
+
+### Nombrado
+
+//TODO
+
+### Extension
+
+//TODO
+
+### Constructor
+
+//TODO
+
+### Definición de parámetros
+
+//TODO
