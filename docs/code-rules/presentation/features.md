@@ -159,7 +159,7 @@ Esta sección describe todo lo necesario para elaborar correctamente la clase `P
 
 ### Nombrado de la clase
 
-El nombre de la clase `Page` de un `feature` **debe** ser el nombre de éste último, seguido del sufijo `Page`, escrito con el estilo _PascalCase_.
+El nombre de la clase `Page` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `Page`, escrito con el estilo _PascalCase_.
 
 ```dart
     /// Para el `feature` de iniciar sesión.
