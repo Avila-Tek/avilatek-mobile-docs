@@ -162,14 +162,14 @@ Esta sección describe todo lo necesario para elaborar correctamente la clase `P
 El nombre de la clase `Page` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `Page`, escrito con el estilo _PascalCase_.
 
 ```dart
-    /// Para el feature de iniciar sesión.
-    class LoginPage {}
+/// Para el feature de iniciar sesión.
+class LoginPage {}
 
-    /// Para el feature de un perfil.
-    class ProfilePage {}
+/// Para el feature de un perfil.
+class ProfilePage {}
 
-    /// Para el feature del detalle de un contrato.
-    class ContractDetailPage {}
+/// Para el feature del detalle de un contrato.
+class ContractDetailPage {}
 ```
 
 :::info
@@ -181,75 +181,89 @@ El nombrado de ésta clase es generado automáticamente por el `feature_brick`.
 La clase `Page` **debe** extender de la clase abstracta `StatelesWidget`.
 
 ```dart
-    /// Para cualquier feature.
-    class FeatureNamePage extends StatelessWidget {}
+/// Para cualquier feature.
+class FeatureNamePage extends StatelessWidget {}
 ```
-
-Sin embargo, existe una excepción a esta regla, que permite que se extienda de la clase abstracta `StatefulWidget`:
-
-#### A. Al usar `Mixins`.
-
-Los `mixins` permiten agregar nuevas funcionalidades específicas a una clase, y que suelen requerir la implementación de alguna variable o método definido por este, pero que solo **pueden** ser aplicados en clases que extiendan de `StatefulWidget`.
-
-```dart
-/// Feature del formulario de creación de una empresa.
-class CreateBusinessFormPage extends StatefulWidget {
-
-  const CreateBusinessFormPage({super.key});
-  @override
-  State<CreateBusinessFormPage> createState() => _CreateBusinessFormPageState();
-}
-
-/// En este caso se utiliza el mixin AutomaticKeepAliveClientMixin para
-/// mantener la información del bloc y su estado al volver a ingresar a la
-/// vista, por lo que el Page **debe** extender de StatefulWidget.
-class _CreateBusinessFormPageState extends State<CreateBusinessFormPage>
-    with AutomaticKeepAliveClientMixin {
-
-
-    @override
-    Widget build(BuildContext context) {
-
-        /// Requerido por el mixin utilizado.
-        super.build();
-
-        /// Implementación del build.
-        return BlocProvider();
-    }
-
-    /// Implementación requerida por mixin utilizado.
-    @override
-    bool get wantKeepAlive => true;
-}
-```
-
-:::warning
-Existen diferentes `mixins` que se **pueden** implementar en una clase. Sin embargo, es importante saber con exactitud la finalidad de su uso, para así determinar si éste debe ser aplicado en la clase `Page` o en otra clase como el `Body`, según el impacto y las implementaciones que requiera.
-:::
 
 ### Constructor
 
-//TODO
+El constructor de la clase `Page` **debe** ser constante.
 
-#### A. Inyección de dependencias
+```dart
+/// Para cualquier feature.
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+}
+```
 
-//TODO
+### Parámetros del constructor
 
-### Definición de parámetros
+El constructor **puede** requerir, dependiendo del `feature`, de uno o varios parámetros. En caso de, se **debe** crear una clase dentro del mismo archivo cuyo nombre sea el mismo del `feature`, seguido del sufijo `Params`, que contendrá todos los atributos o parámetros necesarios.
 
-//TODO
+```dart
+/// Para cualquier feature.
+class FeatureNameParams {
 
-#### A. Un sólo parámetro
+    /// Aquí se declaran todas los atributos que sean parámetros
+    /// necesarios del Page.
+    final String featureId;
+    final bool isToday;
+    final int? index;
 
-//TODO
+    const FeatureNameParams({
+        required this.featureId,
+        this.isToday = false,
+        this.index,
+    });
 
-#### B. Varios parámetros
+}
 
-//TODO
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage({
+        required this.params,
+    });
 
-#### C. QueryParams
+    final FeatureNameParams params;
+}
 
-//TODO
+```
+
+#### A. QueryParams
+
+A su vez, adicional a los parámetros convencionales de la clase `Page`, también existen los denominados `QueryParams`, que son los parámetros que provienen del `uri.queryParameters` de la ruta, y cuyos valores necesitan ser mapeados a los atributos de la clase `Params`, con la ayuda de un método `factory` denominado `fromQueryParams`.
+
+```dart
+
+/// Para cualquier feature.
+class FeatureNameParams {
+
+    /// Aquí se declaran todas los atributos que sean parámetros
+    /// necesarios del Page.
+    final String featureId;
+    final bool isToday;
+    final int? index;
+
+    const FeatureNameParams({
+        required this.featureId,
+        this.isToday = false,
+        this.index,
+    });
+
+    factory FeatureNameParams.fromQueryParams(
+        Map<String, dynamic> queryParams,
+    ){
+        return FeatureNameParams(
+            featureId: queryParams['id'] ?? '',
+            isToday: queryParams['isToday'] ?? false,
+        );
+    }
+
+}
+```
+
+:::info
+Este método factory **debe** ser utilizado en el builder respectivo de la ruta, en caso de que los parámetros pueden ser enviados dentro del mismo query, como ocurre con los `deepLinks`.
+:::
 
 ### Rutas
 
@@ -302,6 +316,53 @@ Al utilizar `Bloc` como manejador de estados, el método `build` de la clase `Pa
 
 el view
 //TODO
+
+## StepTabPages
+
+//TODO
+//TODO
+
+Sin embargo, existe una excepción a esta regla, que permite que se extienda de la clase abstracta `StatefulWidget`:
+
+#### A. Al usar `Mixins`.
+
+Los `mixins` permiten agregar nuevas funcionalidades específicas a una clase, y que suelen requerir la implementación de alguna variable o método definido por este, pero que solo **pueden** ser aplicados en clases que extiendan de `StatefulWidget`.
+
+```dart
+/// Feature del formulario de creación de una empresa.
+class CreateBusinessFormPage extends StatefulWidget {
+
+  const CreateBusinessFormPage({super.key});
+  @override
+  State<CreateBusinessFormPage> createState() => _CreateBusinessFormPageState();
+}
+
+/// En este caso se utiliza el mixin AutomaticKeepAliveClientMixin para
+/// mantener la información del bloc y su estado al volver a ingresar a la
+/// vista, por lo que el Page **debe** extender de StatefulWidget.
+class _CreateBusinessFormPageState extends State<CreateBusinessFormPage>
+    with AutomaticKeepAliveClientMixin {
+
+
+    @override
+    Widget build(BuildContext context) {
+
+        /// Requerido por el mixin utilizado.
+        super.build();
+
+        /// Implementación del build.
+        return BlocProvider();
+    }
+
+    /// Implementación requerida por mixin utilizado.
+    @override
+    bool get wantKeepAlive => true;
+}
+```
+
+:::warning
+Existen diferentes `mixins` que se **pueden** implementar en una clase. Sin embargo, es importante saber con exactitud la finalidad de su uso, para así determinar si éste debe ser aplicado en la clase `Page` o en otra clase como el `Body`, según el impacto y las implementaciones que requiera.
+:::
 
 ## View
 
