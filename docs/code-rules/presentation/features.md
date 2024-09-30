@@ -46,7 +46,20 @@ Otra pregunta que no incluye una variable, y que en este caso, es totalmente opc
 
 ## Nombrado
 
-//TODO:
+El nombre de un `feature` **debe** reflejar claramente la funcionalidad que gestionan, sin ningún sufijo o prefijo. Este **debe** ser escrito en singular, aunque **pueden** haber excepciones a esta regla, cuando la funcionalidad es explícitamente plural.
+
+:::info
+En caso de que el nombre sea compuesto por más de una palabra, éste **debe** escribirse en estilo **snake_case** al momento de ejecutar el `feature_brick`.
+:::
+
+```
+presentation/
+├─ login/
+├─ register/
+├─ contract_detail/
+├─ follow_requests/
+
+```
 
 ## Estructura General
 
