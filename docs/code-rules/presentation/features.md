@@ -190,7 +190,6 @@ class FeatureNamePage extends StatelessWidget {}
 El constructor de la clase `Page` **debe** ser constante.
 
 ```dart
-/// Para cualquier feature.
 class FeatureNamePage extends StatelessWidget {
     const FeatureNamePage();
 }
@@ -201,7 +200,6 @@ class FeatureNamePage extends StatelessWidget {
 El constructor **puede** requerir, dependiendo del `feature`, de uno o varios parámetros. En caso de, se **debe** crear una clase dentro del mismo archivo cuyo nombre sea el mismo del `feature`, seguido del sufijo `Params`, que contendrá todos los atributos o parámetros necesarios.
 
 ```dart
-/// Para cualquier feature.
 class FeatureNameParams {
 
     /// Aquí se declaran todas los atributos que sean parámetros
@@ -233,8 +231,6 @@ class FeatureNamePage extends StatelessWidget {
 A su vez, adicional a los parámetros convencionales de la clase `Page`, también existen los denominados `QueryParams`, que son los parámetros que provienen del `uri.queryParameters` de la ruta, y cuyos valores necesitan ser mapeados a los atributos de la clase `Params`, con la ayuda de un método `factory` denominado `fromQueryParams`.
 
 ```dart
-
-/// Para cualquier feature.
 class FeatureNameParams {
 
     /// Aquí se declaran todas los atributos que sean parámetros
@@ -249,6 +245,7 @@ class FeatureNameParams {
         this.index,
     });
 
+    /// Método para obtener los parámetros provenientes del query de la ruta.
     factory FeatureNameParams.fromQueryParams(
         Map<String, dynamic> queryParams,
     ){
