@@ -347,7 +347,7 @@ class ContractDetailPage extends StatelessWidget {
 ```
 
 :::warning
-Existen dos excepciones a esta regla, como lo son los `Pages` que son un `Tab` dentro un `DefaultTabController`, y los `Step` dentro de un formulario multipágina. En ninguno de estos casos se le **debe** crear una ruta a la clase. Para más información, dirigirse a su respectivo capítulo documentado.
+Existen dos excepciones a esta regla, como lo son los `Pages` que son un `Tab` dentro un `DefaultTabController`, y los `Step` dentro de un formulario multipágina. En ninguno de estos casos se le **debe** crear una ruta a la clase. Para más información, dirigirse a su respectiva sección documentada.
 :::
 
 #### D. Widget `PopScope`
