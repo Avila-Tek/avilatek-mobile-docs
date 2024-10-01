@@ -301,7 +301,7 @@ class FeatureNamePage extends StatelessWidget {
 
 #### C. Método `buildPath`
 
-Cuando una ruta sin importar si es nombrada o por path, requiere de sustituir o agregar el valor de algún parámetro, se **debe** creer un método estático que devuelva el `String` de la ruta con los valores de las llaves. Éste método **puede** ser tan complejo y extenso como la ruta lo necesite.
+Cuando una ruta sin importar si es nombrada o por path, requiere de sustituir o agregar el valor de algún parámetro, se **debe** crear un método estático que devuelva el `String` de la ruta con los valores de las llaves. Éste método **puede** ser tan complejo y extenso como la ruta lo necesite.
 
 ```dart
 class FeatureNamePage extends StatelessWidget {
