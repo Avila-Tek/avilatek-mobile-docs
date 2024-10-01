@@ -377,22 +377,60 @@ class FeatureNamePage extends StatelessWidget {
 
 ### Declaración de `BlocProviders`
 
-//TODO
+Al utilizar `Bloc` como manejador de estados, el método `build` de la clase `Page` siempre **debe** retornar un `BlocProvider`, con la finalidad de crear las instancias necesarias de los `blocs` implementados en el `feature`. La única excepción a la regla es el uso del widget `PopScope`, en caso de que se desee inhabilitar la navegación hacia atrás en la vista.
 
-Al utilizar `Bloc` como manejador de estados, el método `build` de la clase `Page` siempre **debe** retornar un `BlocProvider`.
-// danger no widgets.
+Adicionalmente el atributo `child` del `BlocProvider` siempre **debe** ser un `Scaffold`, sin excepciones.
+
+:::danger
+El método `build` de la clase `Page` no **debe** retornar ningún otro widget que no sean los inidicados.
+:::
 
 #### A. BlocProvider
 
-//TODO
+Todos los `features` contienen su propio bloc, el cuál **debe** ser inyectado al árbol de `widgets` del `feature` a través de su declaración en el `BlocProvider`.
+
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+
+    @override
+    Widget build(BuildContext context) {
+        return  BlocProvider(
+            create: (context) => FeatureNameBloc(
+                // Aquí se inyectan las dependencias de los casos de uso y variables
+                // requeridas por el Bloc.
+            ),
+             child: Scaffold(),
+        );
+    }
+}
+```
 
 #### B. MultiBlocProvider
 
-//TODO
+En el caso de que el `feature` requiera de más de un `bloc`, éstos **deben** ser declarados en un `MultiBlocProvider`, el cual tiene un atributo denominado `providers`, que recibe la lista de los `BlocProviders` necesarios.
 
-#### C. Child
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
 
-//TODO
+    @override
+    Widget build(BuildContext context) {
+        return  MultiBlocProvider(
+            providers: [
+                BlocProvider(
+                    create: (context) => FeatureNameBloc(),
+                ),
+                 BlocProvider(
+                    create: (context) => OtherFeatureNameBloc(),
+                ),
+                // Se pueden declarar N BlocProviders como sean necesarios.
+            ],
+            child: Scaffold(),
+        );
+    }
+}
+```
 
 ### Scaffolding
 
