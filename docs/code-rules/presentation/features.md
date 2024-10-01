@@ -223,7 +223,6 @@ class FeatureNamePage extends StatelessWidget {
 
     final FeatureNameParams params;
 }
-
 ```
 
 #### A. QueryParams
@@ -264,19 +263,92 @@ Este método factory **debe** ser utilizado en el builder respectivo de la ruta,
 
 ### Rutas
 
-//TODO
+Todos los `Pages`, al ser lo primero que se ejecuta en el flujo del código de un `feature`, **deben** tener definido su ruta o dirección, con el fin de poder navegar hacia ellos. Por esta razón necesitan de:
 
-#### A. Variable `path`
+#### A. Variable `routeName`
 
-//TODO
+Para las rutas nombradas, se **debe** declarar una variable de tipo `String`, estática y constante denominada `routeName`, que contenga el nombre del `feature`. Ésta **debe** estar en minúsculas, y en caso de que el nombre esté conformado por múltiples palabras, se **debe** hacer uso del estilo _kebab_.
 
-#### B. Variable `routeName`
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
 
-//TODO
+    static const routeName = 'feature-name';
+}
+```
+
+En caso de que la ruta requiera de un identificador único, como en las vistas de detalles de elementos, el mismo se puede indicar luego de la ruta, seguido de una barra con dos puntos (`/:`) y el nombre del identificador.
+
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+
+    static const routeName = 'feature-name/:id';
+}
+```
+
+#### B. Variable `path`
+
+Para las rutas por path se **debe** declarar una variable de tipo `String`, estática y constante denominada `path`, que debe contener una barra (`/`) seguido del valor de la variable `routeName`.
+
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+
+    static const path = '/$routeName';
+}
+```
 
 #### C. Método `buildPath`
 
-//TODO
+Cuando una ruta sin importar si es nombrada o por path, requiere de sustituir o agregar el valor de algún parámetro, se **debe** crear un método estático que devuelva el `String` de la ruta con los valores de las llaves. Éste método **puede** ser tan complejo y extenso como la ruta lo necesite.
+
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+
+    static const path = '/$routeName';
+    static const routeName = 'feature-name/:id';
+
+    /// Método para reemplazar el texto id por el valor de éste en la ruta.
+    static String buildPath(String id) => '/$routeName'.replaceFirst(':id', id);
+}
+
+
+/// Para el feature del detalle de un contrato
+class ContractDetailPage extends StatelessWidget {
+    const ContractDetailPage();
+
+    static const path = '/$routeName';
+    static const routeName = 'contract/:id';
+
+    /// Método para reemplazar los diferentes parámetros que puede o no tener la ruta.
+    static String buildPath({
+        required String id,
+        ContractDetailsTab initialTab = ContractDetailsTab.contract,
+        bool? isCommerceContract = false,
+    }) {
+        var customPath = '/$routeName'.replaceFirst(':id', id);
+        if (initialTab.isChat) {
+        customPath += '?chat=true';
+        }
+        if (isCommerceContract == true) {
+        customPath += '?commerce=true';
+        }
+
+        customPath += '?initialTab=${initialTab.i}';
+
+        /// Al final no necesariamente se sustituyen todos los parámetros, porque hay
+        /// algunos obligatorios como el id y el initialTab, y otros que no lo son como
+        /// el chat y commerce.
+        return customPath;
+    }
+}
+```
+
+:::warning
+Existen dos excepciones a esta regla, como lo son los `Pages` que son un `Tab` dentro un `DefaultTabController`, y los `Step` dentro de un formulario multipágina. En ninguno de estos casos se le **debe** crear una ruta a la clase. Para más información, dirigirse a su respectiva sección documentada.
+:::
 
 #### D. Widget `PopScope`
 
