@@ -263,7 +263,11 @@ Este método factory **debe** ser utilizado en el builder respectivo de la ruta,
 
 ### Rutas
 
-Todos los `Pages`, al ser lo primero que se ejecuta en el flujo del código de un `feature`, **deben** tener definido su ruta o dirección, con el fin de poder navegar hacia ellos. Por esta razón necesitan de:
+Todos los `Pages`, al ser lo primero que se ejecuta en el flujo del código de un `feature`, **deben** tener definido su ruta o dirección, con el fin de poder navegar hacia ellos.
+
+:::warning
+Existen dos excepciones a esta regla, como lo son los `Pages` que son un `Tab` dentro un `DefaultTabController`, y los `Step` dentro de un formulario multipágina. En ninguno de estos casos se le **debe** crear una ruta a la clase. Para más información, dirigirse a su respectiva sección documentada.
+:::
 
 #### A. Variable `routeName`
 
@@ -298,6 +302,10 @@ class FeatureNamePage extends StatelessWidget {
     static const path = '/$routeName';
 }
 ```
+
+:::warning
+Todas las clases `Page` con rutas **deben** obligatoriamente tener declaradas y definidas las variables `routeName` y `path`.
+:::
 
 #### C. Método `buildPath`
 
@@ -346,13 +354,26 @@ class ContractDetailPage extends StatelessWidget {
 }
 ```
 
-:::warning
-Existen dos excepciones a esta regla, como lo son los `Pages` que son un `Tab` dentro un `DefaultTabController`, y los `Step` dentro de un formulario multipágina. En ninguno de estos casos se le **debe** crear una ruta a la clase. Para más información, dirigirse a su respectiva sección documentada.
-:::
-
 #### D. Widget `PopScope`
 
-//TODO
+En caso de que se desee que un `Page` no **pueda** regresar a la vista anterior, se **debe** implementar el widget `PopScope`. Éste **debe** ser el widget de retorno del método `build` de la clase, y **debe** incluir el atributo `canPop` en `false`.
+
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+
+    @override
+    Widget build(BuildContext context) {
+
+        /// Implementación del build.
+        return PopScope(
+            /// Este atributo inhabilita la opción de regresar a una vista anterior.
+            canPop: false,
+            child: MultiBlocProvider();
+        );
+    }
+}
+```
 
 ### Declaración de `BlocProviders`
 
