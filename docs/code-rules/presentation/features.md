@@ -377,7 +377,7 @@ class FeatureNamePage extends StatelessWidget {
 
 ### Declaración de `BlocProviders`
 
-Al utilizar `Bloc` como manejador de estados, el método `build` de la clase `Page` siempre **debe** retornar un `BlocProvider`, con la única excepción del widget `PopScope`, en caso de que se desee inhabilitar la navegación hacia atrás en la vista. Ésto es con la finalidad de crear las instancias necesarias de los `blocs` implementados en el `feature`.
+Al utilizar `Bloc` como manejador de estados, el método `build` de la clase `Page` siempre **debe** retornar un `BlocProvider`, con la finalidad de crear las instancias necesarias de los `blocs` implementados en el `feature`. La única excepción a la regla es el uso del widget `PopScope`, en caso de que se desee inhabilitar la navegación hacia atrás en la vista.
 
 Adicionalmente el atributo `child` del `BlocProvider` siempre **debe** ser un `Scaffold`, sin excepciones.
 
