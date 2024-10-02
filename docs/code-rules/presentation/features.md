@@ -533,7 +533,7 @@ Esta sección describe todo lo necesario para elaborar correctamente la clase `V
 
 ### Nombrado
 
-El nombre de la clase `View` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `view`, escrito con el estilo _PascalCase_.
+El nombre de la clase `View` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `View`, escrito con el estilo _PascalCase_.
 
 ```dart
 /// Para el feature de iniciar sesión.
@@ -571,6 +571,7 @@ class FeatureNameView extends StatelessWidget {
 
 ### Declaración de `BlocListeners`
 
+// Deben tener un listenWhen
 //no widgets
 //TODO
 
@@ -592,15 +593,30 @@ class FeatureNameView extends StatelessWidget {
 
 ## Body
 
-//TODO
+Esta sección describe todo lo necesario para elaborar correctamente la clase `Body`, dentro del archivo `widgets/feature_body.dart`.
 
 ### Nombrado
 
-//TODO
+El nombre de la clase `Body` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `Body`, escrito con el estilo _PascalCase_.
 
-### Extension
+```dart
+/// Para el feature de iniciar sesión.
+class LoginBody {}
 
-//TODO
+/// Para el feature de un perfil.
+class ProfileBody {}
+
+/// Para el feature del detalle de un contrato.
+class ContractDetailBody {}
+```
+
+:::info
+El nombrado de ésta clase es generado automáticamente por el `feature_brick`.
+:::
+
+### Extensión
+
+Los `Body` siempre que sea posible **deben** extender de la clase abstracta `StatelessWidget`. Sin embargo, es muy común que se requiera el uso de algún `mixin` como `AutomaticKeepAliveClientMixin`, `TickerProviderStateMixin`, entre otros, que requieren de que la clase extienda de `StatefulWidget`. Todo dependerá de lo que ésta clase necesite.
 
 ### Constructor
 
