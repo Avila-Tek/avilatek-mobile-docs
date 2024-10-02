@@ -455,12 +455,37 @@ class FeatureNamePage extends StatelessWidget {
 }
 ```
 
-## StepTabPages
+## Step-or-TabPages
 
-//TODO
-//TODO
+Existen `features` que contienen todos los elementos requeridos por éstos, como `Page`, `View`, `Body` y `Bloc`, pero que no poseen rutas declaradas, generando que no se **pueda** navegar hacia ellos, desde cualquier parte de la aplicación, ya que forman parte de un flujo muy específico, siendo solo una parte de ellos.
 
-Sin embargo, existe una excepción a esta regla, que permite que se extienda de la clase abstracta `StatefulWidget`:
+:::info
+Estos `features` funcionan igual que los convencionales, aplicando todas sus reglas, pero con algunas pequeñas excepciones.
+:::
+
+### StepPage
+
+Es un `feature` que representa un "paso" en un `feature` mayor. Son nombrados con el nombre de éste último, seguido del sufijo `StepPage`.
+
+```dart
+class FeatureNameStepPage extends StatelessWidget {
+    const FeatureNameStepPage();
+}
+```
+
+### TabPages
+
+Es un `feature` que se encuentra dentro del `DefaultTabController` de otro `feature` mayor, como un `Tab` de éste. Son nombrados con el nombre del `feature`, seguido del sufijo `StepPage`.
+
+```dart
+class FeatureNameTabPage extends StatelessWidget {
+    const FeatureNameTabPage();
+}
+```
+
+### Extensión
+
+Al igual que los `Pages` de los `features` convencionales, los `Step-or-TabPages` siempre **deben** extender de `StatelessWidget`. Sin embargo, para ellos existe una excepción a esta regla, que permite que extiendan de la clase abstracta `StatefulWidget`:
 
 #### A. Al usar `Mixins`.
 
@@ -499,7 +524,7 @@ class _CreateBusinessFormPageState extends State<CreateBusinessFormPage>
 ```
 
 :::warning
-Existen diferentes `mixins` que se **pueden** implementar en una clase. Sin embargo, es importante saber con exactitud la finalidad de su uso, para así determinar si éste debe ser aplicado en la clase `Page` o en otra clase como el `Body`, según el impacto y las implementaciones que requiera.
+Existen diferentes `mixins` que se **pueden** implementar en una clase. Sin embargo, es importante saber con exactitud la finalidad de su uso, para así determinar si éste debe ser aplicado en la clase `Page` o en el `Body`, según el impacto y las implementaciones que requiera.
 :::
 
 ## View
