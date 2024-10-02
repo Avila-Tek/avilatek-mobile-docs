@@ -416,7 +416,7 @@ class FeatureNamePage extends StatelessWidget {
 
     @override
     Widget build(BuildContext context) {
-        return  MultiBlocProvider(
+        return MultiBlocProvider(
             providers: [
                 BlocProvider(
                     create: (context) => FeatureNameBloc(),
@@ -434,16 +434,30 @@ class FeatureNamePage extends StatelessWidget {
 
 ### Scaffolding
 
-//TODO
+Como se menciona en el artículo anterior, `BlocProvider` siempre **deben** retornar un `Scaffold`. Éste a su vez siempre **debe** contener en atributo `body`, una clase denominada `View`, que se **debe** crear siguiendo los lineamientos de su respectiva sección.
 
-#### A. AppBar
+Por último, el `Scaffold` tiene diferentes propiedades que **pueden** ser añadidas en este punto, como el `appBar` o los botones en la lista de widgets `persistentFooterButtons`.
 
-//TODO
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
 
-#### B. Body
+    @override
+    Widget build(BuildContext context) {
+        return  BlocProvider(
+            create: (context) => FeatureNameBloc(),
+             child: Scaffold(
+                /// El body siempre debe ser un widget View.
+                body: FeatureNameView(),
+             ),
+        );
+    }
+}
+```
 
-el view
-//TODO
+:::info
+Para mayor información y detalle sobre el widget `Scaffold`, referirse a su respectiva [documentación oficial](https://api.flutter.dev/flutter/material/Scaffold-class.html?gad_source=1&gclid=Cj0KCQjw3vO3BhCqARIsAEWblcAJIF3pi9BEp9KkxvOTG4RBKNWAfODEH5_bkzftfWqrnHw57wkwJUIaAoXJEALw_wcB&gclsrc=aw.ds).
+:::
 
 ## StepTabPages
 
