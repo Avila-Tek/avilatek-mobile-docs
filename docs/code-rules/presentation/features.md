@@ -455,7 +455,11 @@ class FeatureNamePage extends StatelessWidget {
 }
 ```
 
-## Step-or-TabPages
+:::info
+Para mayor información y detalle sobre el widget `Scaffold`, referirse a su respectiva [documentación oficial](https://api.flutter.dev/flutter/material/Scaffold-class.html?gad_source=1&gclid=Cj0KCQjw3vO3BhCqARIsAEWblcAJIF3pi9BEp9KkxvOTG4RBKNWAfODEH5_bkzftfWqrnHw57wkwJUIaAoXJEALw_wcB&gclsrc=aw.ds).
+:::
+
+## StepTabPages
 
 Existen `features` que contienen todos los elementos requeridos por éstos, como `Page`, `View`, `Body` y `Bloc`, pero que no poseen rutas declaradas, generando que no se **pueda** navegar hacia ellos, desde cualquier parte de la aplicación, ya que forman parte de un flujo muy específico, siendo solo una parte de ellos.
 
