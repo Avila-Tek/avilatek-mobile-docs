@@ -438,6 +438,23 @@ Como se menciona en el artículo anterior, `BlocProvider` siempre **deben** reto
 
 Por último, el `Scaffold` tiene diferentes propiedades que **pueden** ser añadidas en este punto, como el `appBar` o los botones en la lista de widgets `persistentFooterButtons`.
 
+```dart
+class FeatureNamePage extends StatelessWidget {
+    const FeatureNamePage();
+
+    @override
+    Widget build(BuildContext context) {
+        return  BlocProvider(
+            create: (context) => FeatureNameBloc(),
+             child: Scaffold(
+                /// El body siempre debe ser un widget View.
+                body: FeatureNameView(),
+             ),
+        );
+    }
+}
+```
+
 ## StepTabPages
 
 //TODO
