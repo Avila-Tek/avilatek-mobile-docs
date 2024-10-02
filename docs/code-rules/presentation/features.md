@@ -455,6 +455,10 @@ class FeatureNamePage extends StatelessWidget {
 }
 ```
 
+:::info
+Para mayor información y detalle sobre el widget `Scaffold`, referirse a su respectiva [documentación oficial](https://api.flutter.dev/flutter/material/Scaffold-class.html?gad_source=1&gclid=Cj0KCQjw3vO3BhCqARIsAEWblcAJIF3pi9BEp9KkxvOTG4RBKNWAfODEH5_bkzftfWqrnHw57wkwJUIaAoXJEALw_wcB&gclsrc=aw.ds).
+:::
+
 ## StepTabPages
 
 //TODO
