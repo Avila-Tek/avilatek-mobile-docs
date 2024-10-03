@@ -647,7 +647,6 @@ La propidad `child` del `BlocListener` siempre **debe** retornar el `Body` del `
 Existen casos en los que un evento de un `Bloc` es generado únicamente luego de que un envento de otro `Bloc` diferente se ejecuta retornando un valor en específico. En estos casos el puente de conexión entre éstos **debe** ser un `BlocListener`.
 
 ```dart
-/// Para el feature de Login.
 class LoginView extends StatelessWidget {
     const LoginView({super.key});
 
@@ -671,7 +670,33 @@ class LoginView extends StatelessWidget {
 
 ### Layouts Responsivos
 
-//TODO
+En el caso de que la aplicación móvil también sea usada en tabletas, en donde las pantallas son más grandes y por ende el diseño de una vista puede variar mucho, se **debe** hacer uso del widget `LayoutBuilder` en la clase `View` del `feature`. Ésto permitirá que según el ancho de la pantalla del dispositivo en el que se está ejecutando la aplicación, se ejecute un `Body` para aplicaciones o uno para tabletas.
+
+```dart
+class LoginView extends StatelessWidget {
+    const LoginView({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+        return BlocListener<LoginBloc, LoginState>(
+            listenWhen: (previous, current) => previous.status != current.status,
+            listener: (context, state) {
+                 /// Acciones a implementar.
+            },
+            child: LayoutBuilder(
+                builder: (context, constraints) {
+                    /// Aquí se define el ancho que hará de frontera entre una vista y otra.
+                    if (constraints.maxWidth >= 600) {
+                        return const LoginTabletBody();
+                    } else {
+                        return const LoginMobileBody();
+                    }
+                },
+            ),
+        );
+    }
+}
+```
 
 ## Body
 
