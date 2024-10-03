@@ -1,6 +1,12 @@
 # State 
 
-El **estado** del Bloc es el encargado de reflejar la situación actual de la aplicación o funcionalidad en base a las interacciones del usuario o cambios en el sistema. Existen dos maneras de implementar el estado de un Bloc en los proyectos:
+El **estado** del Bloc es el encargado de reflejar la situación actual de la aplicación o funcionalidad en base a las interacciones del usuario o cambios en el sistema. 
+
+Existen dos maneras de implementar el estado de un Bloc en los proyectos:
+1. Clase sellada y subclases
+2. Clase única y enumerador de estado
+
+A continuación, se explican cada una de estas estrategias.
 
 
 ## Clase sellada y subclases
@@ -9,11 +15,37 @@ Esta implementación consiste en una clase sellada que contiene todas las propie
 ### Clase
 
 #### A. Estado base
-La clase del estado base **debe** ser sellada (`sealed`) y nombrarse igual que la funcionalidad, seguido por el sufijo `State`.
+La clase base **debe** ser de tipo [Equatable](https://pub.dev/documentation/equatable/latest/), ser sellada (`sealed`) y nombrarse igual que la base del nombre del bloc respectivo, seguido por el sufijo `State`.
 
 ```dart
-sealed class UserState {
-    ...
+sealed class UserState extends Equatable{
+    const UserState();
+
+    @override
+    List<Object> props => [];
+}
+```
+:::note
+La clase base siempre **debe** hacer el override de `props` independientemente de si tiene parámetros o no. Cada subclase puede sobreescribir o complementar la implementación de `props` de la clase padre en caso de tener atributos adicionales.
+:::
+
+```dart
+sealed class UserState extends Equatable {
+    const UserState();
+
+    @override
+    List<Object> props => [];
+}
+
+class UserAuthenticated extends UserState {
+    const UserState({
+        required this.user,
+    });
+
+    final User user;
+
+    @override
+    List<Object> props => [user];
 }
 ```
 
@@ -21,7 +53,7 @@ sealed class UserState {
 El estado que deriva de otro **debe** extenderse del estado base y **debe** nombrarse de acuerdo al estado que representa.
 
 ```dart
-sealed class UserState {
+sealed class UserState extends Equatable {
     ... 
 }
 
@@ -42,6 +74,10 @@ sealed class UserState {
     const UserState();
 }
 ```
+
+:::note
+Al declarar el constructor de la clase base como constante, el constructor de las subclases es, por defecto, constante también.
+:::
 
 ### Parámetros
 Los parametros **deben** ser definidos como parámetros nombrados en el constructor. Aquellos que sean compartidos entre estados se **deben** definir en el estado base.
@@ -104,7 +140,7 @@ El constructor del estado **debe** ser definido siempre como constante.
 #### A. Parámetros
 Los parametros **deben** ser definidos como parámetros nombrados en el constructor. Estos **pueden** ser requeridos o no dependiendo si son esenciales para definir el estado particular y no pueden faltar al crear una instancia de dicho estado.
 
-Si se definen parámetros de tipo objeto en el estado, de no ser parámetro requerido se **debe** asignar un valor predeterminado estandar `Object.empty`, definido como constante.
+Si un parámetro en el estado es una clase [no primitiva], de no ser parámetro requerido se **debe** asignar un valor predeterminado estandar `FooClass.empty`, definido como constante.
 
 ### Método props
 
