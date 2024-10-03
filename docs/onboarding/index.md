@@ -8,7 +8,7 @@ keywords: [onboarding, welcome]
 # Bienvenida al equipo
 
 :::info tl;dr
-Para nuestros queridos lectores que sean flojos, existe una versión [aquí](/welcome-tldr).
+Para nuestros queridos lectores que sean flojos, existe una versión corta de esta guía, [aquí](/welcome-tldr).
 :::
 
 Bienvenido a la guía de desarrollo móvil con Flutter!  
