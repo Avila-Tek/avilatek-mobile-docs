@@ -493,7 +493,7 @@ class FeatureNameView extends StatelessWidget {}
 
 ### Constructor
 
-El constructor de la clase `View` **debe** ser constante, y no **debe** recibir ningún parámetro, más allá del `key` requerido por al ser una clase pública.
+El constructor de la clase `View` **debe** ser constante, y no **debe** recibir ningún parámetro.
 
 ```dart
 class FeatureNameView extends StatelessWidget {
