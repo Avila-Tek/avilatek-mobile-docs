@@ -571,19 +571,78 @@ class FeatureNameView extends StatelessWidget {
 
 ### Declaración de `BlocListeners`
 
-// Deben tener un listenWhen
-//no widgets
-//TODO
+El método `build` de la clase `View` sólo **puede** retornar dos widgets: el `Body` del `feature` o un `BlocListener`. Éste último tiene la finalidad de servir como puente de comunicación entre diferentes `blocs`, de reaccionar a los cambios de estado del `feature` y de navegar hacia otras vistas.
+
+:::warning
+Todos los `BlocListeners` **deben** cumplir un principio de singularidad, en donde cada `Listener` está a la escucha de una única propiedad del `State` a la vez. Por ésta razón se **debe** implementar la propiedad `listenWhen`, verificando los cambios de la propiedad a escuchar. Ésto significa que si se quieren escuchar múltiples propiedades al mismo tiempo y en la cual cada una responde en su accionar de distanta forma, éstas deben estar en `BlocListeners` separados.
+:::
 
 #### A. BlocListener
 
-//TODO
+Cuando se necesita únicamente un `Listener`, se **debe** declarar un `BlocListener`, con su `listenWhen` y las respectivas acciones a implementar en el `listener`.
+
+```dart
+/// Para el feature de Login.
+class LoginView extends StatelessWidget {
+    const LoginView({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+        /// Se retorna un BlocListener en métod build del View.
+        return BlocListener<LoginBloc, LoginState>(
+            /// Se declara un listenWhen que sólo responde ante los
+            /// cambios del status del LoginState.
+            listenWhen: (previous, current) => previous.status != current.status,
+            /// En el listener se definen todas las acciones a realizar
+            /// cada vez que el status sea modificado.
+            listener: (context, state) {
+                if (state.status.isLoading) {
+                    /// Si el status es loading, entonces muestra un loader
+                    LoadingDialog.show(context);
+                }
+                if (state.status.isFailure) {
+                    /// Si ocurre un fallo, oculta el loader y muestra un
+                    /// un dialog indicándole al usuario la falla ocurrida.
+                    LoadingDialog.hide(context);
+
+                    showDialog(
+                        context: context,
+                        builder: (context) => CustomDialog(
+                        type: DialogType.warning,
+                        title: Text(S.of(context).appName),
+                        content: Text(state.errorMessage),
+                        actions: [
+                            DialogAction(
+                            isPrimaryAction: true,
+                            child: Text(S.of(context).acceptButton),
+                            ),
+                        ],
+                        ),
+                    );
+                }
+                if (state.status.isSuccess) {
+                    /// Si el status es exitoso, oculta el loader y
+                    /// navega hacia el home de la app.
+                    LoadingDialog.hide(context);
+                    context.goNamed(HomePage.routeName);
+                }
+            },
+            /// El child siempre debe ser el Body del feature.
+            child: const LoginBody(),
+            );
+    }
+}
+```
 
 #### B. MultiBlocListener
 
 //TODO
 
 #### C. Body
+
+La propidad `child` del `BlocListener` siempre **debe** retornar el `Body` del `feature`.
+
+#### D. Comunicación entre `Blocs`
 
 //TODO
 
