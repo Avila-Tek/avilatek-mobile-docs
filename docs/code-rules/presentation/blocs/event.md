@@ -46,9 +46,17 @@ class LoginStarted extends LoginEvent {
 
   ...
 }
+
+class DropdownValueSelected extends LoginEvent {
+  const DropdownValueSelected(this.value);
+
+  final String value;
+  
+  ...
+}
 ```
 
-## Método props
+## Método `props`
 
 ### Definición props por defecto en el evento base
 
