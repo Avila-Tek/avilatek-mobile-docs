@@ -461,19 +461,45 @@ Para mayor información y detalle sobre el widget `Scaffold`, referirse a su res
 
 ## View
 
-//TODO
+Esta sección describe todo lo necesario para elaborar correctamente la clase `View`, dentro del archivo `view/feature_page.dart`.
 
 ### Nombrado
 
-//TODO
+El nombre de la clase `View` de un `feature` **debe** estar compuesto por el nombre de éste último, seguido del sufijo `view`, escrito con el estilo _PascalCase_.
+
+```dart
+/// Para el feature de iniciar sesión.
+class LoginView {}
+
+/// Para el feature de un perfil.
+class ProfileView {}
+
+/// Para el feature del detalle de un contrato.
+class ContractDetailView {}
+```
+
+:::info
+El nombrado de ésta clase es generado automáticamente por el `feature_brick`.
+:::
 
 ### Extensión
 
-//TODO
+La clase `View` **debe** extender de la clase abstracta `StatelesWidget`.
+
+```dart
+/// Para cualquier feature.
+class FeatureNameView extends StatelessWidget {}
+```
 
 ### Constructor
 
-//TODO
+El constructor de la clase `View` **debe** ser constante, y no **debe** recibir ningún parámetro.
+
+```dart
+class FeatureNameView extends StatelessWidget {
+    const FeatureNameView({super.key});
+}
+```
 
 ### Declaración de `BlocListeners`
 
