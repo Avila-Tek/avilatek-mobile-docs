@@ -636,7 +636,44 @@ class LoginView extends StatelessWidget {
 
 #### B. MultiBlocListener
 
-//TODO
+Cuando se necesitan múltiples `Listener`, se **debe** hacer uso de un `MultiBlocListener`, cuya propiedad `listeners` contendrá la lista de los `BlocListeners` con sus respectivas implementaciones.
+
+```dart
+class LoginView extends StatelessWidget {
+  const LoginView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginBloc, LoginState>(
+          listenWhen: (previous, current) =>
+              previous.submitStatus != current.submitStatus,
+          listener: (context, state) {
+            /// Acciones a implementar.
+          },
+        ),
+        /// Un mismo Bloc puede tener múltiples BlocListener.
+        BlocListener<LoginBloc, LoginState>(
+          listenWhen: (previous, current) =>
+              previous.requestStatus != current.requestStatus,
+          listener: (context, state) {
+          },
+        ),
+        /// Y pueden haber otros Blocs que no sean el mismo del feature.
+        BlocListener<OtherBloc, OtherState>(
+          listenWhen: (previous, current) =>
+              previous.status != current.status,
+          listener: (context, state) {
+            /// Acciones a implementar.
+          },
+        ),
+      ],
+      child: const LoginBody(),
+    );
+  }
+}
+```
 
 #### C. Body
 
@@ -644,7 +681,30 @@ La propidad `child` del `BlocListener` siempre **debe** retornar el `Body` del `
 
 #### D. Comunicación entre `Blocs`
 
-//TODO
+Existen casos en los que un evento de un `Bloc` es generado únicamente luego de que un envento de otro `Bloc` diferente se ejecuta retornando un valor en específico. En estos casos el puente de conexión entre éstos **debe** ser un `BlocListener`.
+
+```dart
+/// Para el feature de Login.
+class LoginView extends StatelessWidget {
+    const LoginView({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+        return BlocListener<LoginBloc, LoginState>(
+            listenWhen: (previous, current) => previous.status != current.status,
+            listener: (context, state) {
+
+              if (state.status.isSuccess) {
+                /// Solo en caso de que el status del LoginState sea
+                /// exitoso, es cuando se llamará al evento del otro bloc.
+                context.read<OtherBloc>().add(const OtherBlocEven());
+              }
+            },
+            child: const LoginBody(),
+            );
+    }
+}
+```
 
 ### Layouts Responsivos
 
