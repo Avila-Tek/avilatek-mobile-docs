@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 
 const FeatureList = [{
   title: 'Reglamento de Estilo de Código',
-  Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+  Svg: require('@site/static/img/Resume-folder-bro.svg').default,
   description: ( <
       >
     El lugar perfecto para aprender nuestro estándar de programación, reglas de código y estructura de nuestras aplicaciones. <
@@ -13,7 +13,7 @@ const FeatureList = [{
   },
     {
       title: 'Guías prácticas',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/Creative-thinking-bro.svg').default,
     description: ( <
       >
       Encuentra ejemplos concretos y casos de estudio que te guiarán en la implementación de tus proyectos en Avila Tek. <
@@ -22,7 +22,7 @@ const FeatureList = [{
   },
       {
         title: 'Cut the crap',
-      Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+      Svg: require('@site/static/img/Code-snippets-bro.svg').default,
       description: ( <
       >
         Olvídate de largas y tediosas explicaciones. Esta guía va al grano, presentando los conceptos clave de la arquitectura limpia de forma clara, concisa y fácil de digerir.
