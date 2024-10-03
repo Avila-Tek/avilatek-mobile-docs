@@ -702,8 +702,24 @@ Los `Body` siempre que sea posible **deben** extender de la clase abstracta `Sta
 
 ### Constructor
 
-//TODO
+El constructor de la clase `Body` **debe** ser constante.
+
+```dart
+class FeatureNameBody extends StatelessWidget {
+    const FeatureNameBody();
+}
+```
 
 ### Definición de parámetros
 
-//TODO
+Son muy pocos los casos en los que un `Body` necesita definir algún parámetro, pero cuando lo son, estos **deben** ser definidos como finales.
+
+```dart
+class FeatureNameBody extends StatelessWidget {
+    const FeatureNameBody({
+        required this.controller,
+    });
+
+    final RefreshController controller;
+}
+```
