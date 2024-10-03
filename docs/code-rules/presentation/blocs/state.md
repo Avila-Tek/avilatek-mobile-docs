@@ -140,7 +140,7 @@ El constructor del estado **debe** ser definido siempre como constante.
 #### A. Parámetros
 Los parametros **deben** ser definidos como parámetros nombrados en el constructor. Estos **pueden** ser requeridos o no dependiendo si son esenciales para definir el estado particular y no pueden faltar al crear una instancia de dicho estado.
 
-Si un parámetro en el estado es una clase [no primitiva], de no ser parámetro requerido se **debe** asignar un valor predeterminado estandar `FooClass.empty`, definido como constante.
+Si un parámetro en el estado es una clase no primitiva, de no ser parámetro requerido se **debe** asignar un valor predeterminado estandar `FooClass.empty`, definido como constante.
 
 ### Método props
 
