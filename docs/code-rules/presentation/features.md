@@ -528,6 +528,35 @@ class LoginView extends StatelessWidget {
             /// En el listener se definen todas las acciones a realizar
             /// cada vez que el status sea modificado.
             listener: (context, state) {
+                /// Aquí se hacen todas las implementaciones necesarias
+                /// como manejo de estados, loaders, dialogs, snackbars, navegaciones,
+                /// comunicaciones entre blocs, entre otros.
+            },
+            /// El child siempre debe ser el Body del feature.
+            child: const LoginBody(),
+            );
+    }
+}
+```
+
+<details>
+  <summary>Ejemplo más detallado</summary>
+
+```dart
+/// Para el feature de Login.
+class LoginView extends StatelessWidget {
+    const LoginView({super.key});
+
+    @override
+    Widget build(BuildContext context) {
+        /// Se retorna un BlocListener en métod build del View.
+        return BlocListener<LoginBloc, LoginState>(
+            /// Se declara un listenWhen que sólo responde ante los
+            /// cambios del status del LoginState.
+            listenWhen: (previous, current) => previous.status != current.status,
+            /// En el listener se definen todas las acciones a realizar
+            /// cada vez que el status sea modificado.
+            listener: (context, state) {
                 if (state.status.isLoading) {
                     /// Si el status es loading, entonces muestra un loader
                     LoadingDialog.show(context);
@@ -565,6 +594,8 @@ class LoginView extends StatelessWidget {
     }
 }
 ```
+
+</details>
 
 #### B. MultiBlocListener
 
