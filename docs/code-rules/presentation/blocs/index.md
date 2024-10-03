@@ -201,7 +201,7 @@ Donde:
 3. Emitter: Es la función utilizada para emitir un nuevo estado. A través de emit, se notifica al Bloc el nuevo estado que debe adoptar en respuesta al evento recibido.
 
 #### A. Manejo de errores
-Se debe usar el bloque `try-catch` para manejar excepciones que puedan ocurrir durante la ejecución del código en el manejador de evento.
+Se **debe** usar el bloque `try-catch` para manejar excepciones que puedan ocurrir durante la ejecución del código en el manejador de evento.
 
 ```dart
 FutureOr<void> _onEvent(
