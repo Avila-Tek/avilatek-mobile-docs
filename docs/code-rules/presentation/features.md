@@ -459,53 +459,6 @@ class FeatureNamePage extends StatelessWidget {
 Para mayor información y detalle sobre el widget `Scaffold`, referirse a su respectiva [documentación oficial](https://api.flutter.dev/flutter/material/Scaffold-class.html?gad_source=1&gclid=Cj0KCQjw3vO3BhCqARIsAEWblcAJIF3pi9BEp9KkxvOTG4RBKNWAfODEH5_bkzftfWqrnHw57wkwJUIaAoXJEALw_wcB&gclsrc=aw.ds).
 :::
 
-## StepTabPages
-
-//TODO
-//TODO
-
-Sin embargo, existe una excepción a esta regla, que permite que se extienda de la clase abstracta `StatefulWidget`:
-
-#### A. Al usar `Mixins`.
-
-Los `mixins` permiten agregar nuevas funcionalidades específicas a una clase, y que suelen requerir la implementación de alguna variable o método definido por este, pero que solo **pueden** ser aplicados en clases que extiendan de `StatefulWidget`.
-
-```dart
-/// Feature del formulario de creación de una empresa.
-class CreateBusinessFormPage extends StatefulWidget {
-
-  const CreateBusinessFormPage({super.key});
-  @override
-  State<CreateBusinessFormPage> createState() => _CreateBusinessFormPageState();
-}
-
-/// En este caso se utiliza el mixin AutomaticKeepAliveClientMixin para
-/// mantener la información del bloc y su estado al volver a ingresar a la
-/// vista, por lo que el Page **debe** extender de StatefulWidget.
-class _CreateBusinessFormPageState extends State<CreateBusinessFormPage>
-    with AutomaticKeepAliveClientMixin {
-
-
-    @override
-    Widget build(BuildContext context) {
-
-        /// Requerido por el mixin utilizado.
-        super.build();
-
-        /// Implementación del build.
-        return BlocProvider();
-    }
-
-    /// Implementación requerida por mixin utilizado.
-    @override
-    bool get wantKeepAlive => true;
-}
-```
-
-:::warning
-Existen diferentes `mixins` que se **pueden** implementar en una clase. Sin embargo, es importante saber con exactitud la finalidad de su uso, para así determinar si éste debe ser aplicado en la clase `Page` o en otra clase como el `Body`, según el impacto y las implementaciones que requiera.
-:::
-
 ## View
 
 //TODO
