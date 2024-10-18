@@ -20,13 +20,13 @@ dependencies:
 ## Configuraciones nativas en Android y iOS
 
 ### Android
-Se **debe** desactivar el deep link predeterminado de Flutter. Para esto, específicamente desde la versión 3.24.0 de Flutter, se **debe** agregar al `AndroidManifest.xml` la siguiente etiqueta de metadatos dentro de la etiqueta con .MainActivity
+Desactiva el deep link predeterminado de Flutter. Para esto, específicamente desde la versión 3.24.0 de Flutter, **debes** agregar al `AndroidManifest.xml` la siguiente etiqueta de metadatos dentro de la etiqueta con .MainActivity
 
 ```xml
 <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
 ```
 
-Luego, se **debe** agregar un intent filter dentro del `<activity>` tag
+Luego, agrega un intent filter dentro del `<activity>` tag
 
 ```xml
 <intent-filter android:autoVerify="true">
@@ -73,17 +73,17 @@ El scheme puede quedar fijo como https o se pueden definir de igual manera uno p
 ```
 
 :::note
-Para que los app links funcionen desde el navegador, el único scheme aceptado es https.
+Para que los app links funcionen desde el navegador, el único scheme aceptado es http/https.
 :::
 
 ### iOS
-Se **debe** desactivar el deep link predeterminado de Flutter. Para esto, específicamente desde la versión 3.24.0 de Flutter, se debe agregar al `Info.plist` la siguiente etiqueta:
+Desactiva el deep link predeterminado de Flutter. Para esto, específicamente desde la versión 3.24.0 de Flutter, **debes** agregar al `Info.plist` la siguiente etiqueta:
 ```xml
 <key>FlutterDeepLinkingEnabled</key>
 <false/>
 ```
 
-Seguido de esto, **debes** agregar los Dominios Asociados (Associated Domains) a la aplicación desde Xcode:
+Seguido de esto, agrega los Dominios Asociados (Associated Domains) a la aplicación desde Xcode:
 
 1. Hacer clic en el Runner de nivel superior.
 2. Hacer clic en el Runner target.
@@ -98,12 +98,10 @@ Seguido de esto, **debes** agregar los Dominios Asociados (Associated Domains) a
 
 ![Add associated domain - Xcode](/img/associated-domains-2.png)
 
-#### Configuración de scheme y host para multiflavors *(WIP)*
-
 ## Archivos `.well-known`
 
 ### assetlinks.json
-Para la configuración de Android se **debe** crear y alojar un archivo `assetlinks.json` en un servidor web con un dominio que sea propiedad de la empresa. Este archivo le indica al navegador móvil qué aplicación de Android debe abrir en lugar del navegador. 
+Para la configuración de Android **debes** crear y alojar un archivo `assetlinks.json` en un servidor web con un dominio que sea propiedad de la empresa. Este archivo le indica al navegador móvil qué aplicación de Android debe abrir en lugar del navegador. 
 
 Para crear el archivo, es necesario tener el nombre del paquete de la aplicación Flutter y la huella digital `sha256` de la clave de firma que se usará para crear el APK.
 1. Localiza el nombre del paquete en el archivo `AndroidManifest.xml` bajo la etiqueta `<manifest>` (por lo general tienen el formato `com.*` o `com.avilatek.*`)
@@ -126,7 +124,7 @@ Teniendo estos datos, procede a crear el archivo `assetlinks.json` de la siguien
 Por último, se **debe** hostear el archivo en la ruta `<webdomain>/.well-known/assetlinks.json`.
 
 ### apple-app-site-association
-Para la configuración de iOS se **debe** crear y alojar un archivo `apple-app-site-association` en un servidor web con un dominio que sea propiedad de la empresa. Este archivo le indica al navegador móvil qué aplicación iOS debe abrir en lugar del navegador. 
+Para la configuración de iOS **debes** crear y alojar un archivo `apple-app-site-association` en un servidor web con un dominio que sea propiedad de la empresa. Este archivo le indica al navegador móvil qué aplicación iOS debe abrir en lugar del navegador. 
 
 Para crear el archivo es necesario tener el `appID` de la aplicación de Flutter. En Apple, el `appID` representa `<team id>.<bundle id>`:
 1. Localiza el `bundleId` (ID del paquete) en el proyecto de Xcode (por lo general tiene el formato `com.*` o `com.avilatek.*`)
@@ -171,15 +169,15 @@ Por último, se **debe** hostear el archivo en la ruta `<webdomain>/.well-known/
 
 ## Manejo de redirecciones en la aplicación
 
-Una vez completada la configuración nativa, podemos proceder a implementar la logica de redirección dentro de la aplicación. La idea del uso de 
+Una vez completada la configuración nativa, procede a implementar la logica de redirección dentro de la aplicación. La idea del uso de 
 deep links es poder navegar a distintas secciones de nuestra aplicación, ejecutandose desde cualquier estado (en primer plano, segundo plano o terminado).
 
-Para esto utilizaremos los paquetes de pub `go_router` y `app_links` e implementaremos un Bloc que se encargará de manejar esta lógica. Es importante saber
+Para esto utiliza los paquetes de pub `go_router` y `app_links` e implementa un Bloc que se encargará de manejar esta lógica. Es importante saber
 en este punto las rutas a las cuales el usuario puede acceder sin estar autenticado y a cuales no.
 
 ### DeepLinkBloc
 
-Procede a crear un Bloc llamado `DeepLinkBloc` en la carpeta core del proyecto, ya que este será un Bloc global. Este Bloc lo vamos a instanciar 
+Procede a crear un Bloc llamado `DeepLinkBloc` en la carpeta core del proyecto, ya que este será un Bloc global. Este Bloc debe ser instanciado 
 como `BlocProvider` en el nivel más alto posible de la aplicación (por lo general, en el archivo `app.dart`).
 
 :::info
@@ -187,13 +185,13 @@ La lógica mostrada a continuación aplica para una aplicación a la cual puedes
 tu aplicación puedes adaptarla.
 :::
 
-Comenzaremos definiendo los estados en los cuales nuestro DeepLinkBloc puede estar.
+Comienza definiendo los estados en los cuales nuestro DeepLinkBloc puede estar.
 
 - `DeepLinkInitial`: estado inicial, solo guarda el estado de autenticación del usuario.
 - `DeepLinkLoaded`: estado que se emite cuando se recibe un deep link al cual se debe redireccionar.
 - `AppLinkAuthRequired`: estado que se emite cuando se recibe un deep link pero es necesario de un usuario autenticado para poder redirigir.
 
-Nuestro `deep_link_state.dart` debería verse de la siguiente manera:
+El archivo `deep_link_state.dart` debería verse de la siguiente manera:
 
 ```dart
 part of 'deep_link_bloc.dart';
@@ -231,9 +229,9 @@ class AppLinkAuthRequired extends DeepLinkState {
 }
 ```
 
-Tenga en cuenta que todos los DeepLinkStates extienden la clase base abstracta DeepLinkState, que tiene una propiedad de `isAuthenticated`. Esto se debe a que, independientemente del estado en el que se encuentre nuestro DeepLinkBloc, queremos saber si el usuario está autenticado.
+Ten en cuenta que todos los DeepLinkStates extienden la clase base abstracta DeepLinkState, que tiene una propiedad de `isAuthenticated`. Esto se debe a que, independientemente del estado en el que se encuentre nuestro DeepLinkBloc, queremos saber si el usuario está autenticado.
 
-Nuestro `deep_link_event.dart` debería verse de la siguiente manera:
+El archivo `deep_link_event.dart` debería verse de la siguiente manera:
 
 ```dart
 part of 'deep_link_bloc.dart';
@@ -274,7 +272,7 @@ En este archivo podemos ver cuatro eventos clave:
 3. `UserAuthenticated`: se encarga de cambiar el estado del Bloc dependiendo del estado actual. **Debes llamar este evento en un sitio de la app donde se escuchen los cambios de autenticación del usuario.**
 4. `UserLoggedOut`: se encarga de cambiar el estado del Bloc al estado inicial. **Debes llamar este evento en un sitio de la app donde se escuchen los cambios de autenticación del usuario.**
 
-El archivo `deep_link_bloc.dart` nos deberia quedar de la siguiente manera:
+El archivo `deep_link_bloc.dart` debería quedar de la siguiente manera:
 
 ```dart
 import 'dart:async';
@@ -381,7 +379,7 @@ Al crear una instancia de `DeepLinkBloc`, se establece un estado inicial `DeepLi
 
 En el constructor definiremos una subscripción a un stream proporcionado por `app_links` para recibir los deep links. Si se recibe un uri, se registra el enlace en los logs y se emite el evento `AppLinkReceived` para que sea procesado por el Bloc.
 
-Tendremos cuatro manejadores de eventos:
+El `DeepLinkBloc` cuatro manejadores de eventos:
 
 * `on<DeepLinkStarted>`: Escucha cuando la aplicación arranca y verifica si hay un enlace inicial. Cuando se inicia la aplicación, se emite `DeepLinkInitial` con el estado de autenticación. Luego, se obtiene cualquier enlace inicial (initialLink) que la aplicación haya recibido al arrancar. Si hay un enlace inicial, se registra y se procesa mediante el evento `AppLinkReceived`.
 * `on<AppLinkReceived>`: Procesa los enlaces profundos recibidos. Decodifica el URI recibido para obtener un enlace limpio, si el enlace requiere autenticación (urlRequiresAuthentication) y el usuario no está autenticado, emite el estado `AppLinkAuthRequired` para indicar que la autenticación es necesaria. Si no se requiere autenticación, emite el estado `DeepLinkLoaded` con el enlace decodificado.
@@ -393,7 +391,7 @@ Tendremos cuatro manejadores de eventos:
 Este `BlocListener` se encarga de manejar la navegación cuando la aplicación detecta un deep link. Dependiendo del estado emitido (`AppLinkAuthRequired` o `DeepLinkLoaded`), redirige al usuario a la página correspondiente (inicio de sesión o una página específica según la ruta). 
 Debes instanciar este `BlocListener` en un nivel de la aplicación donde ya esté inicializada y lista para realizar redirecciones.
 
-Nuestro `BlocListener` debe verse de la siguiente manera:
+El `BlocListener` debe verse de la siguiente manera:
 
 ```dart
 BlocListener<DeepLinkBloc, DeepLinkState>(
