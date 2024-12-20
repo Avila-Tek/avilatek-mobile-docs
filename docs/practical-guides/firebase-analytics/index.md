@@ -165,7 +165,7 @@ class AppTrackingTransparencyWrapper {
 
 ### Capa de dominio
 
-Empieza creando la clase abstracta `IAnalyticsRepository`, que servirá como el repositorio encargado de gestionar las analíticas de la aplicación.”
+Empieza creando la clase abstracta `IAnalyticsRepository`, que servirá como el repositorio encargado de gestionar las analíticas de la aplicación.
 
 ```dart
 abstract class IAnalyticsRepository {
