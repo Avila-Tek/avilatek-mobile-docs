@@ -1,8 +1,8 @@
 ---
-sidebar_position: 8
+sidebar_position: 9
 ---
 
-# Quick Actions
+# Acciones rápidas (Quick Actions)
 
 :::warning
 Esta guía fue redactada usando la versión 3.24.0 de `flutter`
