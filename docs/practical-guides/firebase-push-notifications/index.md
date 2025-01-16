@@ -376,7 +376,7 @@ class FirebaseNotification extends Equatable {
 
 ### Capa de dominio - Caso de uso
 
-PushNotificationsUseCase es un caso de uso que encapsula la lógica para interactuar con el repositorio de notificaciones push. 
+`PushNotificationsUseCase` es un caso de uso que encapsula la lógica para interactuar con el repositorio de notificaciones push. 
 
 Consta de un stream `pushNotificationsStream` que va a permitir escuchar notificaciones en la capa de presentación y el método `getInitialNotification` el cual permitirá obtener una notificación inicial (por ejemplo, cuando la aplicación es abierta mediante una notificación).
 
