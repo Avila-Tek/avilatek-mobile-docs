@@ -280,6 +280,7 @@ import 'dart:developer';
 
 import 'package:app_links/app_links.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'deep_link_event.dart';
 part 'deep_link_state.dart';
