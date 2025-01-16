@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 7
 ---
 
 # HttpHeadersInjector + CustomHttpClient
@@ -377,6 +377,8 @@ Cada método sobrescrito (get, post, put, etc.):
 En la clase `main` de todos los flavors, instancia `HttpHeadersInjector`:
 
 ```dart
+import 'package:avilatek_core/avilatek_core.dart';
+
 const httpHeadersInjector = HttpHeadersInjector(
     storage: DeviceSecureStorageApi(),
 );
