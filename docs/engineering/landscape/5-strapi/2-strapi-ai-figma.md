@@ -108,7 +108,6 @@ Cuando Strapi AI procese el link, normalmente genera un mensaje autogenerado
 Usa este prompt tal cual cuando ejecutes Strapi AI.
 
 ```txt
-Listo, este fue el prompt final
 NON-NEGOTIABLE: The result is NOT complete unless you create (1) the Template Content Type(s) and (2) the Section Components connected via Dynamic Zone(s). Do NOT generate only components.
 
 INPUT MODE
