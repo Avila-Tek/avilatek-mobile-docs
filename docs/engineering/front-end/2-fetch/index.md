@@ -23,7 +23,7 @@ Esta sección se divide en los siguientes apartados:
 
 - **Packages Service**  
   Cliente compartido y servicios base que centralizan la comunicación con la API.  
-  👉 [/frontend/standards/fetch/packages](/docs/frontend/fetch/packages)
+  👉 [/frontend/standards/fetch/package](/docs/frontend/fetch/package)
 
 - **React Query**  
   Libreria para cache, query keys, invalidation, retries, y patrones que seguimos.  

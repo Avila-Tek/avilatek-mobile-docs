@@ -1,5 +1,6 @@
 ---
 title: Mobile
+slug: /mobile
 sidebar_position: 3
 ---
 
