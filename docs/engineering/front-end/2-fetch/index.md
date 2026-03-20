@@ -27,12 +27,12 @@ Esta sección se divide en los siguientes apartados:
 
 - **React Query**  
   Libreria para cache, query keys, invalidation, retries, y patrones que seguimos.  
-  👉 [docs/frontend/standards/fetch/react-query](/docs/frontend/fetch/react-query)
+  👉 [/frontend/standards/fetch/react-query](/docs/frontend/fetch/react-query)
 
 - **Queries**  
   Obtención de datos desde el servidor, manejo de caché, prefetching y lectura desde client-side.  
-  👉 [docs/frontend/standards/fetch/queries](/docs/frontend/fetch/queries)
+  👉 [/frontend/standards/fetch/queries](/docs/frontend/fetch/queries)
 
 - **Mutations**  
   Operaciones de escritura hacia el backend, manejo de errores y configuración de mutaciones.  
-  👉 [docs/frontend/standards/fetch/mutations](/docs/frontend/fetch/mutations)
+  👉 [/frontend/standards/fetch/mutations](/docs/frontend/fetch/mutations)

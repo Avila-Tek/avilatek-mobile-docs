@@ -4,8 +4,8 @@ title: Query
 sidebar_position: 3
 ---
 
-## Feature's API
-Esta es la api de nuestro feature, debemos declarar cuales son las consultas a las cuales tendremos acceso.
+## API del feature
+Esta es la API de nuestro feature, debemos declarar cuáles son las consultas a las que tendremos acceso.
 
 ```tsx
 // 📁 .../src/feature/userManagement/infrastructure/userManagement.interfaces.ts
@@ -23,8 +23,8 @@ export interface UserApi {
 }
 ```
 
-## Service
-En el servicio hacemos tendremos la responsabilidad de hacer los parseos del dominio de nuestro feature, hacia el de la api o viceversa.
+## Servicio
+En el servicio tendremos la responsabilidad de hacer los parseos del dominio de nuestro feature, hacia el de la API o viceversa.
 
 ```ts
 // 📁 .../src/feature/userManagement/infrastructure/userManagement.service.ts
@@ -121,7 +121,7 @@ export default async function Page({ searchParams }: Props) {
 }
 ```
 
-<p align="right"><small>- Al hacer un prefetching, la data "Viajará" a nuestras queries en client-side 😊</small></p>
+<p align="right"><small>- Al hacer un prefetching, la data "Viajará" a nuestros queries en client-side 😊</small></p>
 
 Y ahora procedemos a leer la data del cache sin problema alguno, para ello hacemos uso de useSuspenseQuery (también podríamos haber hecho uso de useQuery).
 
