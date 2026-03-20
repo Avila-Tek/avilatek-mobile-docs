@@ -1,6 +1,6 @@
 ---
-slug: /frontend/fetch/packages
-title: Packages Service
+slug: /frontend/fetch/package
+title: Package Services
 sidebar_position: 1
 ---
 
@@ -111,7 +111,7 @@ export interface HttpClient {
 ### Shared API Client: Adapter
 El Adaptador es la implementación concreta del contrato HttpClient. Mientras que el puerto nos dice qué debe hacer, el adaptador define cómo lo hace.
 
-Para el ejemplo a continuacion, se muestra un adaptador utilizando "safeFetch", pero se podria hacer un adaptador para axios, fetch y cualquier otra herramienta que prefieras.
+Para el ejemplo a continuación, se muestra un adaptador utilizando "safeFetch", pero se podría hacer un adaptador para axios, fetch y cualquier otra herramienta que prefieras.
 
 ```ts
 // 📁 packages/services/src/http/adapters/safeFetch.port.ts
@@ -236,7 +236,7 @@ export class SafeFetchClient implements HttpClient {
     });
   }
 
-  // centraliza la logica del fetching con "safeFetch"
+  // fetching logic centralized with "safeFetch"
   private async request<T, TSchema extends ZodLikeSchema | undefined>({
     method,
     path,
@@ -377,10 +377,10 @@ export class SafeFetchClient implements HttpClient {
 }
 ```
 
-## Api por modulo
+## API por modulo
 
-A continuación, declaramos una api por cada modulo de nuestro sistema. Este basicamente define con cuales consultas mi aplicacion puede interactuar.
-<p align="right"><small>Shared API client viene por inyeccion de dependencias</small></p>
+A continuación, declaramos una API por cada módulo de nuestro sistema. Este básicamente define con cuáles consultas mi aplicación puede interactuar.
+<p align="right"><small>Shared API client viene por inyección de dependencias</small></p>
 
 ```tsx
 // 📁 package/services/components/users.ts
@@ -432,8 +432,8 @@ export class UserApi {
 }
 ```
 
-## Api general
-Api general de nuestra aplicacion, la cual inyectara la Shared Api Client a la API de cada modulo
+## API general
+API general de nuestra aplicación, la cual inyectará el Shared API Client a la API de cada módulo.
 
 ```tsx
 // 📁 package/services/src/API.ts

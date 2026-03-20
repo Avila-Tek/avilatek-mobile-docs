@@ -37,8 +37,8 @@ Packages (services + schemas)
 ### 1. api requests y dtos
 
 API client + DTOs se encuentran en Packages compartidos, para ello leer:
-  
-  👉 [/frontend/standards/fetch/packages](/docs/frontend/fetch/packages)
+
+👉 [/frontend/standards/fetch/package](/docs/frontend/fetch/package)
 
 Por lo tanto:
 
@@ -169,7 +169,6 @@ Un service **orquesta** lo que pasa alrededor del fetch.
   DTO → Domain (usando `transform.ts`)
 
 - Compatibilidad y decisiones técnicas
-
   - versiones de API
   - feature flags
   - fallback de endpoints
@@ -272,16 +271,19 @@ service.ts     → orquesta todo lo anterior
 ```
 
 ## Cache
-  La cache es fundamental para aumentar la velocidad y el rendimiento de las aplicaciones al almacenar temporalmente datos de acceso frecuente. Esto nos permite reducir los tiempos de espera del usuario, pues no tiene que esperar al resultado de una consulta que ya ha realizado previamente.
+
+La cache es fundamental para aumentar la velocidad y el rendimiento de las aplicaciones al almacenar temporalmente datos de acceso frecuente. Esto nos permite reducir los tiempos de espera del usuario, pues no tiene que esperar al resultado de una consulta que ya ha realizado previamente.
 
 ### Importancia del cache
+
 - Velocidad de carga.
 - Experiencia del usuario.
 - Reducción de carga en Servidores.
 - Ahorro de recursos.
 
 ### Cache en TanStack Query
-  TanStack query maneja por defecto el caching de data. Para entender como funcionan, se tiene que entender 2 conceptos:
+
+TanStack query maneja por defecto el caching de data. Para entender como funcionan, se tiene que entender 2 conceptos:
 
 - **[Query keys](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys)**: Es una opcion que especifica la forma en que TanStack Query rastreara la data en el cache (si no consigue la data en el cache o la data es obsoleta, entonces realiza una consulta a la base de datos).
 
@@ -307,10 +309,8 @@ service.ts     → orquesta todo lo anterior
 
 - **[Prefetching](https://tanstack.com/query/v4/docs/framework/react/guides/prefetching)**: El prefetching nos permite triggerear una consulta en segundo plano y almacenar en cache el resultado de la respuesta, para su posterior uso. Para mas informacion [leer](/docs/frontend/fetch/queries#queries).
 
-
 ## 🧪 Testing de esta capa
 
 Para ver lineamientos, alcance y ejemplos de pruebas del **Infrastructure layer**, consulta:
 
 👉 [/docs/frontend/quality/testing/testing-by-layer/infrastructure-test](/docs/frontend/quality/testing/testing-by-layer/infrastructure-test)
-
