@@ -8,7 +8,7 @@ sidebar_position: 1
 # Bienvenida al equipo (versión corta)
 
 :::info ¿Buscas la versión completa?
-Esta es la versión corta de la guía de bienvenida al equipo. Para la versión completa, lee la guía [aquí](/docs/engineering/mobile).
+Esta es la versión corta de la guía de bienvenida al equipo. Para la versión completa, lee la guía [aquí](/docs/mobile).
 :::
 
 Acá dejaré todos los links a las herramientas que mencionamos en la guía completa. Te recomiendo que lea
