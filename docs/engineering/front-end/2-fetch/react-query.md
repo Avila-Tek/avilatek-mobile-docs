@@ -4,28 +4,11 @@ title: React Query
 sidebar_position: 2
 ---
 
-## Configuracion
+## Configuración
 
-Configurar React Query consiste de 2 pasos, (1) crear el client y (2) instanciar el Contexto.
+Configurar React Query consiste de los siguientes dos pasos:
 
-- Instanciar el contexto
-
-```tsx
-'use client';
-import { QueryClientProvider } from '@tanstack/react-query';
-import type * as React from 'react';
-import { getQueryClient } from '@/src/lib/get-query-client';
-
-export function QueryClient({ children }: { children: React.ReactNode }) {
-  const queryClient = getQueryClient();
-
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-}
-```
-
-- Crear el client
+### 1. Crear el client
 
 ```tsx
 import {
@@ -64,5 +47,22 @@ export function getQueryClient() {
     if (!browserQueryClient) browserQueryClient = makeQueryClient();
     return browserQueryClient;
   }
+}
+```
+
+### 2. Instanciar el contexto
+
+```tsx
+'use client';
+import { QueryClientProvider } from '@tanstack/react-query';
+import type * as React from 'react';
+import { getQueryClient } from '@/src/lib/get-query-client';
+
+export function QueryClient({ children }: { children: React.ReactNode }) {
+  const queryClient = getQueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 }
 ```

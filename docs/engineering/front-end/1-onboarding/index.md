@@ -6,9 +6,9 @@ sidebar_position: 1
 
 **Bienvenido al onboarding de frontend**
 
-Esta documentación está pensada para leerse **en orden**, empecemos por el stack y conozcamos el turbo repo, para luego ver como construimos aplicaciones en producción, para ello seguimos el siguiente orden:
+Esta documentación está pensada para leerse **en orden**, empecemos por el stack y conozcamos el turbo repo, para luego ver cómo construimos aplicaciones en producción, para ello seguimos el siguiente orden:
 primero entendemos **cómo llegan los datos**, luego **cómo construimos piezas individuales (componentes)**, con los datos y componentes
-**cómo ensamblamos todo como un sistema mantenible (Arquitectura)**, por último, **nuestros estandares de coding y calidad**.
+**cómo ensamblamos todo como un sistema mantenible (Arquitectura)**, por último, **nuestros estándares de coding y calidad**.
 
 ## Stack principal
 
@@ -46,7 +46,7 @@ Usamos un stack **moderno y probado en producción**:
 
 ---
 
-## 1️⃣ Fundamentos de como hacer fetch: cómo llegan los datos a la aplicación
+## 1️⃣ Fundamentos de cómo hacer fetch: cómo llegan los datos a la aplicación
 
 Antes de escribir componentes, necesitamos entender **cómo nos integramos con APIs** y cómo aislamos la UI de los cambios del backend.
 
@@ -108,14 +108,14 @@ Aquí aprenderás:
 - **D: Dependency Inversion**
   Depende de abstracciones, no de implementaciones concretas.
 
-👉 **Ir a:** [Refactoring Guru](https://refactoring.guru) para aprender mas de software escalable.
+👉 **Ir a:** [Refactoring Guru](https://refactoring.guru) para aprender más de software escalable.
 
-👉 **Ir a:** [SOLID](https://www.freecodecamp.org/espanol/news/los-principios-solid-explicados-en-espanol/) para aprender mas de los principios SOLID.
+👉 **Ir a:** [SOLID](https://www.freecodecamp.org/espanol/news/los-principios-solid-explicados-en-espanol/) para aprender más de los principios SOLID.
 
 ### POO
   Es un paradigma de programación que organiza el software alrededor de "objetos" en lugar de acciones.
 
-👉 **Ir a:** [POO](https://ed.team/blog/que-es-la-programacion-orientada-a-objetos-poo) para aprender mas de este paradigma.
+👉 **Ir a:** [POO](https://ed.team/blog/que-es-la-programacion-orientada-a-objetos-poo) para aprender más de este paradigma.
 
 <!-- 👉 **Ir a:** [Arquitectura](/frontend/onboarding/architecture)   -->
 <!-- 👉 **Ir a:** [Nuestros estándares](/frontend/onboarding/standards)   -->
