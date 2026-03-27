@@ -1,6 +1,6 @@
 ---
 title: Strapi AI + Figma
-sidebar_position: 5
+sidebar_position: 2
 slug: /strapi/strapi-ai-figma
 ---
 

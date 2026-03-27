@@ -1,6 +1,6 @@
 ---
 title: Modelado de Contenido en Strapi
-sidebar_position: 5
+sidebar_position: 1
 slug: /strapi/content-modeling
 ---
 
