@@ -121,7 +121,9 @@ export default async function Page({ searchParams }: Props) {
 }
 ```
 
-<p align="right"><small>- Al hacer un prefetching, la data "Viajará" a nuestros queries en client-side 😊</small></p>
+:::info
+Al hacer un prefetching, la data viajará a nuestros queries en client-side.
+:::
 
 Y ahora procedemos a leer la data del cache sin problema alguno, para ello hacemos uso de useSuspenseQuery (también podríamos haber hecho uso de useQuery).
 
@@ -148,7 +150,9 @@ export function UsersQuery({
 }
 ```
 
-<p align="right"><small>- El prefetching funcionará siempre y cuando sus queryKeys sean iguales, en este ejemplo lo declaramos en el objeto userQueries 😜</small></p>
+:::info
+El prefetching funcionará siempre y cuando sus queryKeys sean iguales. En este ejemplo lo declaramos en el objeto `usersQueryKeys`.
+:::
 
 ### Client side
 

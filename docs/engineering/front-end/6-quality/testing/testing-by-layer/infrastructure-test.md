@@ -6,10 +6,12 @@ slug: /frontend/quality/testing/testing-by-layer/infrastructure-test
 
 ### 🔌 Infrastructure Layer - Servicios y APIs
 
-**Qué testear aquí**:
+### Qué testear aquí
 - Transformaciones DTO ↔ Domain
 - Llamadas a APIs (mockeadas)
 - Manejo de errores
+
+### Ejemplo
 
 ```typescript
 // features/users/infrastructure/__tests__/user.service.test.ts
@@ -42,7 +44,7 @@ describe('UserService', () => {
 });
 ```
 
-**Tipos de tests**:
+### Tipos de tests
 - Transformación de datos
 - Comportamiento con errores
 - Múltiples llamadas coordinadas

@@ -1,8 +1,10 @@
 ---
 slug: /frontend/standards/good-practices
-title: Buenas practicas
+title: Buenas prácticas
 sidebar_position: 5
 ---
+
+En esta sección se recopilan las buenas prácticas que seguimos al escribir código en nuestros proyectos de frontend. Estas convenciones nos ayudan a mantener un código legible, consistente y fácil de mantener.
 
 ## React APIs solo vía React
 

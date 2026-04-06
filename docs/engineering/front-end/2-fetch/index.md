@@ -23,16 +23,16 @@ Esta sección se divide en los siguientes apartados:
 
 - **Packages Service**  
   Cliente compartido y servicios base que centralizan la comunicación con la API.  
-  👉 [/frontend/standards/fetch/package](/docs/frontend/fetch/package)
+  👉 [Packages Service](/docs/frontend/fetch/package)
 
 - **React Query**  
-  Libreria para cache, query keys, invalidation, retries, y patrones que seguimos.  
-  👉 [/frontend/standards/fetch/react-query](/docs/frontend/fetch/react-query)
+  Librería para cache, query keys, invalidation, retries, y patrones que seguimos.  
+  👉 [React Query](/docs/frontend/fetch/react-query)
 
 - **Queries**  
   Obtención de datos desde el servidor, manejo de caché, prefetching y lectura desde client-side.  
-  👉 [/frontend/standards/fetch/queries](/docs/frontend/fetch/queries)
+  👉 [Queries](/docs/frontend/fetch/queries)
 
 - **Mutations**  
   Operaciones de escritura hacia el backend, manejo de errores y configuración de mutaciones.  
-  👉 [/frontend/standards/fetch/mutations](/docs/frontend/fetch/mutations)
+  👉 [Mutations](/docs/frontend/fetch/mutations)

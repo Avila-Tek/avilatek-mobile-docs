@@ -7,13 +7,13 @@ slug: /frontend/quality/testing/testing-by-layer/application-test/
 
 ### 🔁 Application Layer - Use Cases y Hooks
 
-**Qué testear aquí**:
+### Qué testear aquí
 - Flujos completos de usuario
 - Coordinación entre servicios
 - Hooks de React Query
 - Estados (loading, error, success)
 
-**Testing de Use Cases**:
+### Testing de Use Cases
 ```typescript
 // features/posts/application/__tests__/createPost.usecase.test.ts
 describe('replyToPostUseCase', () => {
@@ -79,7 +79,7 @@ describe('replyToPostUseCase', () => {
 });
 ```
 
-**Testing de Hooks (React Query)**:
+### Testing de Hooks (React Query)
 ```typescript
 // features/posts/application/__tests__/usePosts.test.tsx
 describe('useReplyToPost hook', () => {

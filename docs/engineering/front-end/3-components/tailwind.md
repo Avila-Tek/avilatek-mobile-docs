@@ -4,10 +4,10 @@ sidebar_position: 1
 slug: /frontend/components/tailwind
 ---
 
-Es indispensable para una aplicacion tener estilos estandarizados, puesto que afecta directamente la velocidad de desarrollo y la satisfacción del usuario, ademas, nos permite estar preparados para posibles cambios y asegura consistencia en los estilos. 
+Es indispensable para una aplicación tener estilos estandarizados, puesto que afecta directamente la velocidad de desarrollo y la satisfacción del usuario, además, nos permite estar preparados para posibles cambios y asegura consistencia en los estilos.
 
 ## Configuración de colores
-Se declaran los colores que seran implementados en nuestra Configuración para el sistema
+Se declaran los colores que serán implementados en nuestra configuración para el sistema.
 ```tsx
 // 📁 /apps/clients/src/css/color-variables.css
 
@@ -29,44 +29,44 @@ Se declaran los colores que seran implementados en nuestra Configuración para e
 }
 ```
 
-## Configuración light/dark mode para texto
+## Configuración light/dark mode
+
+Estas son las clases que usaremos en nuestros componentes para manejar los estilos en light y dark mode.
+
+### Texto
 ```tsx
 // 📁 /apps/clients/src/css/text-variables.css
 
-// estas son las clases que usaremos en nuestros componentes
 @utility txt-primary-900 {
   @apply text-gray-light-mode-900;
   @apply dark:text-gray-dark-mode-50;
 }
 ```
 
-## Configuración light/dark mode para bordes
+### Bordes
 ```tsx
 // 📁 /apps/clients/src/css/border-variables.css
 
-// estas son las clases que usaremos en nuestros componentes
 @utility border-primary {
   @apply border-gray-light-mode-300;
   @apply dark:border-gray-dark-mode-700;
 }
 ```
 
-## Configuración light/dark mode para background
+### Background
 ```tsx
 // 📁 /apps/clients/src/css/bg-variables.css
 
-// estas son las clases que usaremos en nuestros componentes
 @utility bg-surface {
   @apply bg-base-white;
   @apply dark:bg-gray-dark-mode-950;
 }
 ```
 
-## Configuración light/dark mode para fg
+### Foreground
 ```tsx
 // 📁 /apps/clients/src/css/fg-variables.css
 
-// estas son las clases que usaremos en nuestros componentes
 @utility fg-primary-900 {
   @apply border-gray-light-mode-900;
   @apply dark:border-base-white;
@@ -75,8 +75,8 @@ Se declaran los colores que seran implementados en nuestra Configuración para e
 }
 ```
 
-## Configuración globales
-Por ultimo hacemos creamos un archivo que contenga toda la Configuración previamente establecida para nuestro proyecto y este archivo deber aser importado en el layout de la aplicacion, para asi aplicar los estilos en todo el sistema.
+## Configuraciones globales
+Por último, creamos un archivo que contenga toda la configuración previamente establecida para nuestro proyecto. Este archivo debe ser importado en el layout de la aplicación, para así aplicar los estilos en todo el sistema.
 
 ```tsx
 // 📁 /apps/clients/src/apps/globals.css

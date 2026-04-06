@@ -1,10 +1,10 @@
 ---
 slug: /frontend/architecture/intro
-title: Clean Architecture
+title: "Clean Architecture: Introducción y modelo mental"
 sidebar_position: 1
 ---
 
-# 1. Architecture
+# Clean Architecture: Introducción y modelo mental
 
 En esta sección explicamos **el modelo mental único** que usamos para estructurar todo el frontend.
 
@@ -12,15 +12,13 @@ El objetivo no es memorizar carpetas, sino **entender responsabilidades**.
 
 ## Capas
 
-Nuestra arquitectura se basa en el paradigma de Clean Architecture, sin emabrgo como React fue conceptualizado para la programación funcional y de otra manera de abstraen ciertos conceptos.
+Nuestra arquitectura se basa en el paradigma de Clean Architecture, sin embargo, como React fue conceptualizado para la programación funcional, algunos conceptos se abstraen de manera diferente.
 
 ![clean-architecture](/img/frontend/architecture/clean-architecture.jpeg)
 
-Para entender un poco de Clean Architecture se suguieren las siguientes fuentes:
+También es necesario reforzar conceptos de los principios S.O.L.I.D. Puedes consultarlos en la sección de [Fundamentos de diseño](/docs/frontend/standards/design-fundamentals).
 
-Tambien es necesario reforzar conceptos de los principios S.O.L.I.D.
-
-Ahora bien, nuestra arquitectura se organiza en **cuatro capas**, ordenadas de afuera hacia adentro:
+Nuestra arquitectura se organiza en **cuatro capas**, ordenadas de afuera hacia adentro:
 
 <!-- ![clean-architecture](/img/frontend/architecture/clean-architecture-frontend.png) -->
 
@@ -77,7 +75,7 @@ Cada feature es una unidad vertical completa, con cada una de las capas si así 
 
 Esto permite entender, modificar y escalar una funcionalidad sin tener que navegar todo el proyecto.
 
-## How to read this documentation
+## ¿Cómo leer esta documentación?
 
 Aunque casi ninguna documentación lo dice explícitamente, hay **dos formas comunes** de construir frontend:
 

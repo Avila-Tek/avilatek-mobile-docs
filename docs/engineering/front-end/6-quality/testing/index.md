@@ -6,7 +6,7 @@ slug: /frontend/quality/testing
 
 # Pruebas
 
-En esta sección se presenta una forma práctica de hacer testing en frontend 🚀: no como un paso final, sino como una práctica continua que acompaña el desarrollo desde el diseño del código hasta la validación de flujos reales de usuario.
+En esta sección se presenta una forma práctica de hacer testing en frontend: no como un paso final, sino como una práctica continua que acompaña el desarrollo desde el diseño del código hasta la validación de flujos reales de usuario.
 
 La idea es construir una base sólida con fundamentos de testabilidad (DI/IoC), aplicar pruebas unitarias según la responsabilidad de cada capa y, finalmente, cubrir recorridos completos con pruebas E2E.
 
