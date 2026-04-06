@@ -8,7 +8,9 @@ slug: /frontend/quality/error-handling/create-sentry-team
 
 ## 1. Crear Team y agregar Members correspondientes
 
-- Debes tener acceso a la organización de [Sentry de **Avila Tek**](https://avilatek.sentry.io/auth/login/avilatek/?referrer=alert_email).
+:::info
+Debes tener acceso a la organización de [Sentry de **Avila Tek**](https://avilatek.sentry.io/auth/login/avilatek/?referrer=alert_email). Si no lo tienes, solicítalo a tu líder de equipo.
+:::
 
 ### Crear un nuevo Team
 

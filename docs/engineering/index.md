@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: 💻 Dirección de ingenieria
+title: 💻 Dirección de ingeniería
 slug: /engineering
 keywords: ['engineering']
 tags: ['avila-tek', 'engineering']

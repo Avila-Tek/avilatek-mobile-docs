@@ -42,7 +42,7 @@ Usamos un stack **moderno y probado en producción**:
   Framework para realizar pruebas unitarias.
 
 - **[Cypress][cypress_doc]**  
-  Framework para realizar puebas end to end a los features del sistema.
+  Framework para realizar pruebas end to end a los features del sistema.
 
 ---
 
@@ -57,7 +57,7 @@ Aquí aprenderás:
 - Cómo usamos queries, mutations y transformaciones
 - Por qué la UI nunca consume respuestas crudas
 
-<!-- 👉 **Ir a:** [Cómo integramos una API](/frontend/onboarding/api-integration) -->
+👉 **Ir a:** [Cómo integramos una API](/docs/frontend/fetch)
 
 ---
 
@@ -71,7 +71,7 @@ Aquí aprenderás:
 - Qué responsabilidades tiene (y cuáles no)
 - Cómo mantener componentes simples y reutilizables
 
-<!-- 👉 **Ir a:** [Cómo escribimos componentes](/frontend/onboarding/components) -->
+👉 **Ir a:** [Cómo escribimos componentes](/docs/frontend/components)
 
 ---
 
@@ -89,37 +89,14 @@ Aquí aprenderás:
 ---
 
 ## 4️⃣ Fundamentos de Diseño: POO y SOLID
- Las aplicaciones deben ser mantenibles, escalables y fáciles de testear. Aplicando conceptos de Programación Orientada a Objetos y principios SOLID para estructurar la lógica de negocio fuera de los componentes es posible.
 
-### Principios Solid
+Nuestras aplicaciones se apoyan en principios de **Programación Orientada a Objetos** y **SOLID** para estructurar la lógica de negocio fuera de los componentes.
 
-- **S: Single Responsibility**
-  Un componente o clase debe tener una sola razón para cambiar.
+👉 **Ir a:** [Fundamentos de diseño](/docs/frontend/standards/design-fundamentals)
 
-- **O: Open/Closed**
-  El software debe estar abierto a la extensión, pero cerrado a la modificación.
-
-- **L: Liskov Substitution**
-  Las subclases o implementaciones deben poder sustituir a sus clases base sin romper la aplicación.
-
-- **I: Interface Segregation**
-  Nadie debería ser forzado a depender de métodos que no usa.
-
-- **D: Dependency Inversion**
-  Depende de abstracciones, no de implementaciones concretas.
-
-👉 **Ir a:** [Refactoring Guru](https://refactoring.guru) para aprender más de software escalable.
-
-👉 **Ir a:** [SOLID](https://www.freecodecamp.org/espanol/news/los-principios-solid-explicados-en-espanol/) para aprender más de los principios SOLID.
-
-### POO
-  Es un paradigma de programación que organiza el software alrededor de "objetos" en lugar de acciones.
-
-👉 **Ir a:** [POO](https://ed.team/blog/que-es-la-programacion-orientada-a-objetos-poo) para aprender más de este paradigma.
-
-<!-- 👉 **Ir a:** [Arquitectura](/frontend/onboarding/architecture)   -->
-<!-- 👉 **Ir a:** [Nuestros estándares](/frontend/onboarding/standards)   -->
-<!-- 👉 **Ir a:** [Calidad](/frontend/onboarding/quality) -->
+👉 **Ir a:** [Arquitectura](/docs/frontend/architecture)  
+👉 **Ir a:** [Nuestros estándares](/docs/frontend/standards)  
+👉 **Ir a:** [Calidad](/docs/frontend/quality)
 
 ---
 [nextjs_doc]: https://nextjs.org

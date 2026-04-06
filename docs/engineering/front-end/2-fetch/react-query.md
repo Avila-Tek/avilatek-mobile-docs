@@ -11,6 +11,7 @@ Configurar React Query consiste de los siguientes dos pasos:
 ### 1. Crear el client
 
 ```tsx
+// 📁 apps/<app>/src/lib/get-query-client.ts
 import {
   defaultShouldDehydrateQuery,
   isServer,
@@ -53,6 +54,7 @@ export function getQueryClient() {
 ### 2. Instanciar el contexto
 
 ```tsx
+// 📁 apps/<app>/src/context/client-providers.tsx
 'use client';
 import { QueryClientProvider } from '@tanstack/react-query';
 import type * as React from 'react';

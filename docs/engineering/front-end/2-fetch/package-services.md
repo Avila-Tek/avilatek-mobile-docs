@@ -4,6 +4,10 @@ title: Package Services
 sidebar_position: 1
 ---
 
+:::info
+Esta arquitectura está diseñada para APIs REST. Para GraphQL se requeriría un cliente separado con un contrato distinto.
+:::
+
 ## Shared API Client
 La centralización de la lógica de comunicación mediante un Shared API Client es un pilar estratégico en nuestra arquitectura. Al definir un Puerto HTTP, desacoplamos la lógica de negocio de las implementaciones de red específicas. Esto no solo facilita la gestión de cambios estructurales (breaking changes) desde un punto único, sino que garantiza un manejo estandarizado de respuestas sin afectar el resto de la aplicación.
 
@@ -377,7 +381,7 @@ export class SafeFetchClient implements HttpClient {
 }
 ```
 
-## API por modulo
+## API por módulo
 
 A continuación, declaramos una API por cada módulo de nuestro sistema. Este básicamente define con cuáles consultas mi aplicación puede interactuar.
 <p align="right"><small>Shared API client viene por inyección de dependencias</small></p>

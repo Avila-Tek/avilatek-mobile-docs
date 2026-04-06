@@ -6,7 +6,7 @@ slug: /frontend/quality/error-handling/event-managing
 
 # Gestión de eventos
 
-# 1. Error Boundary Global
+## 1. Error Boundary Global
 
 En todos los proyectos **Next.js** debe incluirse un archivo `app/global-error.tsx` configurado con **Sentry**.  
 Este archivo actúa como un _Error Boundary_ global, capturando cualquier error no manejado en el árbol raíz de la aplicación y enviándolo automáticamente a Sentry mediante `Sentry.captureException(error)`.
@@ -15,7 +15,7 @@ Además, la UI del `global-error.tsx` puede personalizarse según el diseño o n
 
 Esto garantiza consistencia en el manejo de fallas críticas y evita pantallas en blanco en producción.
 
-## Ejemplo mínimo
+#### Ejemplo mínimo
 
 ```tsx
 'use client';
@@ -37,9 +37,9 @@ export default function GlobalError({ error, reset }) {
 
 ---
 
-# 2. Eventos manuales
+## 2. Eventos manuales
 
-## Términos clave
+### Términos clave
 
 - **Evento**: instancia de envío de datos a Sentry (error o excepción).
 - **Problema**: agrupación de eventos similares.
@@ -49,7 +49,7 @@ Es común usar `try/catch` para evitar que un error detenga todo el sistema, per
 
 Por eso, cuando trabajamos en funciones _core_ o críticas, es recomendable **capturar manualmente errores** y enviarlos a Sentry, aunque ya exista un manejo `try/catch`.
 
-## Ejemplo
+#### Ejemplo
 
 ```ts
 import * as Sentry from '@sentry/nextjs';
@@ -64,7 +64,7 @@ async function processPayment(data) {
 }
 ```
 
-## Ejemplo de wrapper
+#### Ejemplo de wrapper
 
 ```ts
 import * as Sentry from '@sentry/nextjs';
@@ -118,7 +118,7 @@ export async function captureSentryError(
 }
 ```
 
-## Caso de uso
+#### Caso de uso
 
 ```ts
 // apps/client/hooks/api/billing-address/traveler/useDeleteBillingAddress.ts
@@ -165,13 +165,13 @@ export function useDeleTravelerBillingAddress() {
 
 ---
 
-# 3. Filtrado de eventos
+## 3. Filtrado de eventos
 
 El **filtrado de eventos** permite controlar qué errores se envían realmente a Sentry mediante opciones como `beforeSend` e `ignoreErrors`.
 
 Esto ayuda a reducir ruido, mejorar calidad y evitar consumo innecesario de la cuota.
 
-## Ignore events
+### Ignore events
 
 ```ts
 Sentry.init({
@@ -184,7 +184,7 @@ Sentry.init({
 });
 ```
 
-## beforeSend
+### beforeSend
 
 ```ts
 import * as Sentry from '@sentry/nextjs';
@@ -216,7 +216,7 @@ Sentry.init({
 
 ---
 
-# 4. Enriquecer eventos
+## 4. Enriquecer eventos
 
 Crear estructura:
 
@@ -226,7 +226,7 @@ lib/
     SentryWrapper.tsx
 ```
 
-## Atributos
+### Atributos
 
 ### tags
 
@@ -269,7 +269,7 @@ Piensa en ellos como un “dump” de variables útiles para depuración.
 
 ### fingerprint
 
-Es una forma de personalizar cómo Sentry agrupa errores.Normalmente Sentry agrupa por stack trace y mensaje. Con fingerprint puedes forzar un patrón de agrupación.
+Es una forma de personalizar cómo Sentry agrupa errores. Normalmente Sentry agrupa por stack trace y mensaje. Con fingerprint puedes forzar un patrón de agrupación.
 
 ```ts
 fingerprint: ['type:ValidationError', 'route:/checkout'];
@@ -283,9 +283,9 @@ fingerprint: ['type:ValidationError', 'route:/checkout'];
 
 ---
 
-# Wrapper global
+### Wrapper global
 
-Sentry funciona como un contexto es decir el mantiene en su estado interno la información que se le coloque en el mismo. Por lo tanto puedes hacer uso de un wrapper para que los eventos que se registren dentro un arbol de componentes compartan un contexto determinado o para un contexto global de la aplicación
+Sentry funciona como un contexto, es decir, mantiene en su estado interno la información que se le coloque en el mismo. Por lo tanto puedes hacer uso de un wrapper para que los eventos que se registren dentro un arbol de componentes compartan un contexto determinado o para un contexto global de la aplicación
 
 - Global: Esto significa que los atributos que fijes (userId, tags, context, extras) permanecen activos en todos los eventos que se capturen después de llamarlo, hasta que tú los cambies o los limpies manualmente
 
@@ -362,7 +362,7 @@ export default function SentryWrapper({
 
 ---
 
-# 🤯 Como usarlo?
+### ¿Cómo usarlo?
 
 ```tsx
 'use client';
@@ -383,7 +383,7 @@ export default function DashboardLayout({ children }) {
 
 ---
 
-# Setear atributos en un scope especifico
+### Setear atributos en un scope específico
 
 De requerirse enriquecer eventos desde componentes del servidor o acciones del servidor tenemos que usar funciones sin hooks de React
 
@@ -413,7 +413,7 @@ export async function payOrder(orderId: string) {
 
 ---
 
-# Recursos
+## Recursos
 
 - [Integrating Sentry with React](https://medium.com/@ignatovich.dm/integrating-sentry-with-react-advanced-error-tracking-and-handling-0f88c2d322c0)
 - [Using Sentry in React.js and Next.js Projects](https://saynaesmailzadeh.medium.com/%EF%B8%8F-a-complete-guide-to-using-sentry-in-react-js-and-next-js-projects-0316fad41447)

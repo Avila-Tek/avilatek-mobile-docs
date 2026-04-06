@@ -4,6 +4,8 @@ title: "Shared: Imports y boundaries"
 sidebar_position: 6
 ---
 
+En esta sección se definen las reglas de imports entre capas y features, el uso de `shared`, y cómo evitar dependencias cruzadas que dificulten el mantenimiento del proyecto.
+
 ## Use Absolute Paths (obligatorio)
 
 **Regla**
@@ -31,7 +33,7 @@ import { Button } from '../../../shared/ui/button';
 
 **Regla**
 
-- ✅ Trata de mantener todo cerca donde se usa dentro del feature correspondiente
+- ✅ Trata de mantener todo cerca de donde se usa dentro del feature correspondiente
 
 - ❌ No mover a shared/ “por si acaso”.
 
@@ -56,11 +58,9 @@ export type Post = {
 
 Estos objetos:
 
-❌ no tienen lógica
-
-❌ no tienen reglas
-
-❌ no dependen de ningún feature
+- ❌ no tienen lógica
+- ❌ no tienen reglas
+- ❌ no dependen de ningún feature
 
 Son el lenguaje común del sistema.
 
@@ -87,11 +87,9 @@ export function canReplyToPost(user: User, post: Post) {
 
 Aquí:
 
-User y Post vienen de shared/domain
-
-la regla vive en el feature
-
-el feature sigue siendo independiente y borrable
+- User y Post vienen de shared/domain
+- la regla vive en el feature
+- el feature sigue siendo independiente y borrable
 
 Regla mental final (para que no haya spaghetti)
 
@@ -100,17 +98,15 @@ El feature define “qué se puede hacer con eso”.
 
 Si algo en shared:
 
-empieza a tener reglas
-
-cambia por un solo feature
-
-“sabe” de flujos o pantallas
+- empieza a tener reglas
+- cambia por un solo feature
+- “sabe” de flujos o pantallas
 
 👉 está en el lugar equivocado y debe moverse al feature.
 
-## Que pasa cuando un feature es muy general y se usa en varios features o flujos
+## ¿Qué pasa cuando un feature es muy general y se usa en varios features o flujos?
 
-El ejemplo mas claro es uploadImage que es un flujo completo pero que puede ser usado distitno dentro de cada feature
+El ejemplo más claro es uploadImage, que es un flujo completo pero que puede ser usado distinto dentro de cada feature.
 
 **Opción 1 (recomendada)**
 convertirlo en un shared capability (shared/application + shared/infrastructure)

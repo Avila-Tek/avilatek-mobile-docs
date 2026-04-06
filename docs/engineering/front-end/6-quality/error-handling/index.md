@@ -4,27 +4,28 @@ sidebar_position: 1
 slug: /frontend/quality/error-handling/
 ---
 
-[Video de como instalar Sentry en un proyecto](https://avilatek.sg.larksuite.com/minutes/obsgr8u5d42kaix3rw5p2471?from=from_copylink)
+# Manejo de errores
 
----
+En esta sección se documenta cómo manejamos los errores en nuestros proyectos de frontend, desde la herramienta que utilizamos para monitoreo hasta las configuraciones y buenas prácticas que seguimos.
 
-## 🎯 Objetivo
+[Video de cómo instalar Sentry en un proyecto](https://avilatek.sg.larksuite.com/minutes/obsgr8u5d42kaix3rw5p2471?from=from_copylink)
 
-El objetivo inicial es ser **preventivos** con los errores y no **reactivos**.  
-Esto significa detectar problemas antes de que impacten al usuario final, estableciendo una cultura de observabilidad continua en todos los entornos.
+## Contenido
 
-**Caso real:**  
-Un cliente reportó un fallo a las 10 p.m.  
-Al revisar en Sentry, se comprobó que no era un error de la plataforma, sino un **network error del usuario**. Gracias a esto, tuvimos visibilidad inmediata y evitamos una falsa alarma.
+Explora cada sección para configurar y usar Sentry en tu proyecto:
 
----
+- **Sentry**
+  Qué es Sentry, por qué lo usamos y nuestros objetivos con la herramienta.
+  👉 [Sentry](/docs/frontend/quality/error-handling/sentry)
 
-## 🧩 Roadmap
+- **Crear proyecto y team**
+  Cómo crear un proyecto y un equipo en la organización de Sentry.
+  👉 [Crear proyecto y team](/docs/frontend/quality/error-handling/create-sentry-team)
 
-La incorporación de Sentry en la organización se hará de forma progresiva, siguiendo una serie de _milestones_ que nos guiarán paso a paso.
+- **Configuraciones iniciales**
+  Configuración base de Sentry en un proyecto nuevo.
+  👉 [Configuraciones iniciales](/docs/frontend/quality/error-handling/sentry-init)
 
-La idea no es solo instalar la herramienta, sino **refinar su funcionamiento dentro de cada proyecto**, ajustando configuraciones, métricas y alertas a medida que avanzamos.
-
-De esta manera, aseguramos que Sentry evolucione junto a nuestros procesos y nos brinde la **máxima visibilidad y valor a largo plazo**.
-
----
+- **Gestión de eventos**
+  Cómo gestionar y clasificar los eventos capturados por Sentry.
+  👉 [Gestión de eventos](/docs/frontend/quality/error-handling/event-managing)

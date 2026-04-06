@@ -4,7 +4,9 @@ title: Estructura de un componente
 sidebar_position: 3
 ---
 
-## Naming Components
+En esta sección se definen las convenciones para nombrar, crear y organizar internamente los componentes de React en nuestros proyectos.
+
+## Nombrar componentes
 
 ✅ PascalCase
 
@@ -12,15 +14,13 @@ sidebar_position: 3
 
 ## Creación (reglas del archivo)
 
-Componentes deben ser React Functional Components y pueden crearse con los snippets rfce o rfc
+Los componentes deben ser React Functional Components y pueden crearse con los snippets `rfce` o `rfc`.
 
 ❌ No se permite el uso de React Arrow Function Components.
 
 ✅ Un solo componente por archivo (1 archivo = 1 componente exportado).
 
-## Favour Small Components
-
-**Regla práctica**
+## Preferir componentes pequeños
 
 ✅ Si un componente supera ~150–200 líneas o mezcla 2 responsabilidades → split
 
@@ -28,9 +28,19 @@ Componentes deben ser React Functional Components y pueden crearse con los snipp
 
 ## Estructura de un componente
 
-**(1) Imports**
+### 1. Imports
 
-**(2) Tipos e Interfaces (TypeScript)**
+Utiliza alias de ruta (`@/`) en lugar de rutas relativas largas para mantener los imports legibles y consistentes.
+
+```ts
+// ❌
+import { Button } from '../../../components/ui/Button';
+
+// ✅
+import { Button } from '@/components/ui/Button';
+```
+
+### 2. Tipos e Interfaces (TypeScript)
 
 Justo después de imports y antes del componente.
 
@@ -44,7 +54,7 @@ interface WalletFormProps {
 }
 ```
 
-**(3) Hooks (incluye state, refs, hooks custom y effects)**
+### 3. Hooks (incluye state, refs, hooks custom y effects)
 
 Orden interno recomendado:
 
@@ -53,7 +63,23 @@ Orden interno recomendado:
 - Custom hooks
 - Effects (React.useEffect)
 
-**(4) Derived values (valores derivados)**
+```tsx
+// State
+const [user, setUser] = React.useState<string>('');
+
+// Refs
+const inputRef = React.useRef<HTMLInputElement>(null);
+
+// Custom hooks
+const { data } = useCustomHook();
+
+// Effects
+React.useEffect(() => {
+  // side effects
+}, []);
+```
+
+### 4. Derived values (valores derivados)
 
 Variables calculadas desde props/estado, sin side effects.
 
@@ -62,7 +88,7 @@ const isEditing = formType === 'update';
 const userName = user?.name ?? '—';
 ```
 
-**(5) Handlers (funciones / manejadores de eventos)**
+### 5. Handlers (funciones / manejadores de eventos)
 
 Antes del return.
 
@@ -75,7 +101,7 @@ const handleSubmit = (event: React.FormEvent) => {
 };
 ```
 
-**(6) JSX (return)**
+### 6. JSX (return)
 
 El return debe contener solo JSX (sin lógica compleja).
 

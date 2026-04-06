@@ -6,13 +6,13 @@ slug: /frontend/quality/testing/testing-by-layer/ui-test
 
 ### 🖥️ UI Layer - Componentes
 
-**Qué testear aquí**:
+### Qué testear aquí
 - Renderizado correcto
 - Interacciones de usuario
 - Integración con hooks
 - Estados visuales (loading, error)
 
-**Testing de Componentes**:
+### Testing de Componentes
 ```typescript
 // features/posts/ui/__tests__/PostForm.test.tsx
 describe('PostForm', () => {
@@ -64,7 +64,7 @@ describe('PostForm', () => {
 });
 ```
 
-**Mejores prácticas UI Testing**:
+### Mejores prácticas UI Testing
 1. **Testear comportamientos**, no implementaciones
 2. **Usar queries accesibles** (`getByRole`, `getByLabelText`)
 3. **Mockear hooks** de aplicación, no APIs directas

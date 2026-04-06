@@ -1,11 +1,12 @@
 ---
-title: Redering
+title: Rendering
 sidebar_position: 2
 slug: /frontend/components/rendering
 ---
 
-# Rendering 
+# Rendering
 
+En esta sección se explica cómo Next.js divide el renderizado entre servidor y cliente, y cómo aprovechar cada tipo de componente para construir aplicaciones más rápidas y mantenibles.
 
 ## Server and Client Components
 
@@ -77,7 +78,7 @@ function LikeButton() {
 export default LikeButton;
 ```
 
-## Cómo diferenciarlos
+## ¿Cómo diferenciarlos?
 
 
 Se utiliza la directiva:
@@ -91,7 +92,7 @@ para indicar que un componente debe ejecutarse en el cliente.
 ![How to differentiate](/img/frontend/rendering/how-to-differentiate.png)
 
 
-## Cuándo usar cada uno
+## ¿Cuándo usar cada uno?
 
 ![When to use](/img/frontend/rendering/when-to-use-components.png)
 
@@ -114,7 +115,7 @@ para indicar que un componente debe ejecutarse en el cliente.
 -   APIs del navegador
 -   Componentes de clase de React
 
-# Cómo estructurar mi código ahora
+## ¿Cómo estructurar mi código ahora?
 
 Divide tu código en componentes claramente definidos para el servidor y
 el cliente.
@@ -138,7 +139,7 @@ Component** y tener una estructura similar a esta:
 
 Esto significa que puedes diseñar tu aplicación de manera que los componentes del servidor manejen la carga de datos y la representación inicial, y después integren componentes del cliente para añadir interactividad.
 
-**Ahora bien veamos como se ve este arbol de componentes de forma visual en la vista del usuario:**
+**Ahora bien, veamos cómo se ve este árbol de componentes de forma visual en la vista del usuario:**
 
 ![Component tree example](/img/frontend/rendering/component-tree-example.png)
 
@@ -149,7 +150,7 @@ En una aplicación real:
 -   Componentes interactivos como `Search` y `Button` deben ser **Client
     Components**, ya que manejan interacciones del usuario en tiempo real.
 
-# En resumen
+## En resumen
 
 -   Mantén la lógica de obtención de datos y acceso al servidor dentro
     de Server Components.
@@ -158,7 +159,7 @@ En una aplicación real:
 
 ------------------------------------------------------------------------
 
-# Puntos resaltantes
+## Puntos resaltantes
 
 ### Compartir datos entre componentes
 

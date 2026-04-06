@@ -34,7 +34,7 @@ Packages (services + schemas)
       index.ts
 ```
 
-### 1. api requests y dtos
+### 1. API Requests y DTOs
 
 API client + DTOs se encuentran en Packages compartidos, para ello leer:
 
@@ -66,7 +66,7 @@ export class UserService {
 }
 ```
 
-- Los “DTOs” son los contratos vienen directamente de schemas compartidos:
+- Los “DTOs” son los contratos que vienen directamente de schemas compartidos:
 
 - Haciendo referencia a las inputs y outputs de cada endpoint que tiene interacción
 
@@ -76,11 +76,11 @@ export type TCreateUserInput = z.infer<typeof createUserInput>;
 export type TUser = z.infer<typeof userSchema>;
 ```
 
-👉 Para mas leer **[como hacer fetch](/docs/frontend/fetch)**
+👉 Para más información, leer **[cómo hacer fetch](/docs/frontend/fetch)**
 
 ### 2. transform.ts
 
-Bien ya tenemos datos, pues ejecutamos el endpoint ahora bien no queremos acoplar el front al back por lo que aqui se realizan los transform necesarios de los DTOs a los Domains correspondientes
+Bien, ya tenemos datos, pues ejecutamos el endpoint. Ahora bien, no queremos acoplar el front al back, por lo que aquí se realizan los transform necesarios de los DTOs a los Domains correspondientes.
 
 DTO → Domain model (y si aplica) Domain → DTO para payloads
 
@@ -113,11 +113,8 @@ Las **interfaces** definen el **contrato que un Service espera**, no cómo se im
 
 Con interface.ts, el service no depende de una implementación, sino de un contrato.
 
-Habilita Dependency Injection:
-
-el service depende de una interface, no de una implementación concreta
-
-Hace unit tests fáciles (inyectas un mock que cumpla el contrato).
+- Habilita Dependency Injection: el service depende de una interface, no de una implementación concreta.
+- Hace unit tests fáciles (inyectas un mock que cumpla el contrato).
 
 ```tsx
 import type { UserDto } from './dto';
@@ -138,7 +135,7 @@ No es dominio puro.
 
 Es el punto intermedio donde **se toman decisiones técnicas** antes o después de hablar con una API.
 
-**_ ¿Qué problema resuelve `service.ts`?_**
+**¿Qué problema resuelve `service.ts`?**
 
 Sin un service, esta lógica suele terminar en:
 
@@ -155,7 +152,7 @@ Eso provoca:
 
 El `service` existe para **sacar esa lógica del UI** y ponerla en un lugar estable y testeable.
 
-**Qué tipo de lógica vive en un service**
+**¿Qué tipo de lógica vive en un service?**
 
 Un service **no hace el fetch directamente** (eso ya lo hacen los packages o `api.ts`).  
 Un service **orquesta** lo que pasa alrededor del fetch.
@@ -222,7 +219,7 @@ Esto permite:
 
 **Singleton via barrel**
 
-- Como el service es una clase, el se sugiere crear **una instancia** en `index.ts` y exportarla para el resto de la app.
+- Como el service es una clase, se sugiere crear **una instancia** en `index.ts` y exportarla para el resto de la app.
 
 ```tsx
 import * as userApi from './api';
@@ -236,9 +233,9 @@ export default userService;
 
 - El service **no importa** el API client concreto.
 - En su lugar depende de una **interface** (contrato).
-- Quien instancia el service decide qué implementación inyectar (real o mock). :contentReference[oaicite:6]{index=6}
+- Quien instancia el service decide qué implementación inyectar (real o mock).
 
-**Cuando NO necesitas un Service**
+**¿Cuándo NO necesitas un Service?**
 
 En nuestra arquitectura, NO siempre se crea un service en la capa de infrastructure.
 
@@ -270,44 +267,44 @@ transform.ts   → adapta datos (DTO → Domain)
 service.ts     → orquesta todo lo anterior
 ```
 
-## Cache
+## Caché
 
-La cache es fundamental para aumentar la velocidad y el rendimiento de las aplicaciones al almacenar temporalmente datos de acceso frecuente. Esto nos permite reducir los tiempos de espera del usuario, pues no tiene que esperar al resultado de una consulta que ya ha realizado previamente.
+La caché es fundamental para aumentar la velocidad y el rendimiento de las aplicaciones al almacenar temporalmente datos de acceso frecuente. Esto nos permite reducir los tiempos de espera del usuario, pues no tiene que esperar al resultado de una consulta que ya ha realizado previamente.
 
-### Importancia del cache
+### Importancia de la caché
 
 - Velocidad de carga.
 - Experiencia del usuario.
-- Reducción de carga en Servidores.
+- Reducción de carga en servidores.
 - Ahorro de recursos.
 
-### Cache en TanStack Query
+### Caché en TanStack Query
 
-TanStack query maneja por defecto el caching de data. Para entender como funcionan, se tiene que entender 2 conceptos:
+TanStack Query maneja por defecto el caching de data. Para entender cómo funciona, se tienen que entender 2 conceptos:
 
-- **[Query keys](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys)**: Es una opcion que especifica la forma en que TanStack Query rastreara la data en el cache (si no consigue la data en el cache o la data es obsoleta, entonces realiza una consulta a la base de datos).
+- **[Query keys](https://tanstack.com/query/v5/docs/framework/react/guides/query-keys)**: Es una opción que especifica la forma en que TanStack Query rastreará la data en la caché (si no consigue la data en la caché o la data es obsoleta, entonces realiza una consulta a la base de datos).
 
 ```tsx
   // Lista de todos
   useQuery({ queryKey: ['todos'], ... })
-  // Todos filtrados por status, (Si tu consulta depende de una variable, especificala en tu query keys).
+  // Todos filtrados por status (si tu consulta depende de una variable, especifícala en tu query keys).
   useQuery({ queryKey: ['todos', status], ... })
-  // Paginacion de todos, (mismo concepto del ejemplo anterior, pero con variables serializables).
+  // Paginación de todos (mismo concepto del ejemplo anterior, pero con variables serializables).
   useQuery({ queryKey: ['todos', JSON.stringify(pagination)], ... })
 ```
 
-- **[StaleTime](https://tanstack.com/query/v4/docs/framework/react/guides/important-defaults)**: Es una opcion que determina durante cuanto tiempo una data es considerada como "fresca" antes de que sea marcada como "obsoleta" (si una data es obsoleta, se realiza una query para refrescar la data).
+- **[StaleTime](https://tanstack.com/query/v4/docs/framework/react/guides/important-defaults)**: Es una opción que determina durante cuánto tiempo una data es considerada como "fresca" antes de que sea marcada como "obsoleta" (si una data es obsoleta, se realiza una query para refrescar la data).
 
 ```tsx
-  // No se hara uso de cache, siempre traera data nueva.
+  // No se hará uso de caché, siempre traerá data nueva.
   useQuery({ staleTime: 0, ... })
-  // La data nunca sera considerada obsoleta.
+  // La data nunca será considerada obsoleta.
   useQuery({ staleTime: 'static', ... })
   // La data se considera obsoleta pasado 1 minuto
   useQuery({ staleTime: 60000 , ... })
 ```
 
-- **[Prefetching](https://tanstack.com/query/v4/docs/framework/react/guides/prefetching)**: El prefetching nos permite triggerear una consulta en segundo plano y almacenar en cache el resultado de la respuesta, para su posterior uso. Para mas informacion [leer](/docs/frontend/fetch/queries#queries).
+- **[Prefetching](https://tanstack.com/query/v4/docs/framework/react/guides/prefetching)**: El prefetching nos permite triggerear una consulta en segundo plano y almacenar en la caché el resultado de la respuesta, para su posterior uso. Para más información, [leer](/docs/frontend/fetch/queries#queries).
 
 ## 🧪 Testing de esta capa
 

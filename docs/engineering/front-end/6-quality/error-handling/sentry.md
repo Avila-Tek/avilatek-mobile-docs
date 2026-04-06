@@ -4,7 +4,14 @@ sidebar_position: 1
 slug: /frontend/quality/error-handling/sentry
 ---
 
-[Video de como instalar Sentry en un proyecto](https://avilatek.sg.larksuite.com/minutes/obsgr8u5d42kaix3rw5p2471?from=from_copylink)
+[Sentry](https://sentry.io) es una plataforma de monitoreo de errores en tiempo real que nos permite detectar, diagnosticar y resolver problemas en nuestras aplicaciones. Nos brinda visibilidad sobre excepciones, errores de red, problemas de rendimiento y más, directamente desde los entornos de producción.
+
+### Beneficios
+
+- Detección de errores en tiempo real antes de que el usuario los reporte
+- Visibilidad sobre excepciones, errores de red y problemas de rendimiento
+- Trazabilidad completa con stack traces, contexto del usuario y entorno
+- Reducción del tiempo de diagnóstico y resolución de bugs
 
 ---
 

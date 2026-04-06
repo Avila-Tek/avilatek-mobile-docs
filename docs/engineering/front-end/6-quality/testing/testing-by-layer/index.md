@@ -8,7 +8,7 @@ slug: /frontend/quality/testing/testing-by-layer
 
 ## 🔍 Overview
 
-En nuestra arquitectura Clean React, **el testing no es una actividad uniforme** sino un conjunto de estrategias específicas para cada capa. La regla de oro es: **cada capa se testea de forma diferente, respetando sus responsabilidades**.
+En nuestra arquitectura, **el testing no es una actividad uniforme** sino un conjunto de estrategias específicas para cada capa. La regla de oro es: **cada capa se testea de forma diferente, respetando sus responsabilidades**.
 
 ### ¿Por qué este enfoque?
 
