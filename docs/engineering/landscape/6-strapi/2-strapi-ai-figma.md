@@ -99,7 +99,7 @@ Cuando Strapi AI procese el link, normalmente genera un mensaje autogenerado
 - Sustituye el mensaje autogenerado por el prompt base
 - Envíalo para que Strapi AI genere el schema siguiendo nuestras reglas
 
-> Importante: esto asegura que el resultado sea consistente (secciones, naming, navbar global, footer global, sin slugs, links estáticos, etc.).
+> Importante: así el resultado sale consistente (secciones, naming, navbar global, footer global, sin slugs, links estáticos, etc.).
 
 ---
 

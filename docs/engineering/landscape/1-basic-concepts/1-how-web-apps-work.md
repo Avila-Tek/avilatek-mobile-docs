@@ -194,7 +194,7 @@ Entonces, aunque alguien no programe de forma tradicional, igual puede terminar 
 - Una edge function,
 - Una integración,
 
-Por eso es importante entender este mapa general.
+Por eso conviene tener claro este mapa general.
 
 ---
 

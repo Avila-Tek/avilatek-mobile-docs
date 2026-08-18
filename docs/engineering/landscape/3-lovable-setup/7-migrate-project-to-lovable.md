@@ -44,7 +44,7 @@ Eso aumenta el riesgo de que Lovable:
 
 - En Lovable: **“Crea un nuevo proyecto vacío”**
 - Conecta GitHub (Lovable creará un repo nuevo sí o sí)
-- Conecta Lovable Cloud si aplica
+- El backend se configura aparte, en un proyecto de Supabase externo (no se activa Lovable Cloud) — ver [Setup de Supabase](/docs/lovable-setup/supabase-setup)
 
 ### 2) Preparar el repo nuevo (antes de copiar tu código)
 
@@ -174,3 +174,9 @@ Frena y vuelve al patrón “plan primero” si Lovable propone:
 En proyectos creados desde cero en Lovable, la IA “vio nacer” la estructura y decisiones.
 En proyectos migrados, la IA llega con contexto incompleto, así que la forma correcta de usarla es:
 **primero entender → luego cambios chicos → siempre verificando.**
+
+---
+
+## Referencias
+
+- Lovable — [Sync your Lovable project with GitHub](https://docs.lovable.dev/integrations/git-integration)

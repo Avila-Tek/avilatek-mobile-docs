@@ -27,10 +27,10 @@ En Lovable hay dos mundos:
    - Si alguien abre DevTools o inspecciona el bundle, puede verlas.
    - En Vite, solo se exponen al cliente las variables con prefijo **`VITE_`**.
 
-2) **Backend / Edge Functions (Lovable/Supabase)** → variables **secretas**  
+2) **Backend / Edge Functions (Supabase)** → variables **secretas**  
    - Se guardan de forma cifrada/segura.
    - Se inyectan en el backend y **no** se exponen al navegador.
-   - Lovable provee “Secrets” para esto y los inyecta automáticamente donde se necesitan.
+   - Como el backend vive en un **proyecto de Supabase externo** (no Lovable Cloud), los secretos se guardan en el **Secrets Manager de ese proyecto de Supabase**, y hay uno distinto por ambiente (`main`/`stg`).
 
 > **Conclusión:** Si es un secreto (token privado, API key secreta, credenciales), **NO va en el frontend**.
 
@@ -58,12 +58,11 @@ Lovable necesita tener acceso al archivo .env para poder compilar el frontend, p
 
 ## 2) Variables de entorno en Edge Functions (backend)
 
-Para secretos y configuración sensible, Supabase o Lovable Cloud ofrecen **Secrets**:
+Para secretos y configuración sensible, el proyecto de **Supabase** (el backend externo del proyecto) ofrece su propio **Secrets Manager**:
 
 - Guardas valores sensibles (API keys, tokens, credenciales).
-- Se almacenan de forma segura y se inyectan en el backend (Edge Functions / integraciones).
-
-Si tu backend está sobre Supabase Edge Functions, Supabase también documenta su “Secrets Manager” para funciones, tanto por Dashboard como por CLI.
+- Se almacenan de forma segura y se inyectan en las Edge Functions.
+- Como el proyecto tiene branching `main`/`stg`, **cada ambiente tiene sus propios Secrets** (no se comparten ni se copian automáticamente entre `main` y `stg`).
 
 ### Cómo se usan dentro de una Edge Function
 
@@ -84,7 +83,7 @@ El patrón típico en Supabase Edge Functions (Deno) es leerlos desde el entorno
 
 ### B) Edge Functions (secreto)
 
-- Guardar secretos en **Lovable Cloud → Secrets** (o en Supabase Secrets Manager).
+- Guardar secretos en el **Secrets Manager de Supabase** (del ambiente correspondiente: `main` o `stg`).
 - Ejemplos:
   - `STRIPE_SECRET_KEY`
   - `OPENAI_API_KEY`
@@ -118,4 +117,12 @@ Esto mantiene el secreto fuera del navegador.
 ## Resumen
 
 - **Frontend (Vite)**: `VITE_*` → público, vive en `.env`/`.env.local`, accesible por `import.meta.env`.
-- **Edge Functions**: secretos en Lovable Secrets / Supabase Secrets Manager → privado, disponible solo en backend.
+- **Edge Functions**: secretos en el Secrets Manager de Supabase (por ambiente) → privado, disponible solo en backend.
+
+---
+
+## Referencias
+
+- Vite — [Env Variables and Modes](https://vite.dev/guide/env-and-mode)
+- Supabase — [Environment Variables (Secrets) para Edge Functions](https://supabase.com/docs/guides/functions/secrets)
+- Lovable — [Deploying and hosting outside Lovable](https://docs.lovable.dev/tips-tricks/external-deployment-hosting)

@@ -250,7 +250,7 @@ En esos casos, probablemente el cambio toca frontend, backend, API o edge functi
 
 ### “La base de datos es lo mismo que el backend”
 
-No, La base de datos guarda información, por otro lado, el backend procesa lógica y reglas.
+No: la base de datos guarda información, el backend procesa lógica y reglas.
 
 Trabajan juntos, pero no son lo mismo.
 
@@ -289,7 +289,7 @@ Especialmente cuando el cambio es:
 
 Ejemplos de cambios más sensibles:
 
-- Borrar tablas (Este cambio es demasiado delicado, así que hay que evitarlo a toda costa)
+- Borrar tablas (cambio muy delicado, evitarlo salvo que sea estrictamente necesario)
 - Borrar columnas
 - Cambiar tipos de datos de forma incompatible
 - Sobrescribir información existente

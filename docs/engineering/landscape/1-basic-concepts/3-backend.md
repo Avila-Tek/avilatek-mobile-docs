@@ -80,7 +80,7 @@ El backend suele encargarse de validar cosas sensibles como:
 - Qué usuario está haciendo la acción
 - Qué rol tiene
 - A qué datos puede acceder
-- Eué operaciones tiene permitidas
+- Qué operaciones tiene permitidas
 
 ### Integraciones
 

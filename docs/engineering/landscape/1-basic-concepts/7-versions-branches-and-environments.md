@@ -20,7 +20,7 @@ Por ejemplo:
 
 - Una versión puede tener un formulario sin validaciones
 - Otra versión puede agregar un nuevo campo
-- Ora puede corregir un bug
+- Otra puede corregir un bug
 - Otra puede incluir una refactorización más grande
 
 Pensarlo como “versiones” ayuda a entender que un proyecto no es algo fijo: va evolucionando con cada cambio.
@@ -31,7 +31,7 @@ Pensarlo como “versiones” ayuda a entender que un proyecto no es algo fijo: 
 
 Una rama es una forma de separar líneas de trabajo dentro de un mismo proyecto.
 
-En pocas palabras, permite trabajar cambios sin afectar inmediatamente la versión que se considera estable.
+Permite trabajar cambios sin afectar inmediatamente la versión que se considera estable.
 
 En desarrollo tradicional, esto suele estar muy asociado a Git. En Landscapes no hace falta entrar en ese nivel técnico, pero sí entender la idea general:
 
@@ -48,7 +48,7 @@ Una forma fácil de verlo es esta:
 - Existe una versión base del proyecto
 - Alguien trabaja cambios nuevos aparte
 - Prueba esos cambios
-- Y finalmante decide cuándo pasarlos a la versión más estable
+- Y finalmente decide cuándo pasarlos a la versión más estable
 
 La idea principal es evitar que cualquier cambio en proceso afecte directamente lo que ya debería funcionar bien.
 
@@ -58,20 +58,21 @@ La idea principal es evitar que cualquier cambio en proceso afecte directamente 
 
 Un entorno es una **instancia separada del proyecto**.
 
-En Landscapes, normalmente manejamos dos entornos:
+En Landscapes trabajamos con tres ramas de Git — `dev`, `stg` y `main` — pero solo dos de ellas tienen un entorno propio de verdad (su propia base de datos y su propio despliegue):
 
-- **Test**
-- **Producción**
+- **`dev`**: donde se trabaja día a día en Lovable. No tiene infraestructura propia: mientras se construye ahí, la app usa la base de datos de `stg`.
+- **`stg`** (staging): el entorno de prueba. Tiene su propia base de datos y su propio despliegue, separados de producción.
+- **`main`** (producción): el entorno real donde interactúan los usuarios finales.
 
-Cada entorno representa un espacio distinto para usar o probar la aplicación.
+Más adelante se explica en detalle por qué `dev` no tiene su propia base de datos y comparte la de `stg` — por ahora alcanza con quedarse con la idea de que hay un lugar para construir, uno para probar con datos reales de staging, y uno para lo que ya está publicado.
 
 ---
 
-### Test
+### `dev` y `stg` (construir y probar)
 
-**Test** es el entorno donde se prueban cambios antes de llevarlos a producción.
+Se trabaja en `dev` dentro de Lovable, pero como esa rama no tiene base de datos propia, todo lo que se prueba ahí ya corre contra el esquema y los datos de `stg`.
 
-Sirve para:
+`stg` sirve para:
 
 - Construir funcionalidades
 - Validar flujos
@@ -79,19 +80,19 @@ Sirve para:
 - Detectar errores
 - Probar cambios con más seguridad
 
-En pocas palabras, **Test** es el lugar para experimentar, validar y corregir antes de publicar.
+Es el lugar para experimentar, validar y corregir antes de publicar.
 
 ---
 
-### Producción
+### `main` (producción)
 
-**Producción** es el entorno real donde interactúan los usuarios finales.
+**`main`** es el entorno real donde interactúan los usuarios finales.
 
 Es donde vive la versión que realmente se considera publicada o activa.
 
 Los cambios que se hacen aquí tienen más impacto, porque pueden afectar directamente la operación real del proyecto.
 
-En pocas palabras, **Producción** no es para probar ideas. Es donde debería vivir lo que ya está listo para usarse.
+`main` no es para probar ideas: es donde debería vivir lo que ya está listo para usarse.
 
 ---
 
@@ -124,17 +125,17 @@ En Landscapes, este tema es especialmente importante porque:
 
 Por eso, la lógica general que buscamos seguir es:
 
-- Trabajámos primero en **Test**
-- Validamos los cambios ahí
-- Pasamos a **Producción** solo cuando el cambio esté listo
+- Trabajamos primero en **`dev`** (que ya prueba contra la base de datos de `stg`)
+- Cuando el cambio está listo, se abre un PR **`dev → stg`** y se valida ahí, en el entorno de staging
+- Recién cuando `stg` está validado, se abre un PR **`stg → main`** para llevarlo a producción
 
 Esto ayuda a evitar que producción se convierta en el lugar donde se prueba por primera vez algo.
 
 ---
 
-## Por qué no conviene trabajar directo en Prod
+## Por qué no conviene trabajar directo en `main`
 
-Trabajar directo en Prod aumenta mucho el riesgo de:
+Trabajar directo en `main` aumenta mucho el riesgo de:
 
 - Romper flujos reales
 - Afectar usuarios o datos reales
@@ -145,7 +146,7 @@ Trabajar directo en Prod aumenta mucho el riesgo de:
 
 En proyectos rápidos, esto puede pasar fácilmente si no existe una disciplina mínima de entornos.
 
-Por eso, aunque operativamente exista mucha autonomía, igual conviene sostener la regla de que **Producción no debe ser el lugar principal de trabajo**, siempre debemos programar y probar todo primero en **Test**.
+Por eso, aunque operativamente exista mucha autonomía, igual conviene sostener la regla de que **`main` no debe ser el lugar principal de trabajo**: siempre programamos en `dev` y probamos en `stg` antes de llegar ahí.
 
 ---
 
@@ -155,17 +156,18 @@ Supongamos que queremos agregar un nuevo campo en un formulario y además guarda
 
 El flujo recomendado al trabajar una funcionalidad es el siguiente:
 
-1. Hacer el cambio en **Test**,
+1. Hacer el cambio en **`dev`**,
 2. Validar que el campo se vea bien,
 3. Confirmar que guarda correctamente,
 4. Revisar que no rompa otras partes del flujo,
-5. Cuando comprobemos que todo funcionaba correctamente, llevarlo a **Producción**.
+5. Cuando comprobemos que todo funciona bien, mergear a **`stg`** y validar ahí,
+6. Cuando `stg` esté validado, mergear a **`main`**.
 
 ---
 
 ## Confusiones comunes
 
-### “Si funciona visualmente, ya se puede pasar a Prod”
+### “Si funciona visualmente, ya se puede pasar a `main`”
 
 No necesariamente.
 
@@ -204,7 +206,7 @@ Por ejemplo:
 - Tocar integraciones importantes
 - Ejecutar cambios que no tienen rollback simple
 
-En esos casos, trabajar con cuidado entre Test y Prod no es opcional: es una parte importante del control de riesgo.
+En esos casos, trabajar con cuidado entre `dev`/`stg` y `main` no es opcional: es una parte importante del control de riesgo.
 
 ---
 
@@ -212,7 +214,8 @@ En esos casos, trabajar con cuidado entre Test y Prod no es opcional: es una par
 
 - Una versión es un estado del proyecto en un momento dado.
 - Una rama es una forma de separar trabajo en progreso de una versión más estable.
-- Un entorno es una instancia separada del proyecto, como Test o Prod.
-- Test se usa para probar y validar.
-- Producción es el entorno real y requiere más cuidado.
-- En Landscapes, conviene trabajar primero en Test y evitar usar Prod como espacio principal de experimentación.
+- Un entorno es una instancia separada del proyecto: en Landscapes son `stg` (staging) y `main` (producción).
+- `dev` es donde se trabaja en Lovable, pero no tiene entorno propio: usa la base de datos de `stg`.
+- `stg` se usa para probar y validar con datos reales de staging.
+- `main` es el entorno real y requiere más cuidado.
+- En Landscapes, el flujo es `dev → stg → main`: nunca se trabaja ni se prueba directo en `main`.

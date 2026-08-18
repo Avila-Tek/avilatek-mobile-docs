@@ -65,7 +65,7 @@ Cuando hacemos un export de Strapi, hay que asumir que el export es **total** po
 
 Es decir, no se exporta “solo una página” o “solo un bloque” automáticamente, sino **todo el contenido del ambiente**, junto con sus relaciones, archivos y parte de la configuración asociada.
 
-Por eso, antes de exportar e importar entre ambientes, hay que revisar bien qué información existe en el ambiente origen y entender que el proceso mueve la informeación completa de esa instancia, no un cambio puntual.
+Por eso, antes de exportar e importar entre ambientes, hay que revisar bien qué información existe en el ambiente origen y entender que el proceso mueve la información completa de esa instancia, no un cambio puntual.
 
 ---
 
