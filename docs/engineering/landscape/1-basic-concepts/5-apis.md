@@ -195,7 +195,7 @@ Por eso, aunque la API no se vea, muchas veces explica por qué un flujo no func
 
 No exactamente.
 
-El backend es la lógica y las operaciones internas del sistema. Por otro lado, la API es una forma de comunicarse con esa lógica o con otra parte del sistema.
+El backend es la lógica y las operaciones internas del sistema. La API es la forma de comunicarse con esa lógica o con otra parte del sistema.
 
 Muchas veces trabajan juntas, pero no son lo mismo.
 

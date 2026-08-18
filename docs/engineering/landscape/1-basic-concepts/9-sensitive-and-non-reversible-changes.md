@@ -82,7 +82,7 @@ Estos cambios suelen tener menos riesgo si están bien acotados:
 - Mejorar un empty state
 - Cambiar un color o estilo
 - Mejorar un mensaje de error visual
-- Meorganizar una tabla sin cambiar la lógica
+- Reorganizar una tabla sin cambiar la lógica
 
 Eso no significa que nunca puedan generar problemas, pero en general su impacto suele ser más fácil de corregir.
 

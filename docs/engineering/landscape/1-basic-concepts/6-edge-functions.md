@@ -52,7 +52,7 @@ Por ejemplo:
 ### Validaciones importantes
 
 - Validar permisos
-- Eevisar condiciones antes de ejecutar una acción
+- Revisar condiciones antes de ejecutar una acción
 - Evitar operaciones inválidas
 - Proteger lógica sensible
 

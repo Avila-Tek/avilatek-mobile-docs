@@ -6,7 +6,7 @@ slug: /code-standards/supabase/database
 
 # Estándares de Bases de Datos
 
-Estándares de calidad para **Postgres en Supabase o Lovable Cloud** (schema, migraciones, RLS y ciclo de vida de datos).  
+Estándares de calidad para **Postgres en Supabase** (schema, migraciones, RLS y ciclo de vida de datos).  
 Estos estándares son **independientes a la IA**: aplican igual si el cambio lo hace una persona o una herramienta.
 
 ---

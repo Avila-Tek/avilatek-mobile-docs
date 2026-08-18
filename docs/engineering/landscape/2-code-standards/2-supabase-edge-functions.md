@@ -6,7 +6,7 @@ slug: /code-standards/supabase/edge-functions
 
 # Estándares de Edge Functions
 
-Estándares de calidad para **Edge Functions de Supabase o Lovable Cloud (Deno runtime)**.  
+Estándares de calidad para **Edge Functions de Supabase (Deno runtime)**.  
 Aplican igual si el código lo escribe una persona o una IA (Lovable u otra).
 
 > Objetivo: **máxima velocidad** con cambios pequeños y consistentes, sin sacrificar seguridad ni mantenibilidad.
@@ -304,7 +304,7 @@ Convenciones:
 - Carpetas: `kebab-case` (`process-payment`, `get-user-profile`)
 - Archivos: `index.ts`, `service.ts`, `schema.ts`, `handlers.ts`, `README.md` (lowercase)
 - Variables Funciones: `camelCase`
-- Typos o Classes: `PascalCase`
+- Tipos o Classes: `PascalCase`
 - Constantes: `UPPER_SNAKE_CASE`
 - Booleanos: `is/has/should`
 - Códigos de error: `UPPER_SNAKE_CASE` (desde `ErrorCodes`)

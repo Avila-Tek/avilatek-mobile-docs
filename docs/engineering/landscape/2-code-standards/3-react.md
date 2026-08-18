@@ -36,6 +36,7 @@ Aplican igual si el código lo escribe una persona o una IA (Lovable u otra).
 
 - **1 componente React por archivo** (no exportar “helper components” junto al principal).
 - **Prohibido** `useEffect + useState` para data del server: usar **React Query**.
+- **Prohibido** llamar `.from()` / `.rpc()` de Supabase directo desde el frontend: toda lectura/escritura de datos pasa por una **Edge Function** (`supabase.functions.invoke(...)`). El cliente de Supabase en el frontend se usa **solo** para `auth` y `functions.invoke()`.
 - **Prohibido** `as any` / `any`.
 - **Prohibido** crear `index.ts` como barrel exports.
 - **Imports siempre con `@/`** (no usar cadenas `../`).
@@ -78,8 +79,11 @@ La idea es que el proyecto sea fácil de entender: **cada tipo de archivo tiene 
 - `src/lib/`
   - Utilidades y configuración general del proyecto:
     - `queryKeys.ts` (obligatorio): llaves centralizadas de React Query
-    - `supabaseClient.ts`: un solo cliente de Supabase para todo el frontend
     - `utils.ts`: helpers generales (incluye `cn()`)
+
+- `src/integrations/supabase/`
+  - `client.ts`: un solo cliente de Supabase para todo el frontend (ver [Configuración inicial](/docs/lovable-setup/project-configuration))
+  - `types.ts`: tipos generados a partir del schema de la base de datos
 
 ### Reglas de organización (para evitar “spaghetti”)
 
@@ -91,10 +95,18 @@ La idea es que el proyecto sea fácil de entender: **cada tipo de archivo tiene 
 
 ---
 
+## Acceso a datos (Supabase)
+
+- El frontend **nunca** consulta ni modifica tablas directo (`supabase.from(...)`, `supabase.rpc(...)`).
+- Toda lectura/escritura pasa por una **Edge Function**, invocada con `supabase.functions.invoke("<function-name>", { body })`.
+- El cliente único de Supabase (`src/integrations/supabase/client.ts`) se usa para dos cosas nada más: **auth** (sesión, login/logout) y **`functions.invoke()`**.
+- Motivo: mantener un solo punto de entrada a los datos (validación, autorización y contratos consistentes viven en la Edge Function — ver [Estándares de Edge Functions](/docs/code-standards/supabase/edge-functions)), en vez de repartir reglas de acceso entre RLS y código de frontend.
+- `client.ts` **siempre** inicializa el cliente con `import.meta.env.VITE_SUPABASE_URL` / `import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY` — nunca con la URL/key hardcodeada. Si el proyecto tiene el conector nativo de Lovable↔Supabase conectado (ver [Setup de Supabase](/docs/lovable-setup/supabase-setup)), revisa este archivo después de cualquier acción de Lovable sobre Supabase: es posible que haya insertado un valor hardcodeado en vez de usar las env vars.
+
 ## Type safety (Supabase types)
 
 - Shapes de DB **solo** desde: `src/integrations/supabase/types.ts`.
-- Para filas: usar `Tables<"table_name">` (no redefinir interfaces).
+- Para filas: usar `Tables<"table_name">` (no redefinir interfaces) — se usan para tipar lo que **devuelve/recibe una Edge Function**, no para armar queries directas desde el frontend.
 - Si el shape es incierto: usar `unknown` + type guard (no “casts”).
 
 ---
@@ -103,7 +115,7 @@ La idea es que el proyecto sea fácil de entender: **cada tipo de archivo tiene 
 
 ### Regla principal
 
-- Toda data del server se maneja con **React Query** (`useQuery`, `useMutation`).
+- Toda data del server se maneja con **React Query** (`useQuery`, `useMutation`), y esas queries/mutations llaman a **Edge Functions** (`functions.invoke`), nunca a tablas directo.
 
 ### Query keys (obligatorio)
 
@@ -241,6 +253,7 @@ Herramientas recomendadas:
 ## C) Data fetching (React Query)
 
 - [ ] No existe `useEffect + useState` para data del server.
+- [ ] No hay `.from()` / `.rpc()` de Supabase en el frontend — todo pasa por `functions.invoke()`.
 - [ ] Queries/mutations están en hooks reutilizables (no inline en components).
 - [ ] Query keys vienen de `src/lib/queryKeys.ts` (sin strings inline).
 - [ ] Mutations invalidan queries con `queryKeys` en `onSuccess`.

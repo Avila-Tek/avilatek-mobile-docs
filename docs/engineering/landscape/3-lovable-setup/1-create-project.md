@@ -32,22 +32,30 @@ Resultado:
 
 - Se crea un repo nuevo en GitHub.
 - Inicia el **two-way sync** automáticamente (Lovable ↔ GitHub).
-- La rama por defecto es la fuente de verdad (`main`).
+- Al momento de crear el repo, la rama por defecto (`main`) es la única que existe, así que es la que Lovable sincroniza inicialmente.
+
+> **Importante:** `main` es solo el punto de partida. Antes de empezar a trabajar hay que crear la rama `dev` y cambiar Lovable para que sincronice ahí (nunca se trabaja directo sobre `main`) — ver [Manejo de ramas](/docs/lovable-setup/branch-management).
 
 Consideraciones:
 
 - Luego de crear el repo podemos renombrarlo (esta acción no rompe el sync).
 
-## 3) Conectar Lovable Cloud (backend y capacidades full-stack)
+## 3) Backend: no usamos Lovable Cloud
 
-Lovable Cloud se usa para habilitar backend cuando el proyecto lo requiere (DB, auth, storage, edge functions).
-
-1. Presiona el ícono de la nube en la vista principal del proyecto
-2. Presiona el botón de "Enable Cloud" y sigue el proceso de configuración en el chat de Lovable
+> **Importante:** en Landscapes **no usamos Lovable Cloud** como backend, y **no se usa el botón Publish de Lovable para desplegar nada** (ni frontend ni backend).
+>
+> El backend real vive en un **proyecto de Supabase externo** (con branching `main`/`stg`), y el frontend se despliega en **Cloudflare**. Ese setup se documenta por separado: el backend en [Setup de Supabase](/docs/lovable-setup/supabase-setup) y el frontend en [Despliegue y Operación](/docs/lovable-ops).
 
 ## 4) Checklist final
 
 - [ ] Proyecto creado en Lovable (vacío)
 - [ ] GitHub conectado (OAuth + App instalada)
 - [ ] Repo creado por Lovable y sync activo
-- [ ] Lovable Cloud configurado (En caso de ser necesario)
+- [ ] Lovable cambiado de `main` a `dev` (ver [Manejo de ramas](/docs/lovable-setup/branch-management)) — no se trabaja sobre `main`
+- [ ] **No** se activó Lovable Cloud (el backend se configura aparte, en Supabase externo)
+
+---
+
+## Referencias
+
+- Lovable — [Sync your Lovable project with GitHub](https://docs.lovable.dev/integrations/git-integration)

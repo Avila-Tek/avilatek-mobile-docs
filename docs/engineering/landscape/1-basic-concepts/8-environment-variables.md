@@ -145,7 +145,7 @@ Por eso, aunque estas variables no se vean directamente, muchas veces explican e
 
 ### “Puedo usar cualquier secret desde frontend”
 
-NO, Frontend no es el lugar para información sensible.
+No: frontend no es el lugar para información sensible.
 
 Si una variable expone acceso importante, debería manejarse del lado servidor.
 

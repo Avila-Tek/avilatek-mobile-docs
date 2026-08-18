@@ -1,54 +1,85 @@
 ---
-title: Despliegue y Operación con Lovable
+title: Despliegue y Operación
 sidebar_position: 4
 slug: /lovable-ops
 ---
 
-Esta sección documenta **cómo desplegamos cambios** cuando trabajamos con Lovable. Existen **tres pipelines** porque no todos los proyectos tienen las mismas restricciones de hosting, control operativo o compliance.
+Esta sección documenta **cómo desplegamos cambios** en Landscapes.
 
-## ¿Qué pipeline debo usar?
+En Landscapes **no usamos el botón Publish de Lovable para desplegar nada**, ni frontend ni backend. Lovable se usa exclusivamente para **construir y probar** — el despliegue real siempre pasa por fuera de Lovable:
 
-### Pipeline A — Full Lovable (Publish)
+- El **backend** (base de datos, Auth, Edge Functions) vive en un **proyecto de Supabase externo**, con branching de `main` (producción) y `stg` (staging).
+- El **frontend** se despliega en **Cloudflare**, con un deploy automático disparado por Pull Requests contra el repo de GitHub.
+- En Lovable se trabaja siempre sobre una tercera rama, **`dev`**, que no tiene infraestructura propia: apunta a la base de datos de `stg` y no se despliega directo a ningún lado (ver [Manejo de ramas](/docs/lovable-setup/branch-management)). Los despliegues ocurren al mergear `dev → stg` y `stg → main`.
 
-Úsalo cuando:
+No hay “varios pipelines para elegir” como en un setup anterior: este es **el único flujo** que usamos para todos los proyectos nuevos.
 
-- El **frontend** y el **backend** (DB/Auth/Edge Functions) viven dentro de **Lovable Cloud**.
-- Queremos el flujo más simple: **release = Publish**.
-- No necesitamos CI/CD externo ni un hosting obligatorio fuera de Lovable.
+> **Importante:** el acceso a Supabase y Cloudflare (organización/cuenta) se gestiona a través de tu **supervisor**, igual que el acceso a Lovable y GitHub.
 
-**[Pipeline A — Full Lovable (Publish)](/docs/lovable-ops/full-lovable)**.
+## Mapa completo: ramas, Cloudflare, Supabase y Lovable
 
-### Pipeline B — Frontend externo, Backend en Lovable (Publish + hosting externo)
+```mermaid
+flowchart TB
+  subgraph LOVABLE["Lovable"]
+    L["Editor de Lovable\ntrabaja sobre la rama dev"]
+  end
 
-Úsalo cuando:
+  subgraph GITHUB["GitHub (un solo repo)"]
+    devB["rama dev"]
+    stgB["rama stg"]
+    mainB["rama main"]
+    devB -- "PR dev → stg" --> stgB
+    stgB -- "PR stg → main" --> mainB
+  end
 
-- El **frontend** debe hostearse fuera (Vercel/Netlify/Cloudflare/etc.).
-- El **backend** (DB/Auth/Edge Functions) se mantiene en **Lovable Cloud**.
-- El release del backend sigue siendo **Publish**, pero el deploy del frontend se gestiona en el hosting externo.
+  subgraph CF["Cloudflare (2 Workers)"]
+    cfStg["Worker proyecto-stg\ndominio: stg.cliente.avilatek.net"]
+    cfProd["Worker proyecto-prod\ndominio: cliente.avilatek.net"]
+  end
 
-**[Pipeline B — Frontend externo, Backend Lovable](/docs/lovable-ops/external-frontend-lovable-backend)**.
+  subgraph SB["Supabase (1 proyecto, branching)"]
+    sbStg["Branch stg (persistente)\nBD + Auth + Secrets propios"]
+    sbMain["Proyecto raíz = main (producción)\nBD + Auth + Secrets propios"]
+  end
 
-### Pipeline C — Producción fuera de Lovable (Supabase externo + CI/CD)
+  L -. "sincroniza código" .-> devB
+  L -- "apunta a (env vars)" --> sbStg
 
-Úsalo cuando:
+  stgB -- "deploy automático" --> cfStg
+  mainB -- "deploy automático" --> cfProd
 
-- **Producción** (backend) debe vivir fuera de Lovable, normalmente en **Supabase externo**.
-- Necesitamos CI/CD para desplegar:
-  - **migraciones** (schema)
-  - **edge functions**
-  - y/o configuración por ambiente
-- Lovable se usa principalmente para iterar rápido en desarrollo, pero el **deploy real** lo controla el pipeline externo.
+  stgB -- "migración automática" --> sbStg
+  mainB -- "migración automática" --> sbMain
 
-**[Pipeline C — Prod externo (Supabase + CI/CD)](/docs/lovable-ops/external-prod-supabase-cicd)**.
+  cfStg -- "credenciales de" --> sbStg
+  cfProd -- "credenciales de" --> sbMain
+```
+
+Puntos clave del diagrama:
+
+- **`dev` no tiene infraestructura propia**: Lovable trabaja ahí, pero la app (mientras se prueba en Lovable) apunta a la base de datos del branch `stg` de Supabase.
+- **Cada Pull Request dispara dos cosas en paralelo**: un deploy en Cloudflare y (si hay migraciones) una actualización de la base de datos en Supabase, ambos hacia el mismo ambiente (`stg` o `main` según el PR).
+- **Los Edge Functions no están en este diagrama** porque no se despliegan solos con el merge — es un paso manual aparte (ver [Setup de Supabase](/docs/lovable-setup/supabase-setup)).
+- Nunca hay un tercer ambiente de base de datos para `dev`: solo existen `main` y `stg` como branches reales de Supabase.
+- **Lovable nunca toca `main`**: si se usa el conector nativo de Lovable↔Supabase (dentro del editor), se conecta únicamente a `stg` — nunca a producción.
+
+## Guías de esta sección
+
+> El setup del backend (proyecto de Supabase + branching `main`/`stg`) se documenta aparte, en [Setup de Supabase](/docs/lovable-setup/supabase-setup) (sección Setup de Lovable) — se hace justo después de definir el manejo de ramas del repo.
+
+1. [Deploy del frontend en Cloudflare](/docs/lovable-ops/cloudflare-deploy) — crear los dos proyectos de Cloudflare Workers (uno por rama) y conectarlos al repo.
+2. [Configurar el dominio](/docs/lovable-ops/custom-domain) — asignar el dominio de producción y el de staging a cada Worker.
+3. [Flujo de release día a día](/docs/lovable-ops/release-flow) — cómo se libera un cambio de `stg` a `main` y qué verificar.
+4. [Deploy rápido de un HTML suelto](/docs/lovable-ops/quick-html-deploy) — flujo aparte (Direct Upload) para publicar un HTML o prototipo sin repo ni build.
+
+El setup de las guías 1-2 se hace **una sola vez por proyecto** (al arrancarlo). La guía 3 es la que se repite en cada release. La guía 4 es un caso especial, independiente del flujo normal.
 
 ---
 
-## Árbol de decisión
+## Documentación oficial
 
-```mermaid
-flowchart TD
-  A["¿Producción puede estar 100% en Lovable Cloud?"] -->|"Sí"| PA["Pipeline A — Full Lovable (Publish)"]
-  A -->|"No"| Q1["¿El backend (DB / Auth / Edge Functions) se mantiene en Lovable Cloud?"]
-  Q1 -->|"Sí"| PB["Pipeline B — Frontend externo, Backend Lovable"]
-  Q1 -->|"No"| PC["Pipeline C — Prod externo (Supabase + CI/CD)"]
-```
+Cada guía de esta sección enlaza al final la documentación oficial específica del tema que cubre. Como referencia general:
+
+- Lovable — [Documentación oficial](https://docs.lovable.dev/)
+- Supabase — [Documentación oficial](https://supabase.com/docs)
+- Cloudflare Workers — [Documentación oficial](https://developers.cloudflare.com/workers/)
